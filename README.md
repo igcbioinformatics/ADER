@@ -2,7 +2,7 @@
 ![ELIXIRPTlogo](https://github.com/dsobral/ADER17S/raw/master/elixirportugal-logo.png "ELIXIR Portugal")
 
 
-# ADER17S #
+# ADER18F #
 
 # Analysis of Differential Expression with RNAseq #
 
@@ -10,7 +10,7 @@ A hands-on training course at Instituto Gulbenkian de Ciência (4-days)
 
 Official course page of the Gulbenkian Training Programme in Bioinformatics - GTPB
 
-http://gtpb.igc.gulbenkian.pt/bicourses/ADER17S/
+http://gtpb.igc.gulbenkian.pt/bicourses/2018/ADER18F/index.html
 
 
 
