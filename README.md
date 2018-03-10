@@ -16,8 +16,7 @@ http://gtpb.igc.gulbenkian.pt/bicourses/2018/ADER18F/index.html
 
 # Overview
 
-High-throughput technologies allow us to detect transcripts present in a cell or tissue. This introductory course covers practical aspects of the analysis of differential gene expression by RNAseq. Participants will be presented with real world examples and work with them in the training room, covering all the steps of RNAseq analysis, from planning the gathering of sequence data to the generation of tables of differentially expressed gene lists and visualization of results. We we will also cover some of the initial steps of secondary analysis, such as functional enrichment of the obtained gene lists.
-
+This introductory course covers practical aspects of the analysis of differential gene expression by RNAseq, from planning the gathering of sequence data to the generation of tables of differentially expressed gene lists and visualization of results. We we will also cover some of the initial steps of secondary analysis, such as functional enrichment of the obtained gene lists. Participants will first start learning the concepts using small example datasets, and then will apply the learned concepts in the training room using real world examples. Participants will be shown different alternatives for data analysis so they can achieve maximum autonomy after the course.
 
 # Target Audiences
 
@@ -153,46 +152,46 @@ For this, we are providing small example datasets and exercises that participant
 ### Monday, December 4th
 
 + 09:30 - 10:00 Introduction to the course and self presentation of the participants
-+ 10:00 - 11:00 [Possibilities and limitations of NGS sequencing technologies. Choose adequate sequencing for your biological question](material/ADER17_practical.md#LO1)
++ 10:00 - 11:00 [Possibilities and limitations of NGS sequencing technologies. Choose adequate sequencing for your biological question](material/Practical.md#LO1)
 + 11:00 - 11:30 ***Coffee Break***
-+ 11:30 - 12:30 [Steps in the analysis of RNA-Seq differential expression experiments](material/ADER17_practical.md#LO2)
++ 11:30 - 12:30 [Steps in the analysis of RNA-Seq differential expression experiments](material/Practical.md#LO2)
 + 12:30 - 14:00 ***LUNCH BREAK***
-+ 14:00 - 16:00 [Interpret what are fastq files and what is their content](material/ADER17_practical.md#LO3.1). [Use software like FastQC to process fastq files and produce QC reports](material/ADER17_practical.md#LO3.2). [Read QC reports of raw data to assess the general quality of data and presence of sequence bias](material/ADER17_practical.md#LO3.3). [Use tools such as seqtk, cutadapt and trimmomatic to remove low quality bases](material/ADER17_practical.md#LO4.1), [adaptors and other artefactual sequences from your reads](material/ADER17_practical.md#LO4.2).
++ 14:00 - 16:00 [Interpret what are fastq files and what is their content](material/Practical.md#LO3.1). [Use software like FastQC to process fastq files and produce QC reports](material/Practical.md#LO3.2). [Read QC reports of raw data to assess the general quality of data and presence of sequence bias](material/Practical.md#LO3.3). [Use tools such as seqtk, cutadapt and trimmomatic to remove low quality bases](material/Practical.md#LO4.1), [adaptors and other artefactual sequences from your reads](material/Practical.md#LO4.2).
 + 16:00 - 16:30 ***Tea Break***
-+ 16:30 - 18:00 [What is a reference genome, versioning and where to obtain genomes](material/ADER17_practical.md#LO5.1). [Alignment software: hisat2; bwa; salmon](material/ADER17_practical.md#LO5.2). [Run an alignment: the SAM/BAM alignment format](material/ADER17_practical.md#LO5.3).
++ 16:30 - 18:00 [What is a reference genome, versioning and where to obtain genomes](material/Practical.md#LO5.1). [Alignment software: hisat2; bwa; salmon](material/Practical.md#LO5.2). [Run an alignment: the SAM/BAM alignment format](material/Practical.md#LO5.3).
 
 ### Tuesday, December 5th
 
 + 09:30 - 10:00 Morning Wrap-up (what have we done so far?)
-+ 10:00 - 11:00 [What is a reference gene annotation, versioning and where to obtain](material/ADER17_practical.md#LO6.1). [Visualizing alignments in IGV for single genes](material/ADER17_practical.md#LO6.2).
++ 10:00 - 11:00 [What is a reference gene annotation, versioning and where to obtain](material/Practical.md#LO6.1). [Visualizing alignments in IGV for single genes](material/Practical.md#LO6.2).
 + 11:00 - 11:30 ***Coffee Break***
-+ 11:30 - 12:30 [Use tools such as RSeQC and Qualimap to assess quality of alignments]((material/ADER17_practical.md#LO6.3)).
++ 11:30 - 12:30 [Use tools such as RSeQC and Qualimap to assess quality of alignments]((material/Practical.md#LO6.3)).
 + 12:30 - 14:00 ***LUNCH BREAK***
-+ 14:00 - 16:00 [The process of generating gene counts from genome aligments](material/ADER17_practical.md#LO7.1). [Use tools such as htseq-counts and featurecounts to generate tables of gene counts](material/ADER17_practical.md#LO7.2). [Use Salmon to generate counts using only the transcriptome](material/ADER17_practical.md#LO7.3).
++ 14:00 - 16:00 [The process of generating gene counts from genome aligments](material/Practical.md#LO7.1). [Use tools such as htseq-counts and featurecounts to generate tables of gene counts](material/Practical.md#LO7.2). [Use Salmon to generate counts using only the transcriptome](material/Practical.md#LO7.3).
 + 16:00 - 16:30 ***Tea Break***
-+ 16:30 - 18:00 [Using the R package edgeR and DESeq2 in Galaxy to produce a pairwise differential expression analysis](material/ADER17_practical.md#LO8.1)
++ 16:30 - 18:00 [Using the R package edgeR and DESeq2 in Galaxy to produce a pairwise differential expression analysis](material/Practical.md#LO8.1)
 
 
 ### Wednesday, December 6th
 
 + 09:30 - 10:00 Morning Wrap-up (what have we done so far?)
-+ 10:00 - 11:00 [Use edgeR and DESeq2 in R and RStudio](material/ADER17_practical.md#LO8.1). 
++ 10:00 - 11:00 [Use edgeR and DESeq2 in R and RStudio](material/Practical.md#LO8.1). 
 + 11:00 - 11:30 ***Coffee Break***
-+ 11:30 - 12:30 [Interpretation and visualization of results](material/ADER17_practical.md#LO8.2).
++ 11:30 - 12:30 [Interpretation and visualization of results](material/Practical.md#LO8.2).
 + 12:30 - 14:00 ***LUNCH BREAK***
-+ 14:00 - 16:00 [Interpretation and visualization of results](material/ADER17_practical.md#LO8.2).
++ 14:00 - 16:00 [Interpretation and visualization of results](material/Practical.md#LO8.2).
 + 16:00 - 16:30 ***Tea Break***
-+ 16:30 - 18:00 [Use more complex settings: Generalized Linear Models](material/ADER17_practical.md#LO8.3).
++ 16:30 - 18:00 [Use more complex settings: Generalized Linear Models](material/Practical.md#LO8.3).
 
 
 ### Thursday, December 7th
 
 + 09:30 - 10:00 Morning wrap-up (what have we done so far?)
-+ 10:00 - 11:00 [Use more complex settings: Generalized Linear Models](material/ADER17_practical.md#LO8.3).
++ 10:00 - 11:00 [Use more complex settings: Generalized Linear Models](material/Practical.md#LO8.3).
 + 11:00 - 11:30 ***Coffee Break***
-+ 11:30 - 12:30 [How to extract meaning from a list of genes](material/ADER17_practical.md#LO9.1). [Understand the concept of functional enrichment analysis, and the statistics involved](material/ADER17_practical.md#LO9.2).
++ 11:30 - 12:30 [How to extract meaning from a list of genes](material/Practical.md#LO9.1). [Understand the concept of functional enrichment analysis, and the statistics involved](material/Practical.md#LO9.2).
 + 12:30 - 14:00 ***LUNCH BREAK***
-+ 14:00 - 16:00 [Interpreting the results of functional enrichment analysis](material/ADER17_practical.md#LO9.3).
++ 14:00 - 16:00 [Interpreting the results of functional enrichment analysis](material/Practical.md#LO9.3).
 + 16:00 - 16:30 ***Tea Break***
 + 16:30 - 18:00 Final wrap-up Session.
 
