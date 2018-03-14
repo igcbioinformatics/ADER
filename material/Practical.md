@@ -246,6 +246,7 @@ Most software for the analysis of HTS data is freely available to users. Nonethe
 
 **QUESTION**: What different operations can you perform with Trimmomatic that use the base quality information? 
 <details><summary>Click Here to see the answer</summary>
+
 You can perform the following operations with Trimmomatic (either isolated, or in combination):
 
 	* ILLUMINACLIP: Cut adapter and other illumina-specific sequences from the read
