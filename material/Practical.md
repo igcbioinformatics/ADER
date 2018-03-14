@@ -2,6 +2,17 @@
 
 A good source of information for this part is [RNA-seqlopedia](http://rnaseq.uoregon.edu).
 
+#### Considerations when obtaining your RNA.
+
+The first step in a transcriptomic experiment is to obtain the RNA. After isolating total RNA from cells, one can directly sequence it. Nonetheless, the majority of the RNA in a cell is ribosomal RNA, which may need to be removed using specific kits. Moreover, total RNA also contains unprocessed immature transcripts and RNA targeted for degradation (at different stages of processing). 
+
+Therefore, unless one is interested in non-coding RNAs or other aspects related to transcription, it is usually better to apply protocols that extract the mature mRNAs (usually through the PolyA tails). Since most people are interested in coding-genes, it is more common to use mRNA-specific protocols. 
+
+Some protocols can also keep strand information. In this case, the reads have the same (or the reverse) strand as the transcribed RNA. This is particularly relevant when sequencing total RNA, noticeably to distinguish real transcripts from transcriptional activity resulting from stalled promoters or enhancers. It can also be useful to distinguish between overlapping genes.
+ 
+Finally, we also need to consider the amount of material available. Are we dealing with samples with a lot of RNA (eg. cell cultures), or short amounts (eg. small tissue samples, single-cell) that are prone to amplification artifacts and presence of contaminant sequences? 
+
+
 #### The High Throughput Sequencing Workflow
 
 [Sanger sequencing](https://en.wikipedia.org/wiki/Sanger_sequencing) brought about a technological revolution, as it allowed to directly read DNA molecules with relative ease and affordability. The [Human Genome Project](https://en.wikipedia.org/wiki/Human_Genome_Project) motivated further progress, leading to automated DNA-sequencing machines capable of sequencing up to 384 samples in a single batch using capillary electrophoresis. 
@@ -33,8 +44,10 @@ Commmon steps in most high throughput sequencing workflows:
 Many sequencing machines can read both ends of a fragment. This is called paired-end sequencing.
 
 ![Adaptor](images/paired-end.jpg)
+<br/>
+<br/>
 
-Main options available when sequencing:
+When sending your samples to a sequencing facility, these are the most frequent parameters to consider:
 <p>
 
   * Single versus Paired-end sequencing
@@ -46,35 +59,37 @@ Main options available when sequencing:
 </p>
 <br/>
 
-#### Designing your experiment for Differential Expression using RNA-Seq
+#### Designing your experiment for differential expression using RNA-Seq.
 
-qualitative and quantitative. 
+Longer read length, paired-end sequencing and strand-specific library preparation are particularly relevant to reveal gene structure. For example, on a non-model organism for which there is no genome sequenced, or the genes are poorly annotated. They are also relevant when alterative splicing is a factor to take into consideration. Discovering gene structure is a complex process and it would be the subject of an entire course on its own.
 
-The first step in a transcriptomic experiment is to obtain the RNA. After isolating total RNA from cells, one can directly sequence it. Nonetheless, the majority of the RNA in a cell is ribosomal RNA, which may need to be removed using specific kits. Moreover, total RNA also contains unprocessed immature transcripts and RNA targeted for degradation (at different stages of processing). 
+For this course, we will focus on the analysis of differential gene expression between conditions, on organisms for which gene annotation is available. Under these conditions, long reads, paired-end, and stranded library preparation methods are not as important. Therefore, for this type of experiments, we can safely go for the cheaper single-end sequencing and shorter read lengths (eg. 50bp or 76bp). 
 
-Therefore, unless one is interested in non-coding RNAs or other aspects related to transcription, it is usually better to apply protocols that extract the mature mRNAs (usually through the PolyA tails). Since most people are interested in coding-genes, it is more common to use mRNA-specific protocols. 
+To infer genes differentially expressed between conditions, we need to obtain accurate measures of gene expression variance between the conditions. For this, we need replicates containing as much of the expected biological variance as possible. Chosing the number of replicates and depth of sequencing (number of reads) depends on the experiment. For highly controlled conditions (such as cell cultures), 2-3 replicates could be enough. In terms of coverage, 10-40 million reads should be enough to capture most "reasonably" expressed genes. Nonetheless, to be able to more accurately estimate how much is needed, one should always start from [small pilot datasets](http://scotty.genetics.utah.edu/scotty.php). 
 
-Some protocols can also keep strand information. In this case, the reads have the same (or the reverse) strand as the transcribed RNA. This is particularly relevant when sequencing total RNA, noticeably to distinguish real transcripts from transcriptional activity resulting from stalled promoters or enhancers. It can also be useful to distinguish between overlapping genes.
- 
-Finally, we also need to consider the amount of material available. Are we dealing with samples with a lot of RNA (eg. cell cultures), or short amounts (eg. small tissue samples, single-cell) that are prone to amplification artifacts and presence of contaminant sequences? 
+At IGC we mainly use two library preparation methods (both unstranded): [Smart-seq](http://www.clontech.com/GQ/Products/cDNA_Synthesis_and_Library_Construction/Next_Gen_Sequencing_Kits/Single_cell_RNA_Seq_Kits_for_mRNA_seq/Single_Cell_RNA_Seq_v4) and [QuantSeq](https://www.lexogen.com/quantseq-3mrna-sequencing/).  Smart-seq sequences full length cDNAs, while QuantSeq only sequences the ends of the transcripts (and thus requires less reads per sample). Smart-Seq can take samples with very low numbers of cells, including single-cell experiments which usually require less reads (5-10M), and many replicates. Specific analysis techniques are necessary for samples with very low cell numbers, which we will not be able to cover in this course.
 
-All these aspects need to be taken into consideration both when selecting a sequencing protocol as well as when analyzing the data.
-
-
-For the analysis of differential gene expression, long reads, paired-end, and stranded library preparation methods are not as important, particularly if a reference genome is available. Focus should be given on replicates in order to obtain accurate measures of variances. The number of replicates and depth of sequencing depends on the experiment. For highly controlled conditions (such as cell cultures), 2-3 replicates could be enough. In terms of coverage, 10-40M reads should be enough to capture most "reasonably" expressed genes, although in single-cell experiments less reads may be sufficient (5-10M). Nonetheless, to be able to more accurately estimate how much is needed, one should always generate [small pilot datasets](http://scotty.genetics.utah.edu/scotty.php). 
-
-For this course, we will focus on the analysis of differential gene expression between two conditions. Thus, we assume unstranded mRNA-specific library preparation methods, sequenced using illumina (NextSeq, HiSeq) short (less than 100bp) single-end reads. We also assume 2-3 replicates per condition, sequenced to a medium throughput (10-40M reads). We will nonetheless briefly discuss what to do in other cases such as longer reads, paired data, stranded data, and more complex differential expression conditions. 
 
 ### <a id="LO2">Learning Outcome 2: List steps in the analysis of RNA-Seq differential expression experiments</a>
 
 Steps in the analysis of RNA-Seq:
-* QC of Raw Data; ([Learning Outcome 3](#LO3))
-* Preprocessing of Raw Data (if needed); ([Learning Outcome 4](#LO4)) 
-* Alignment of "clean" reads to reference genome ([Learning Outcome 5](#LO5))
-* QC of Aligments ([Learning Outcome 6](#LO6))
-* Generate table of counts of genes/transcripts ([Learning Outcome 7](#LO7))
-* Differential Analysis tests ([Learning Outcome 8](#LO8))
-* Post-analysis: Functional Enrichment ([Learning Outcome 9](#LO9))
+<p>
+
+  * QC of Raw Data; ([Learning Outcome 3](#LO3))
+
+  * Preprocessing of Raw Data (if needed); ([Learning Outcome 4](#LO4)) 
+
+  * Alignment of "clean" reads to reference genome ([Learning Outcome 5](#LO5))
+
+  * QC of Aligments ([Learning Outcome 6](#LO6))
+
+  * Generate table of counts of genes/transcripts ([Learning Outcome 7](#LO7))
+
+  * Differential Analysis tests ([Learning Outcome 8](#LO8))
+
+  * Post-analysis: Functional Enrichment ([Learning Outcome 9](#LO9))
+</p>
+<br/>
 
 ![RNA-Seq Workflow](images/RNASeqworkflow.jpg)
 
@@ -106,49 +121,92 @@ You can see a few fastq files in the folder fastq_examples:
 
 Since each fastq can have several million reads, they can become very big. Therefore, it is usual to keep them in a compressed format such as gzip. Most recent software dealing with NGS data can directly read compressed fastq files.
 
-**TASK**: In Firefox, click on the Galaxy bookmark to access your local Galaxy. Upload all sample files into Galaxy by clicking on the upload icon ![upload](images/upload.jpg) on the topleft, or by selecting the "Upload File" tool from the "Get Data" section in the tools menu.
+**QUESTION**: Uncompress the file sample_adaptors.fastq.gz and open it in a text editor. What's the identifier and sequence of the first read of that fastq file? 
+<details><summary>Click Here to see the answer</summary><p>
+The identifier is HWI-M01876:76:000000000-AF16W:1:1101:10853:1000. The sequence is NTGTACTTCATCCGAAACTCGTGCTCATCTCTGCTCAGATCGGAAGAGCACACGTCTGAACTCCAGTCACCGTGAT.
+</p></details>
+<br/>
 
-**Hint**: When uploading, Galaxy will try to guess the type of your files, but you can also explicitly specify the type of the files when uploading. For the files in fastq_examples, you can specify that they are of the type 'fastqsanger.gz'.
-
-You probably noticed that two of the example files have the same name, except for R1 and R2. This is an example of a paired-end dataset. If you inspect both datasets (by clicking on the eye button ![eye](images/eye.jpg)), you can find the same identifiers in each of the files, in the same order. In R1 you have the forward reading of a fragment, and in R2 you have the reverse reading of the same fragment.
-
-![Paired-end](images/paired-end.jpg)
-
-
-## <a id="LO3.2">LO 3.2 - Use software like FastQC to process fastq files and produce QC reports</a>
-
-High Throughput Sequencing machines read thousands, or even millions of sequences in parallel. As you can imagine, this usually generates large fastq files, with millions of lines. Manually inspecting quality of each read is out of question. Thus, specialized software has been developed to provide quality measures for fastq files generated by HTS machines. [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) is a popular program to generate quality reports on fastq data. Running FastQC on your raw data is usually the first thing you should do once you receive a new dataset.
-
-**TASK**: In Galaxy, run FastQC in each of the example files (you may search for fastqc in the search tools section).
-
-**Hint**: You can run the same tools on multiple datasets by selecting batch mode ![multiple](images/multiple.jpg).
+**QUESTION**: Uncompress the files s20150821.A-2_BGVR_P218_R1.sample.fastq.gz and 20150821.A-2_BGVR_P218_R2.sample.fastq.gz and open them in a text editor. What's the identifier and sequence of the first read of both fastq files? 
+<details><summary>Click Here to see the answer</summary><p>
+The read identifier is the same for both files (HWI-D00418:83:C7G9GANXX:2:2108:16128:97655). This is because they are readings of the same fragment, one (_R1) in the forward and another (_R2) in the reverse direction. The sequences are different, as they are readings of different parts of the fragment, and of opposing strands.
+</p></details>
+<br/>
+<br/>
 
 
-## <a id="LO3.3">LO 3.3 - Read QC reports of raw data to assess the general quality of data and presence of sequence bias</a>
 
-FastQC reports provide a series of plots that allow the user to assess the overall quality of their raw data and detect potential biases and problems. 
+## <a id="LO3.2">LO 3.2 - Use software like FastQC to process fastq files and produce quality reports (QC)</a>
 
-Some plots indicate distribution of base qualities along the length of reads. You can notice that, at least for illumina data, on average the quality of each base tends to decrease along the length of the read. You can also see that the reverse read (R2) is usually of worse quality than the forward read (R1). Therefore, short single-end reads usually have better average quality, and are often ready to use right out of the sequencer.
+High Throughput Sequencing machines read thousands, or even millions of sequences in parallel. As you can imagine, this usually generates large fastq files, with millions of lines. Manually inspecting quality of each read is out of the question. Thus, specialized software has been developed to provide quality measures for fastq files generated by HTS machines. [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) is a popular program to generate quality reports on fastq data. Running FastQC on your raw data is usually the first thing you should do once you receive a new dataset. FastQC is free and works on Windows, Mac and Linux.
+
+**TASK**: Open a terminal. type 'fastqc' and press enter. The graphical interface of FastQC should appear. Using the FastQC interface, open the file sample_adaptors.fastq.gz and the file sample_quality_and_adaptors.fastq.gz.
+
+**QUESTION**: What information is in a FastQC report?
+<details><summary>Click Here to see the answer</summary>
+
+A FastQC report includes, among other things:  
+
+  * Basic statistics of the fastq file, including number of reads and sequence length
+  
+  * Per base sequence quality, displaying the boxplot distribution of the Phred Quality (Q) per base for all reads.
+  
+  * Per sequence quality scores displaying the histogram of the mean quality (Q value) of the bases of each read, for all reads
+  
+  * Per base sequence content, displaying the frequency of each nucleotide at each position of the read
+  
+  * Per sequence GC content displaying the histogram of the GC frequency of each read, for all reads
+  
+  * Sequence length distribution displaying the histogram of read lengths
+  
+  * Sequence duplication levels displaying the histograms of the number of times reads appear with exactly the same sequence
+  
+  * Overrepresented sequences (not necessarily complete reads) that appear more frequently than randomly expected
+  
+  * Adapter content indicaring the frequency of sequences of know sequencing adaptors along the length of the reads
+  
+</details>
+<br/>
+
+FastQC reports provide a series of plots that allow the user to assess the overall quality of their raw data and detect potential biases and problems. Some plots indicate distribution of base qualities along the length of reads. You can notice that, at least for illumina data, on average the quality of each base tends to decrease along the length of the read. You can also see that the reverse read (R2) is usually of worse quality than the forward read (R1). Therefore, short single-end reads usually have better average quality, and are often ready to use right out of the sequencer.
 
 ![Base Quality](images/base_quality.png) ![Tile Quality](images/tile_quality.png)
 
 Other plots indicate biases in nucleotidic content of reads, either globally (as %GC plots), or positionally. Global bias in nucleotidic content can be useful to search for signs of contaminants. On the other hand, positional bias are useful to detect presence of artefactual sequences in your reads such as adaptors. Another insight you may obtain from this information are potential biases in the preparation of your library. For example, random hexamer priming is actually not truly random, and preferentially selects certain sequences. The currently popular transposase-based enzymatic protocol, although reasonably random, is also not completely random, and you can see this through positional bias, particularly in the beginning of reads. The presence of adaptors is a relatively common event, and therefore specific plots exist to detect the presence of the most commonly used adaptors. Finally, the presence of repetitive sequences can also suggest contaminants, PCR artifacts, or other types of bias.
 
 ![Base Bias](images/base_bias.png) ![Adaptor](images/adaptor.png)
+<br/>
 
-**TASK**: Inspect the FastQC Reports generated previously and detect potential issues.
+**QUESTION**: What are the main differences between the reports of both fastq files?
+<details><summary>Click Here to see the answer</summary>
+The sample_quality_and_adaptors.fastq.gz file contains 10000 reads of 250bp, while the sample_adaptors.fastq.gz file contains 1000 reads of 76bp. The sample_quality_and_adaptors reads have a lower per base sequence quality at their end, while the reads of the sample_adaptors keep a good quality throughout. The sample_adaptors reads contain a very noticeable nucleotide positional bias particularly after position 36. sample_quality_and_adaptors also contain a bit of nucleotide positional bias, but less and only for the first 10bp. The sample_quality_and_adaptors reads display an apparently bimodal GC distribution, while the sample_adaptors reads seem closer to a single normal distribution. Finally, sample_adaptors contain a clear presence of a known Illumina adaptor after position 36 (probably the reason for the nucleotide positional bias we saw before), while MiSeq_250bp contain a much smaller frequency of another Illumina adaptor towards the ends of the reads.
+</details>
+<br/>
 
-**Question**: What is the main issue in sample_adaptors? 
+**QUESTION**: What is the major difference between the two paired fastq files of the paired_example?
+<details><summary>Click Here to see the answer</summary>
+The reverse read has poorer quality bases. This is usually the case, at least for illumina. This is because the reverse reads are generated after the forward reads.
+</details>
 
-**Question**: What is the main issue in sample_quality_and_adaptors? 
+**TASK**: In a terminal window (it can be the same as you used to open fastqc, though you'll need to close the program), go to the folder fastq_examples using the 'cd' command. Type 'fastqc *.fastq.gz' and press enter. Inside the folder, you should now see a series of html files with FastQC reports of each of the fastq files. You can open them with the web browser by clicking on them with the mouse, or by running 'firefox *.html'.
 
-**Question**: What is the main difference between R1 and R2 of the paired 20150821.A-2_BGVR_P218 sample?
 
-**TASK**: Open a command line terminal. Type 'fastqc' to obtain the FastQC visual interface. Run FastQC in the example files using the visual interface.
+**NOTE**: Assess how well you achieved the learning outcome. For this, see how well you responded to the different questions during the activities and also make the following questions to yourself.
 
-**TASK**: Open a command line terminal. Using the 'cd' command, go to the 'fastq_examples' folder. Type 'fastqc *.fastq.gz'. Look inside the folder. What results did you get?
+  * Do you understand the content of a fastQ file?
 
-**TASK**: (optional) If you have your own data, use FastQC (in Galaxy or with the command line) to inspect your data.
+  * Did you understand the difference between single-end and paired-end reads?
+
+  * Could you run FastQC on a fastq file?
+
+  * Can you broadly list types of information that a FastQC report contains?
+
+  * Can you interpret information in a FastQC report to detect potential issues with data in a fastq file?
+
+<br/>
+<br/>
+
+
 
 # <a id="LO4">Learning Outcome 4: Do simple processing operations in the raw data to improve its quality</a>
 
@@ -156,21 +214,67 @@ In most cases, particularly if you're sequencing short, single-end reads, the qu
 
 Sometimes things can go wrong, and you may need to do something about it. Some types of problems, like presence of contaminants, or some instances of positional bias will require to go back and redo the experiments. Other issues can be minimized. 
 
-## <a id="LO4.1">LO 4.1 - Use tools such as seqtk and trimmomatic to remove low quality bases from your reads</a>
+## <a id="LO4.1">LO 4.1 - Remove low quality bases from your reads</a>
 
-As you may have noticed before, reads tend to lose quality towards their end, where there is a higher probability of erroneous bases being called. To avoid problems in subsequent analysis, you should remove regions of poor quality in your read, usually by trimming them from the end of reads using tools such as [seqtk](https://github.com/lh3/seqtk). 
+As you may have noticed before, reads tend to lose quality towards their end, where there is a higher probability of erroneous bases being called. 
 
-**Question**: Even if all bases that your machine reads have a Q=20 (1% error rate), what is the probability that one 100bp read is completely correct? To answer this, consider for the sake of this example that all bases are read independently.
+**QUESTION**: If all bases of a ficticious machine had a Q=20 (1% probability of error), what would be the probability that one 100bp read from that machine would be completely correct?
+<details><summary>Click Here to see the answer</summary><p>
+P(correct)=(0.99)^100 ~= 36.6%!
 
-**TASK**: In Galaxy, use seqtk trimfq with sample_quality_and_adaptors using 0.05 as an error threshold. Then use FastQC to evaluate the impact of the procedure. Compare the result you obtain with seqtk versus a simpler approach of cutting your reads to a fixed length.
+This serves to exemplify that many reads in current sequencing machines are likely to have at least one base incorrect.
+</p></details>
+<br/>
+<br/>
 
-**TASK**: In Galaxy, use seqtk trimfq with sample_quality_and_adaptors using 0.01 as an error threshold. Then use FastQC to evaluate the impact of the procedure. Compare the result with using 0.05 as an error threshold.
+To avoid problems in subsequent analysis, you should remove regions of poor quality in your read, usually by trimming them from the end of reads using tools such as [Trimmomatic](http://www.usadellab.org/cms/?page=trimmomatic). Similar to FastQC, Trimmomatic is a java program, so you can use it in any operating system (such as Windows and Mac), although unlike FastQC it needs to be run only using the commandline. 
 
-Another popular tool to filter fastq files is [Trimmomatic](http://www.usadellab.org/cms/?page=trimmomatic). This tool implements more elaborate trimming strategies, such as average window threshold.
+**TASK**: In the commandline, use Trimmomatic to remove low quality bases from sample_quality_and_adaptors. Type the command "TrimmomaticSE -phred33 sample_quality_and_adaptors.fastq.gz sample_quality_and_adaptors.trimmed.fastq.gz SLIDINGWINDOW:4:20".  You should now have a new file with the trimmed reads. Evaluate the impact by using FastQC of the file with the trimmed reads.
 
-**TASK**: In Galaxy, use Trimmomatic to remove low quality bases from sample_quality_and_adaptors. Notice that the default method in Trimmomatic is a 4bp window average, with a threshold of Q=20. Finally, look at the impact using FastQC of trimmed reads. NOTE: Trimmomatic requires you to specify that you use the "standard" Phred Q scale (fastqsanger), which was different from the one used in older datasets (before 2012), so you need to manually change the datatype of your dataset from generic fastq to fastqsanger (for this, click the Edit Attributes button ![edit](images/edit.jpg) of the fastq file, then click on the "Datatype" tab and select fastqsanger - NOT fastqcssanger).
+**QUESTION**: What was the impact of running Trimmomatic?
+<details><summary>Click Here to see the answer</summary><p>
+The base quality improved significantly. Nonetheless, several sequences now became smaller due to the trimming. Some became very small, and it should even be impossible to use them afterwards in the remaining of the analysis. Therefore, it is common to remove sequences that fall below a certain length (eg. 36bp). This can be done in Trimmomatic using the extra trimming option of 'MINLEN:36'.
+</p></details>
+<br/>
+<br/>
 
-## <a id="LO4.2">LO 4.2 - Use tools such as cutadapt to remove adaptors and other artefactual sequences from your reads</a>
+
+Most software for the analysis of HTS data is freely available to users. Nonetheless, they often require the use of the command line (frequently only in a Unix-like environment). User-friendly desktop software such as [CLC](https://www.qiagenbioinformatics.com/products/clc-genomics-workbench/) or [Ugene](http://ugene.net/) is available, but given the quick pace of developmpent in this area, they are constantly outdated. Moreover, even with better algorithms, HTS analysis must often be run in external servers due to the heavy computational requirements. One popular tool is [Galaxy](https://galaxyproject.org/), which allows even non-expert users to execute many different HTS analysis programs through a simple web interface. There are public instances of Galaxy where you can run your bioinformatics analysis (eg. https://usegalaxy.org, https://usegalaxy.eu). At IGC we provide a local Galaxy where you can run the analysis you learn in this course. For the purpose of this course, we will run Galaxy instances locally installed in the classroom workstations. These will contain only the tools necessary to run the exercises for this course, but otherwise work very much any other galaxy installation.
+
+**TASK**: Let's use Galaxy to run Trimmomatic. Open the web browser (eg. Firefox). Type [localhost:8080](localhost:8080) in the URL tab (where you put the web addresses). This means that you are accessing a galaxy instance that is running on your local machine. You should see the Galaxy interface on your web browser. The available tools are listed on the left panel, and you can search for tools by their name. Search for trimmomatic in the tool search bar. Click on the tool Trimmomatic to see the options for running the tool.
+
+**QUESTION**: What different operations can you perform with Trimmomatic that use the base quality information? 
+<details><summary>Click Here to see the answer</summary>
+You can perform the following operations with Trimmomatic (either isolated, or in combination):
+
+	* ILLUMINACLIP: Cut adapter and other illumina-specific sequences from the read
+	
+	* SLIDINGWINDOW: Perform a sliding window trimming, cutting once the average quality within the window falls below a threshold
+        
+	* MINLEN: Drop the read if it is below a specified length
+
+	* LEADING: Cut bases off the start of a read, if below a threshold quality
+
+	* TRAILING: Cut bases off the end of a read, if below a threshold quality
+
+	* CROP: Cut the read to a specified length
+
+	* HEADCROP: Cut the specified number of bases from the start of the read
+
+	* AVGQUAL: Drop the read if the average quality is below a specified value
+
+	* MAXINFO: Trim reads adaptively, balancing read length and error rate to maximise the value of each read
+	
+</details>
+<br/>
+
+**TASK**:  Upload into Galaxy the the files from fastq_examples folder (Click on the upload icon ![upload](images/upload.jpg) on the top left of the interface). After uploading, you should now seem them on your history in the right panel. You can visualize their content by pressing the view data icon (the eye icon ![eye](images/eye.jpg)). In Galaxy, use Trimmomatic to remove low quality bases from sample_quality_and_adaptors using the default method (a 4bp window average, with a threshold of Q=20). Finally, look at the impact by running FastQC on the trimmed reads.
+
+
+**Hint**: When uploading, Galaxy will try to guess the type of your files, but you can also explicitly specify the type of the files when uploading. For the files in fastq_examples, you can specify that they are of the type 'fastqsanger.gz'. Galaxy will uncompress files that you upload. If you specify that your files are fastqsanger.gz, it will keep them compressed, saving disk space.
+
+
+## <a id="LO4.2">LO 4.2 - Remove adaptors and other artefactual sequences from your reads</a>
 
 Sequencing machines often require that you add specific sequences (adaptors) to your DNA so that it can be sequenced. Although sequencing facilities will generally remove these from the reads, for many different reasons, such sequences may end up in your reads, and you will need to remove them yourself. Moreover, cDNAs may contain parts of the non-genomic polyA tails that are part of mature mRNAs. Since these sequences are not part of the genome, they may prevent proper alignment and need to be removed before proceeding.
 

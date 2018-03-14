@@ -68,8 +68,6 @@ For this, we are providing small example datasets and exercises that participant
 		What information is in fastq files, and how is it organized
 
 #### 	LO 3.2 - Use software like FastQC to process fastq files and produce QC reports
-
-#### 	LO 3.3 - Read QC reports of raw data to assess the general quality of data and presence of sequence bias
 		Detect low quality bases in the QC reports
 		Detect sequence bias and possible presence of adaptors and other contaminants
 
@@ -152,11 +150,11 @@ For this, we are providing small example datasets and exercises that participant
 ### Monday, December 4th
 
 + 09:30 - 10:00 Introduction to the course and self presentation of the participants
-+ 10:00 - 11:00 [Possibilities and limitations of NGS sequencing technologies. Choose adequate sequencing for your biological question](material/Practical.md#LO1)
++ 10:00 - 11:00 [The High Throughput Sequencing Workflow. Designing your experiment for Differential Expression using RNA-Seq](material/Practical.md#LO1). [Steps in the analysis of RNA-Seq differential expression experiments](material/Practical.md#LO2).
 + 11:00 - 11:30 ***Coffee Break***
-+ 11:30 - 12:30 [Steps in the analysis of RNA-Seq differential expression experiments](material/Practical.md#LO2)
++ 11:30 - 12:30 [Interpret what are fastq files and what is their content](material/Practical.md#LO3.1). [Use software like FastQC to process fastq files and produce quality reports (QC)](material/Practical.md#LO3.2). 
 + 12:30 - 14:00 ***LUNCH BREAK***
-+ 14:00 - 16:00 [Interpret what are fastq files and what is their content](material/Practical.md#LO3.1). [Use software like FastQC to process fastq files and produce QC reports](material/Practical.md#LO3.2). [Read QC reports of raw data to assess the general quality of data and presence of sequence bias](material/Practical.md#LO3.3). [Use tools such as seqtk, cutadapt and trimmomatic to remove low quality bases](material/Practical.md#LO4.1), [adaptors and other artefactual sequences from your reads](material/Practical.md#LO4.2).
++ 14:00 - 16:00 [Remove low quality bases](material/Practical.md#LO4.1), [Remove adaptors and other artefactual sequences from your reads](material/Practical.md#LO4.2).
 + 16:00 - 16:30 ***Tea Break***
 + 16:30 - 18:00 [What is a reference genome, versioning and where to obtain genomes](material/Practical.md#LO5.1). [Alignment software: hisat2; bwa; salmon](material/Practical.md#LO5.2). [Run an alignment: the SAM/BAM alignment format](material/Practical.md#LO5.3).
 
