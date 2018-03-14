@@ -178,15 +178,16 @@ Other plots indicate biases in nucleotidic content of reads, either globally (as
 <br/>
 
 **QUESTION**: What are the main differences between the reports of both fastq files?
-<details><summary>Click Here to see the answer</summary>
+<details><summary>Click Here to see the answer</summary><p>
 The sample_quality_and_adaptors.fastq.gz file contains 10000 reads of 250bp, while the sample_adaptors.fastq.gz file contains 1000 reads of 76bp. The sample_quality_and_adaptors reads have a lower per base sequence quality at their end, while the reads of the sample_adaptors keep a good quality throughout. The sample_adaptors reads contain a very noticeable nucleotide positional bias particularly after position 36. sample_quality_and_adaptors also contain a bit of nucleotide positional bias, but less and only for the first 10bp. The sample_quality_and_adaptors reads display an apparently bimodal GC distribution, while the sample_adaptors reads seem closer to a single normal distribution. Finally, sample_adaptors contain a clear presence of a known Illumina adaptor after position 36 (probably the reason for the nucleotide positional bias we saw before), while MiSeq_250bp contain a much smaller frequency of another Illumina adaptor towards the ends of the reads.
-</details>
+</p></details>
 <br/>
 
 **QUESTION**: What is the major difference between the two paired fastq files of the paired_example?
 <details><summary>Click Here to see the answer</summary><p>
 The reverse read has poorer quality bases. This is usually the case, at least for illumina. This is because the reverse reads are generated after the forward reads.
 </p></details>
+<br/>
 
 **TASK**: In a terminal window (it can be the same as you used to open fastqc, though you'll need to close the program), go to the folder fastq_examples using the 'cd' command. Type 'fastqc *.fastq.gz' and press enter. Inside the folder, you should now see a series of html files with FastQC reports of each of the fastq files. You can open them with the web browser by clicking on them with the mouse, or by running 'firefox *.html'.
 
