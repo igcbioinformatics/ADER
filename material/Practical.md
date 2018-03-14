@@ -184,9 +184,9 @@ The sample_quality_and_adaptors.fastq.gz file contains 10000 reads of 250bp, whi
 <br/>
 
 **QUESTION**: What is the major difference between the two paired fastq files of the paired_example?
-<details><summary>Click Here to see the answer</summary>
+<details><summary>Click Here to see the answer</summary><p>
 The reverse read has poorer quality bases. This is usually the case, at least for illumina. This is because the reverse reads are generated after the forward reads.
-</details>
+</p></details>
 
 **TASK**: In a terminal window (it can be the same as you used to open fastqc, though you'll need to close the program), go to the folder fastq_examples using the 'cd' command. Type 'fastqc *.fastq.gz' and press enter. Inside the folder, you should now see a series of html files with FastQC reports of each of the fastq files. You can open them with the web browser by clicking on them with the mouse, or by running 'firefox *.html'.
 
