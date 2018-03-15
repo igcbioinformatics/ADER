@@ -271,7 +271,7 @@ You can perform the following operations with Trimmomatic (either isolated, or i
 <br/>
 
 **TASK**:  Upload into Galaxy the the files from fastq_examples folder (Click on the upload icon ![upload](images/upload.jpg) on the top left of the interface). After uploading, you should now seem them on your history in the right panel. You can visualize their content by pressing the view data icon (the eye icon ![eye](images/eye.jpg)). In Galaxy, use Trimmomatic to remove low quality bases from sample_quality_and_adaptors using the default method (a 4bp window average, with a threshold of Q=20). Finally, look at the impact by running FastQC on the trimmed reads.
-
+<br/>
 
 **Hint**: When uploading, Galaxy will try to guess the type of your files, but you can also explicitly specify the type of the files when uploading. For the files in fastq_examples, you can specify that they are of the type 'fastqsanger.gz'. Galaxy will uncompress files that you upload. If you specify that your files are fastqsanger.gz, it will keep them compressed, saving disk space.
 
@@ -280,29 +280,53 @@ You can perform the following operations with Trimmomatic (either isolated, or i
 
 Sequencing machines often require that you add specific sequences (adaptors) to your DNA so that it can be sequenced. Although sequencing facilities will generally remove these from the reads, for many different reasons, such sequences may end up in your reads, and you will need to remove them yourself. Moreover, cDNAs may contain parts of the non-genomic polyA tails that are part of mature mRNAs. Since these sequences are not part of the genome, they may prevent proper alignment and need to be removed before proceeding.
 
-To remove these unwanted sequences, not only you have to look for the sequence in the reads, but also allow for sequencing errors, as well as the presence of incomplete sequences. Tools such as [cutadapt](http://cutadapt.readthedocs.io/en/stable/guide.html) do precisely this.
-
-**TASK**: In Galaxy, use cutadapt to remove adaptors from sample_adaptors.fastq. In this sample, we know that we used the illumina adaptor GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT, so try to remove this from the 3' end of reads and see the impact of the procedure using FastQC. For this, you need to insert a new adapter in 3', and in the source, select "Enter a custom sequence" (you don't need to add a name, just paste the sequence). What happened? Almost no read was affected. This is because what you get is a readthrough, so you actually have the reverse complement of the adaptor (from the opposite strand). Now, try the same procedure but with AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC (reverse complement of the previous). Much better, no?
-
-One issue of removing the adaptors is that you need to know which ones were used in your data. FastQC can already tell you which one was used, and you can then go to the illumina manual to search for its sequence. Since Illumina is used most of the time, these adaptors are already integrated in tools like Trimmomatic, which also take in consideration issues like reverse complement. 
+To remove these unwanted sequences, not only you have to look for the sequence in the reads, but also allow for sequencing errors, as well as the presence of incomplete sequences. Another issue of removing the adaptors is that you need to know which ones were used in your data. Since Illumina is used most of the time, these adaptors are already integrated in tools like Trimmomatic, which also take in consideration issues like reverse complement.
 
 **TASK**: In Galaxy, Use Trimmomatic to remove adaptors from sample_adaptors.fastq.gz using Truseq3 adaptors (for this you need to select to perform an initial Illumina clip, then select the appropriate database of adaptors) and use FastQC to see the impact.
 
-**TASK**: As you noticed, you can use Trimmommatic to do both quality and adaptor trimming. In Galaxy, use Trimmomatic to remove low quality bases from sample_quality_and_adaptors.fastq, as well as the remainings of illumina Nextera adaptors that are still left in some of the reads. Like before, you may need to change the type of file from fastq to fastqsanger.
+**QUESTION**: What was the impact of running Trimmomatic?
+<details><summary>Click Here to see the answer</summary><p>
+There was no effect in the quality of the sequences, since the original per base quality was already very good. Most reads are now only 36bp long, and the adaptor sequences are no longer present.
+</p></details>
+<br/>
 
-Paired-end data need to be handled with special care. Some quality filtering software will remove reads entirely if their quality is very bad. This can result in pairing information being lost, if the other member of the pair is not also removed (or placed in a special set of unpaired sequences). Software such as Trimmomatic can also take paired data as input, and handle them properly.
+**Hint**: In Trimmomatic you can also use your own sequences as custom adaptors. For example, in case you use uncommon adaptors, or may want to remove polyA tails or other artefactual sequences.
+<br/>
 
-**TASK**: Use Trimmomatic with the 20150821.A-2_BGVR_P218 paired-end example RNA-Seq data (use Truseq adaptors). Use FastQC to evaluate the impact of the procedure. If you use trimmomatic on each individual file, you'll lose the pairing information. Therefore, you need to provide the paired data to Trimmomatic. Notice that, beside a paired fastq file, you also obtain unpaired reads that lost their pair.
+**TASK**: As you noticed, you can use Trimmommatic to do both quality and adaptor trimming. In Galaxy, use Trimmomatic to remove low quality bases from sample_quality_and_adaptors.fastq, as well as the remainings of illumina Nextera adaptors that are still left in some of the reads.
+
+**QUESTION**: What was the impact of running Trimmomatic?
+<details><summary>Click Here to see the answer</summary><p>
+The base pair quality of the sequences improved and the few adaptor sequences were also removed.
+</p></details>
+<br/>
+
+Paired-end data need to be handled with special care. Reads may be removed entirely if their quality is very bad (eg. if you use the MINLEN parameter in Trimmomatic). This can result in pairing information being lost, if the other member of the pair is not also removed (or placed in a special set of unpaired sequences). Software such as Trimmomatic can also take paired data as input, and handle them properly.
+
+**TASK**: Use Trimmomatic with the 20150821.A-2_BGVR_P218 paired-end example RNA-Seq data with the default SLIDINGWINDOW parameter, as well as MINLEN of 36. Also remove adaptors (use Truseq3 paired-end adaptors). Use FastQC to evaluate the impact of the procedure. If you use trimmomatic on each individual file, you'll lose the pairing information. Therefore, you need to provide the paired data to Trimmomatic. Notice that, beside a paired fastq file, you also obtain unpaired reads that lost their pair.
 
 **Question**: Which one has more reads - unpaired R1, or unpaired R2? Why is that?
+<details><summary>Click Here to see the answer</summary><p>
+The unpaired R1 has a lot more reads than unpaired R2. This is because R2 reads are usually of lower quality and are therefore more often removed.
+</p></details>
+<br/>
+<br/>
 
-**TASK**: Open the commandline. Using the cd command, go to the fastq_examples folder. Run the following command: 'seqtq trimfq'. Look at the available options. Next, run the command: 'seqtk trimfq -q 0.01 sample_quality_and_adaptors.fastq.gz > sample_quality_and_adaptors.trimmed.fastq'. 
+**NOTE**: Assess how well you achieved the learning outcome. For this, see how well you responded to the different questions during the activities and also make the following questions to yourself.
 
-**TASK**: In the same commandline, run the following command: 'cutadapt --help'. Inspect the options. Next, run: 'cutadapt -a AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC -o sample_adaptors.trimmed.fastq sample_adaptors.fastq.gz'.
+  * Do you understand the process of quality trimming of a fastQ file?
 
-**TASK**: Run the following command: 'TrimmomaticSE sample_quality_and_adaptors.fastq.gz sample_quality_and_adaptors.trimmed.v2.fastq SLIDINGWINDOW:4:20 ILLUMINACLIP:adapters/NexteraPE-PE.fa:2:30:10'.
+  * Could you use Trimmomatic to improve the base quality of a fastQ file?
 
-**TASK**: (optional) If you have your own data, you can try running FastQC and eventually Trimmomatic on your data.
+  * Do you understand the process of removing adaptors and other artefactual sequences from a fastQ file?
+
+  * Could you use Trimmomatic to removing adaptors from a fastQ file?
+
+  * Do you understand the potential issues of quality filtering and adaptor trimming in paired-end data?
+
+<br/>
+<br/>
+
 
 # <a id="LO5">Learning Outcome 5: Generate alignments of processed reads against a reference genome</a>
 
