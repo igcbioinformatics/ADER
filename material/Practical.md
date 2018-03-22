@@ -365,39 +365,90 @@ Finally, another set of more recent approaches quickly gaining in popularity map
 
 ## <a id="LO5.3">LO 5.3 - Running an alignment. The SAM/BAM alignment format</a>
 
-As we mentioned before, aligners for NGS data depend on large data structures for their efficiency. These structures (like the blast databases) are built from the fasta file containing the sequence of the reference genome. This process is relatively slow and computationally intensive, although it is only necessary to do it once for each reference genome. Therefore, before aligning your reads, it is necessary to do an indexing step on the genome sequence that will be used for alignment. If using the tools on the command line, one needs to explicitly perform this step. Using services such as Galaxy, this step is hidden from the user. 
+As we mentioned before, aligners for NGS data depend on large data structures for their efficiency. These structures (like the blast databases) are built from the fasta file containing the sequence of the reference genome. This process is relatively slow and computationally intensive, although it is only necessary to do it once for each reference genome. Therefore, before aligning your reads, it is necessary to do an indexing step on the genome sequence that will be used for alignment. If using the tools on the command line, one needs to explicitly perform this step. 
 
-When performing the alignment in Galaxy, you usually have two options: either you provide a fasta with the reference genome, or you select an available pre-built genome. When using an available genome, the indexing step was already performed, while if you provide your own fasta of the genome, an indexing step will have to be performed before the alignment step. If your genome of interest is relatively large (roughly >100Mb), it is more efficient to have it pre-built, particularly if you're reusing it often. For this, you will need to ask the persons managing the service you're using.
+**TASK**: Unzip the fasta file with the Drosophila genome that you downloaded (in the terminal, move to the folder where you downloaded the file and execute 'gunzip Drosophila_melanogaster.BDGP6.dna.toplevel.fa.gz'. If you use the mouse to unzip, it may generate a strange name inside many folders, but it is the correct genome. If it is inside many folders, copy it to the folder where you downloaded the file. You may also want to rename it to the same name as the file you downloaded, but without the .gz. In the same folder where you have the unziped fasta file run the following command: 'hisat2-build Drosophila_melanogaster.BDGP6.dna.toplevel.fa Drosophila_melanogaster.BDGP6.dna.toplevel.hisat2'. 
+<br/>
 
-**TASK**: In Galaxy, run Hisat2 on the 20150821.A-2_BGVR_P218 R1 file (in single-end mode) against the Drosophila genome that should be prebuilt in your Galaxy instance (you only need to set the parameter for input fastq and the genome). Now run the same, but using as genome the fasta for the Drosophila genome that you downloaded previously. Compare the differences in the time it takes. 
+**QUESTION**: After the command finished, can you see other files created in that same folder?
+<details><summary>Click Here to see the answer</summary><p>
+You can see several files, all starting with 'Drosophila_melanogaster.BDGP6.dna.toplevel.hisat2'. These contain the burrows-wheeler indexes that hisat2 will use to perform the alignment.
+</p></details>
+<br/>
+<br/>
+
+**TASK**: After the indexing step, you can now perform the alignment. Make sure the file 20150821.A-2_BGVR_P218_R1.sample.fastq.gz that is inside the fastq_examples folder is in the same folder as your genome index. Now, run the following command: 'hisat2 -x Drosophila_melanogaster.BDGP6.dna.toplevel.hisat2 -U 20150821.A-2_BGVR_P218_R1.sample.fastq.gz > 20150821.A-2_BGVR_P218_R1.sample.fastq.gz.sam'. 
+<br/>
+
+**QUESTION**:: When running the command, after it finishes, you should see some text reporting a summary of the alingment. What's the overall alignment rate?
+<details><summary>Click Here to see the answer</summary><p>
+The overall alignment rate is 81.41%.
+</p></details>
+<br/>
 
 The output of these aligners consist of SAM/BAM files. The [Sequence Alignment/Map (SAM) format](https://samtools.github.io/hts-specs/SAMv1.pdf) is a tabular text file format, where each line contains information for one alignment. SAM files are most often compressed as BAM (Binary SAM) files, to reduce space and allow direct access to alignments in any arbitrary region of the genome. Several tools (particularly the most recent ones) only work with BAM files. Some aligners still produce only SAM files, which may need to be converted to BAM.
 
 ![SAM Structure](images/bam_structure.png) 
+<br/>
+
+**TASK**: Open the sam file you generated before in a spreadsheet program.
+<br/>
+
+**QUESTION**:: What is the position of the start of the first alignment in your SAM file?
+<details><summary>Click Here to see the answer</summary><p>
+The first line in the SAM file (after the header section with the lines starting with '@') corresponds to the alignment of the first sequence in the fastq file (HWI-D00418:83:C7G9GANXX:2:2108:16128:97655). It aligns in cromosome 2L, position 18391979, in the reverse orientation (that's what the 16 in the second column means), with a mapping quality of 60. In this particular case, the first 9 bases where not aligned (they were soft clipped).
+</p></details>
+<br/>
+
+**TASK**: We will now transform the SAM file into an indexed BAM file. In the same terminal window where you indexed the genomeand performed the alignment using Hisat, run 'samtools view -Sb 20150821.A-2_BGVR_P218_R1.sample.fastq.gz.sam > 20150821.A-2_BGVR_P218_R1.sample.fastq.gz.bam'. To create the index, the alignments in the bam file need to be sorted by position. For this, run 'samtools sort 20150821.A-2_BGVR_P218_R1.sample.fastq.gz.bam 20150821.A-2_BGVR_P218_R1.sample.fastq.gz.sorted'. Finally, we can create the index 'samtools index 20150821.A-2_BGVR_P218_R1.sample.fastq.gz.sorted.bam'. Notice now the appearance of a companion file 20150821.A-2_BGVR_P218_R1.sample.fastq.gz.sorted.bam.bai that contains the index. This file should always accompany its corresponding bam file.
+<br/>
+
+Using services such as Galaxy, the genome indexing step is hidden from the user. When performing the alignment in Galaxy, you usually have two options: either you provide a fasta with the reference genome, or you select an available pre-built genome. When using an available genome, the indexing step was already performed, while if you provide your own fasta of the genome, an indexing step will have to be performed before the alignment step. If your genome of interest is relatively large (roughly >100Mb), it is more efficient to have it pre-built, particularly if you're reusing it often. For this, you will need to ask the persons managing the service you're using. Moreover, the transformation from SAM to BAM and the BAM indexing steps are usually also transparent. 
+<br/>
+
+**TASK**: In Galaxy, run Hisat2 on the 20150821.A-2_BGVR_P218 R1 file (in single-end mode) against the Drosophila genome that should be prebuilt in your Galaxy instance (you only need to set the parameter for input fastq and the genome). Now run the same, but using as genome the fasta for the Drosophila genome that you downloaded previously (you'll need to upload it into Galaxy). Compare the differences in the time it takes. 
+<br/>
+
+**QUESTION**:: Which took longer: the one with the prebuilt genome index or the one where you passed the genome fasta? 
+<details><summary>Click Here to see the answer</summary><p>
+The alignment using the prebuilt genome index took much less time.
+</p></details>
+<br/>
 
 Most genomes (particularly mamallian genomes) contain areas of low complexity, composed of repetitive sequences. In the case of short reads, sometimes these align to multiple regions in the genome equally well, making it impossible to know where the fragment came from. Longer reads are needed to overcome these difficulties, or in the absence of these, paired-end data can also be used. Some aligners (such as hisat or bwa) can use information from paired reads to help disambiguate some alignments. Information on paired reads is also added to the SAM/BAM file by most aligners when this data is used.
+<br/>
 
-**TASK**: In Galaxy, run Hisat2 with the 20150821.A-2_BGVR_P218 example paired-end data against the prebuilt Drosophila genome. 
+**TASK**: In Galaxy, run Hisat2 with the 20150821.A-2_BGVR_P218 example paired-end data against the prebuilt Drosophila genome. Use the trimmed versions that you did before.
+<br/>
+
 
 In the guilgur folder, you'll have data extracted from [Guilgur et al, 2014](https://elifesciences.org/content/3/e02181). In this Drosophila melanogaster dataset, we have two conditions (WT and mut), with two replicates for each (note that nowadays, it is more common to use 3 or more replicates). To make it quick to run, we have extracted data for a very limited set of genes. This data is already of good quality, ready to align.
-
-**TASK**: In Galaxy, upload all R1 files from the guilgur folder, and run Hisat2 on them using the Drosophila genome that is already prebuilt.
-
+<br/>
+**TASK**: In Galaxy, upload all R1 files from the guilgur folder, and run Hisat2 on them using the Drosophila genome that is already prebuilt. Download all BAM files **and** their companion indexes.
+<br/>
 **Hint**: You can rename an item in you history by pressing the Edit Attributes button ![edit](images/edit.jpg). Renaming files may come in handy later.
+<br/>
 
-**TASK**: Run the command 'hisat2-build' with the Drosophila genome you downloaded previously. If you have another genome of interest, do it also with that genome.
+To have a dataset with a more realistic size, we will also use data from Trapnell and colleagues [(Trapnell et. al, 2012)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3334321/), where the authors created an artificial Drosophila melanogaster dataset with 2 conditions and 3 replicates each, where 300 genes were perturbed in-silico. The original "raw" data and processed files can be found [here](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE32038).
+<br/>
+**TASK**: Use Hisat2 on all the R1 files from the Trapnell dataset, either in Galaxy (using the Drosophila genome that is already prebuilt) or in the command line. 
+<br/>
 
-**Hint**: The command should be of the form 'hisat2-build genome.fasta genome.hisat2index'. Type 'hisat2-build -h' for more information on parameters.
+<br/>
 
-**TASK**: Run the command 'hisat2' to align one of the guilgur datasets eg. mut_lib1_R1.fq.gz. Notice that Hisat2 on the command line generates a sam file.
+**NOTE**: Assess how well you achieved the learning outcome. For this, see how well you responded to the different questions during the activities and also make the following questions to yourself.
 
-**Hint**: For unpaired reads, the command should be of the form 'hisat2 -x genome.hisat2index -U reads.fastq > output.sam'. Type 'hisat2 -h' for more info on parameters.
+  * Do you understand the concept of genome version, and where to obtain reference genomes?
 
-**Hint** To convert a sam file to bam, you need samtools. You can combine samtools with hisat to generate a BAM file immediately: 'hisat2 -x Drosophila_melanogaster.BDGP6.dna.toplevel.hisat2 -U mut_lib1_R1.fq.gz | samtools view -Sb - | samtools sort - -o mut_lib1_R1.bam; samtools index mut_lib1_R1.bam'.
+  * Do you understand the need of a specialized alignment software to align millions of short RNA-Seq reads to a reference genome? Can you name at least one software that is often used for this task?
 
-To have a more realistic dataset, we will also use data from Trapnell and colleagues [(Trapnell et. al, 2012)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3334321/), where the authors created an artificial Drosophila melanogaster dataset with 2 conditions and 3 replicates each, where 300 genes were perturbed in-silico. The original "raw" data and processed files can be found [here](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE32038).
+  * Could you use Hisat2 to align a RNA-Seq fastq file to a reference genome? Do you understand the basic steps involved in the use of Hisat2?
 
-**TASK**: Use Hisat2 on all the R1 files from the Trapnell dataset, either in Galaxy (using the Drosophila genome that is already prebuilt) or in the command line. If you have your own dataset, you can try running Hisat2 with your samples.
+  * Do you understand what is a SAM and BAM file, the result of the alignment process?
+
+<br/>
+<br/>
+
 
 # <a id="LO6">Learning Outcome 6: Assess the general quality of the alignments and detect possible problems</a>
 
