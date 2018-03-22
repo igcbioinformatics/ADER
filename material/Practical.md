@@ -463,28 +463,56 @@ Gene annotations are usually complex to create, particularly for large mammalian
 
 The same way Ensembl is a good source for the genome sequence, it is also a good source to obtain gene annotations. Ensembl even defined a specific variant of the GFF format ([GTF](http://www.ensembl.org/info/website/upload/gff.html)) which is commonly accepted by most applications. 
  
-**TASK**: Obtain the latest Drosophila melanogaster GTF from [Ensembl](http://www.ensembl.org), as well as the GTF for the organism relevant for your project, if you have one.
+**TASK**: Obtain the latest Drosophila melanogaster GTF from [Ensembl](http://www.ensembl.org), similarly as you obtained the genome.
+
+**QUESTION**:: Upload the GTF into galaxy and inspect it (using the eye icon). What's the first gene described in the GTF? 
+<details><summary>Click Here to see the answer</summary><p>
+It's gene Myo81F, FBgn0267431, chromosom 3R, positions 567076 to 2532932, forward strand. You may notice a hierarchical structure, with genes having several transcripts, and each transcript having several exons.
+</p></details>
+<br/>
 
 ## <a id="LO6.2">LO 6.2 - Visualizing alignments in IGV for single genes</a>
 
 To visualize the alignments along the reference genome one can use software such as [IGV](http://software.broadinstitute.org/software/igv/) or [Tablet](https://ics.hutton.ac.uk/tablet/), which work with the most common operating systems. To avoid loading all alignments simultaneously in memory, and to be able to quickly search for region-specific alignments, this software uses the BAM format. 
 
 ![IGV Visualization](images/IGV_visualization.jpg) 
-
-**TASK**: Download the BAM files you generated for the guilgur dataset in Galaxy ![download](images/download.jpg). You also need to download the companion bai index files that accompany each of the BAM files. These bai index files are essential to quickly access alignments inside the BAM file. Run IGV and load the Drosophila genome as reference (fasta). Next load the provided annotation file (Drosophila_melanogaster.BDGP6.85.sample.gtf) inside the guilgur folder which contains information just for a subset of genes. Finally, load the BAM alignment files. 
-
+<br/>
+**TASK**: Download the BAM files you generated for the guilgur dataset in Galaxy ![download](images/download.jpg). You also need to download the companion bai index files that accompany each of the BAM files. These bai index files are essential to quickly access alignments inside the BAM file. Run IGV and load the Drosophila genome fasta file as reference (in Genomes, load genome as file). Next load (in File, load file) the provided annotation file (Drosophila_melanogaster.BDGP6.85.sample.gtf) inside the guilgur folder which contains information just for a subset of genes. Finally, load the BAM alignment files. 
+<br/>
 **Hint**: To run IGV, you can open a terminal, and type 'igv'. It will then take a little bit to start.
+<br/>
+**QUESTION**: In IGV, look at position: 3L:15041314-15044195 (alternatively, look for the gene Rpn12R, or Fbgn0036465). What can you see? 
+<details><summary>Click Here to see the answer</summary><p>
+You can see that the gene is expressed (there are reads aligning) in the Mutant, but not in Wild Type control samples.
+</p></details>
+<br/>
 
-**TASK**: In IGV, look at position: 3L:15041314-15044195 (alternatively, look for the gene Rpn12R, or Fbgn0036465). What can you see? 
+**QUESTION**: In IGV, look at position: X:20689286-20698941 (alternatively, look for the gene run, or FBgn0003300). What can you see? 
+<details><summary>Click Here to see the answer</summary><p>
+You can see that the gene seems slightly more expressed in the Mutant, but more noticeable you see a splicing defect in the mutant that you don't see in Wild Type control samples.
+</p></details>
+<br/>
 
-**TASK**: In IGV, look at position: X:20689286-20698941 (alternatively, look for the gene run, or FBgn0003300). What can you see? 
+**QUESTION**: In IGV, look at position: X:5898729-5908384 (alternatively, look for the gene Act5c, or FBgn0000042). What can you see? 
+<details><summary>Click Here to see the answer</summary><p>
+That gene is highly expressed in all samples (much greater coverage than the other genes). Looking at the coverage along the gene, it seems that samples seem to cluster by replicates instead of their genotype, since in one group of replicates the reads seem to accumulate next to the polyA.
+</p></details>
+<br/>
 
-**TASK**: In IGV, look at position: X:5898729-5908384 (alternatively, look for the gene Act5c, or FBgn0000042). What can you see (notice, in particular, the gene converage)? 
+**QUESTION**: For the gene Act5c, expression profile seems to suggests samples are clustered by replicate insted of genotype. What may this be suggesting? 
+<details><summary>Click Here to see the answer</summary><p>
+The accumulation of reads at the ends for one group of replicates suggests a batch effect caused by RNA degradation affecting more one group of replicates than the other, irrespective of the genotype associated to the samples.
+</p></details>
+<br/>
 
-**Question**: Would you be able to detect all of what you saw here using microarrays? If not, what and why?
+**QUESTION**:  Would you be able to detect all of what you saw here using microarrays? If not, what and why? 
+<details><summary>Click Here to see the answer</summary><p>
+You wouldn't be able to see unforeseen splicing defects or alternative transcript usage. You would also not be able to see mutations, which you can with sequencing data. 
+</p></details>
+<br/>
 
 
-## <a id="LO6.3">LO 6.3 - Use tools such as RSeQC and Qualimap to assess quality of alignments</a>
+## <a id="LO6.3">LO 6.3 - Use Qualimap to assess quality of alignments</a>
 
 After generating alignments and obtaining a SAM/BAM file, how do I know if this step went well? In fact, there are potential issues that we can only detect after we try to align against the reference genome.
 
@@ -519,6 +547,19 @@ The same way FastQC generates reports of fastq files to assess quality of raw da
 **TASK**: Run the command in the guilgur folder: 'geneBody_coverage.py -r Drosophila_melanogaster.BGP6.85.sample.bed -i mut_lib1_R1.bam -o mut_lib1_R1.genebody'. Then, run also 'read_distribution.py  -i mut_lib1_R1.bam -r Drosophila_melanogaster.BGP6.85.sample.bed'.
 
 **TASK**: Run a Qualimap RNA-Seq report with one of the Trapnell BAM files (use the full Drosophila annotation). Try with your own samples, if you have them. (optional) Run the RSeQC gene body coverage and other reports. Some RSeqQC reports may take time with real datasets, so take care to run only one at a time during the day.
+
+
+**NOTE**: Assess how well you achieved the learning outcome. For this, see how well you responded to the different questions during the activities and also make the following questions to yourself.
+
+  * Do you understand the concept of genome annotation, that they are versioned, and where to obtain them?
+  
+  * TODO
+
+<br/>
+<br/>
+
+
+
 
 # <a id="LO7">Learning Outcome 7: Generate tables of counts using the alignment and a reference gene annotation</a>
 
