@@ -556,27 +556,28 @@ A Qualimap report includes, among other things:
 
 **QUESTION**:  Can you see differences in the Qualimap reports of the different samples? 
 <details><summary>Click Here to see the answer</summary><p>
-The Genomic origin indicates reads as being mostly exonic, although in the case of the mutant samples there is a slightly larger proportion of intronic reads. Although we know that mutant samples have splicing issues, this is not very noticeable here because the plot is dominated by highly expressed ubiquitous genes that are also of maternal origin (and thus do not have splicing issues). The greatest difference is in the plot for the coverage along the gene, but surprisingly (or not, given what we saw in IGV), the difference is between the replicates and not between genotypes. As we saw before, the libraries for the second replicate seem to have greater degradation, and thus reads get concentrated towards the polyA tail ("end" of the gene).
+The Genomic origin indicates reads as being mostly exonic, although in the case of the mutant samples there is a slightly larger proportion of intronic reads. Although we know that mutant samples have splicing issues, this is not very noticeable here because the plot is dominated by highly expressed ubiquitous genes that are also of maternal origin (and thus do not have splicing issues). The greatest difference is in the plot for the coverage along the gene, but surprisingly (or not, given what we saw in IGV), the difference is between the replicates and not between genotypes. As we saw before, the libraries for the second replicate seem to have greater degradation, and thus reads get concentrated towards the polyA tail ("end" of the gene). Also note that this plot is highly dominated by the highly expressed gene Act5C.
 </p></details>
 <br/>
 
-
 **TASK**: Run the command in the guilgur folder: 'qualimap rnaseq -bam mut_lib1_R1.bam -gtf Drosophila_melanogaster.BGP6.85.sample.gtf'. You should see a new folder created, containing the qualimap report in html format.
+<br/>
 
-
-**TASK**: Run a Qualimap RNA-Seq report with one of the Trapnell BAM files (use the full Drosophila annotation). 
-
+**TASK**: Run a Qualimap RNA-Seq report with one of the Trapnell BAM files (use the full Drosophila annotation). In this case you should see an ideal RNA-Seq profile, with almost all reads alignining, close to 100% exonic reads, and homogeneous coverage along the gene.
+<br/>
 
 **NOTE**: Assess how well you achieved the learning outcome. For this, see how well you responded to the different questions during the activities and also make the following questions to yourself.
 
   * Do you understand the concept of genome annotation, that they are versioned, and where to obtain them?
   
-  * TODO
+  * Can you mention measures to evaluate the quality of your RNA-Seq alignments?
 
+  * Could you run Qualimap to assess the quality of your RNA-Seq alignments?
+
+  * Could you understand the output of Qualimap? Could you use it to identify potential issues in your experiment?
+  
 <br/>
 <br/>
-
-
 
 
 # <a id="LO7">Learning Outcome 7: Generate tables of counts using the alignment and a reference gene annotation</a>
