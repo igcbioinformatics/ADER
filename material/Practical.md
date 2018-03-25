@@ -480,25 +480,31 @@ To visualize the alignments along the reference genome one can use software such
 
 ![IGV Visualization](images/IGV_visualization.jpg) 
 <br/>
+
 **TASK**: Download the BAM files you generated for the guilgur dataset in Galaxy ![download](images/download.jpg). You also need to download the companion bai index files that accompany each of the BAM files. These bai index files are essential to quickly access alignments inside the BAM file. Run IGV and load the Drosophila genome fasta file as reference (in Genomes, load genome as file). Next load (in File, load file) the provided annotation file (Drosophila_melanogaster.BDGP6.85.sample.gtf) inside the guilgur folder which contains information just for a subset of genes. Finally, load the BAM alignment files. 
 <br/>
+
 **Hint**: To run IGV, you can open a terminal, and type 'igv'. It will then take a little bit to start.
 <br/>
+
 **QUESTION**: In IGV, look at position: 3L:15041314-15044195 (alternatively, look for the gene Rpn12R, or Fbgn0036465). What can you see? 
 <details><summary>Click Here to see the answer</summary><p>
 You can see that the gene is expressed (there are reads aligning) in the Mutant, but not in Wild Type control samples.
+![Rpnr12r](images/rpnr12r.jpg) 
 </p></details>
 <br/>
 
 **QUESTION**: In IGV, look at position: X:20689286-20698941 (alternatively, look for the gene run, or FBgn0003300). What can you see? 
 <details><summary>Click Here to see the answer</summary><p>
 You can see that the gene seems slightly more expressed in the Mutant, but more noticeable you see a splicing defect in the mutant that you don't see in Wild Type control samples.
+![Run](images/run.jpg) 
 </p></details>
 <br/>
 
 **QUESTION**: In IGV, look at position: X:5898729-5908384 (alternatively, look for the gene Act5c, or FBgn0000042). What can you see? 
 <details><summary>Click Here to see the answer</summary><p>
 That gene is highly expressed in all samples (much greater coverage than the other genes). Looking at the coverage along the gene, it seems that samples seem to cluster by replicates instead of their genotype, since in one group of replicates the reads seem to accumulate next to the polyA.
+![Act5c](images/act5c.jpg) 
 </p></details>
 <br/>
 
