@@ -490,21 +490,27 @@ To visualize the alignments along the reference genome one can use software such
 **QUESTION**: In IGV, look at position: 3L:15041314-15044195 (alternatively, look for the gene Rpn12R, or Fbgn0036465). What can you see? 
 <details><summary>Click Here to see the answer</summary><p>
 You can see that the gene is expressed (there are reads aligning) in the Mutant, but not in Wild Type control samples.
+
 ![Rpnr12r](images/rpnr12r.jpg) 
+
 </p></details>
 <br/>
 
 **QUESTION**: In IGV, look at position: X:20689286-20698941 (alternatively, look for the gene run, or FBgn0003300). What can you see? 
 <details><summary>Click Here to see the answer</summary><p>
 You can see that the gene seems slightly more expressed in the Mutant, but more noticeable you see a splicing defect in the mutant that you don't see in Wild Type control samples.
+
 ![Run](images/run.jpg) 
+
 </p></details>
 <br/>
 
 **QUESTION**: In IGV, look at position: X:5898729-5908384 (alternatively, look for the gene Act5c, or FBgn0000042). What can you see? 
 <details><summary>Click Here to see the answer</summary><p>
 That gene is highly expressed in all samples (much greater coverage than the other genes). Looking at the coverage along the gene, it seems that samples seem to cluster by replicates instead of their genotype, since in one group of replicates the reads seem to accumulate next to the polyA.
+
 ![Act5c](images/act5c.jpg) 
+
 </p></details>
 <br/>
 
