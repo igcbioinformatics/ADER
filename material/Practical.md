@@ -716,22 +716,71 @@ There are many freely available tools to perform normalization, estimate varianc
 
 DESeq applies the normalization with the median of the ratio of gene expression like we saw before. EdgeR applies a similar, although more sophisticated, approach (trimmed mean of M-values, or TMM in short). TMM assumes that the log fold change between any sample and a reference sample (M-value) is roughly 0 for most genes. The genes with extreme M values and extreme absolute expressions values (A) are removed (trimmed) from the calculation of the normalization factor, and a bigger weight is given to genes with less variance.
  
-To estimate variances, a strategy that is used by edgeR and DESeq2 is to bin genes with similar expression and fit a curve. The parameter used to define the curve is then used to reestimate the "true" diference of gene expression between groups of samples. 
+To estimate variances, a strategy that is used by edgeR and DESeq2 is to bin genes with similar expression and fit a curve, assuming that genes with similar expression have a similar variance. The parameter used to define the curve is then used as a baseline to reestimate the "true" difference of gene expression between groups of samples. Finally, the assumption that most genes are not differentially expressed is also used to rescale the variance, namely by making it constant at all bin levels.
 
 ![DESeq2 Dispersion](images/deseq2_dispersion.jpg) ![edgeR Dispersion](images/edgeR_dispersion.jpg)
 
 ![LFC reestimation](images/reestimated_lfc.jpg)
 
-We then test each gene for differential expression, and we obtain a probability for the test. Since we test thousands of genes, some genes may get good p-values just by chance. One way of avoiding this is by multiplying the p-value by the number of tests (a method called Bonferroni correction). This is nonetheless too strict and we usually end up not having anything differentially expressed. Other methods are less stringent while maintaining a rigorous control on the false positives. The Benjamini-Hochberg method applies a correction proportional to the ranking of the pvalue (higher p-values are less penalized). After a DESeq2 or edgeR analysis, instead of looking at the p-value, we should rather look at the corrected p-value (FDR, or qvalue) for significance. Another way of minimizing the number of tests is to filter out the genes that have very low expression in all samples. 
+We then test each gene for differential expression, and we obtain a probability for the test. Since we test thousands of genes, some genes may get good p-values just by chance. Therefore, we need to do multiple test correction. One way is to multiply each p-value by the number of tests (a method called Bonferroni correction). This is nonetheless too strict and we usually end up not having anything differentially expressed. Other methods are less stringent while maintaining a rigorous control on the false positives. The most commonly used method is the Benjamini-Hochberg, which applies a correction proportional to the ranking of the pvalue (multiplies by number of tests and divide by rank), guaranteeing a user-specified error rate. Another way of minimizing the number of tests is to filter out the genes that have very low expression in all samples.  
 
-**TASK**: In Galaxy, use DESeq2 with the htseq-count results you obtained previously for the guilgur data. Name the factor as "Genotype", with the fist factor value the "WT" and the second "Mutant". For each factor value select the htseq-count results of the two replicates. Leave the other parameters at default and run. Look at the differentially expressed genes. In the next section we'll see how to interpret these results.
+
+## <a id="LO8.2">LO 8.2 - Visualization and interpretation of results</a>
+
+**TASK**: In Galaxy, use DESeq2 with the featureCount tables you obtained previously for the guilgur data. Name the factor as "Genotype", with the fist factor value the "WT" and the second "Mutant". For each factor value select the appropriate results of the two replicates. Leave the other parameters at default and run. 
+
+**QUESTION:** What information is in the DESeq2 result table?
+<details><summary>Click Here to see the answer</summary>
+
+	* GeneID (The identifier of the gene - in this case the Flybase identifier)
+	
+	* Base Mean (The mean normalized counts of all the samples - a measure of how much is a gene expressed)
+	
+	* log2(FC) - log2 of the Fold Change (when positive, more expressed in one group than the other, and the reverse when negative)
+	
+	* StdErr - a measure of the confidence in the true value of the estimated log2(FC)
+	
+	* Wald-Stats - A value measuring how far is the observed log2(FC) from the 0 taking the StdErr into account.
+	
+	* P-value - A value measure how likely it is to obtain the observed log2(FC) by chance.
+	
+	* P-adj - The P-value corrected for multiple testing (the value that should be used in the end)
+	
+</details>
+<br/>
+
+**QUESTION:** How many genes were detected to be differentially expressed (P-adj < 0.05)?
+<details><summary>Click Here to see the answer</summary>
+Only the gene FBgn0036465 (Rpn12R). The gene FBgn0003300 (run), despite having a bit more expression in the mutant, is not considered to be significantly differentially expressed.
+</details>
+<br/>
+
+**QUESTION:** What information is in the DESeq2 plots?
+<details><summary>Click Here to see the answer</summary>
+
+	* PcA plot: Displays the samples through a projection that most explain the variation between samples.
+	
+	* Sample-to-Sample Distances: Like the previous plot, it displays how similar are the samples between each other.
+	
+	* Dispersion estimates - A plot displaying the approximations DESeq2 does to estimate the true log2(FC)
+	
+	* Histogram of P-values - As the name implies, it depicts the distribution of P-values for all genes.
+	
+	* MA-plot - plots the M (fold change) against the A (total expression) for all genes
+	
+	In this case, since there were only 8 genes, the plots displaying gene information were basically empty.
+	
+</details>
+<br/>
+<br/>
+
+
+**TASK**: In Galaxy, use DESeq2 with the count results you obtained previously for the Trapnell data. Name the factor as "Condition", with the fist factor value the "C1" and the second "C2". For each factor value select the appropriate count tables. Leave the other parameters at default and run. Look at the differentially expressed genes. In the next section we'll see how to interpret these results.
+
 
 **TASK**: In Galaxy, use DESeq2 with the salmon results you obtained previously for the guilgur data. Do the same as with the htseq-count results, but now choose as "Choice of Input Data" the option TPM values. You'll need to map transcripts to genes, and for this choose the "Gene Mapping Format" Transcript-ID and Gene-ID mapping, and select the file 'Drosophila_melanogaster.BDGP6.88.sample.cdna.tr_to_gene.tab'. Compare the results with what you obtained previously.
 
 
-
-
-## <a id="LO8.2">LO 8.2 - Visualization and interpretation of results</a>
 
 Even before interpreting the results of the differential expression analysis, we should have an idea of how the samples compare to each other. For this, we can look at plots such as Principal Coordinate Analysis (PCoA) or Multi-Dimensional Scaling (MDS). The way each software implements these plots vary a bit, but in short, they provide some evidence for the relatedness of the samples. In a nutshell, samples are compared against each other, and two components explaining most of the variation between samples are calculated (each component being a linear combination of samples). Ideally, we should have the expected biological variation separated along the first component. Another important aspect to consider is how much of the variance is explained by each of the components. Again, ideally, the first component should explain as much as possible the observed variation.
 
