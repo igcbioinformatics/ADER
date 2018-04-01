@@ -688,13 +688,42 @@ As mentioned previously, Salmon directly matches the raw reads against a fasta w
 
 ## <a id="LO8.1">LO 8.1 - Using the R packages edgeR and DESeq2 to produce a pairwise differential expression analysis</a>
 
-The analysis methods currently most commonly used to perform RNA-Seq differential gene expression analysis start from non-normalized "raw" read counts like what we obtained previously. Given that sequencing data is based on discrete counts (notice that Salmon results are not exactly like this), most of these popular methods are based on derivations of the binomial distribution (the most popular methods use the negative binomial). Similarly to microarrays, there are many freely available tools to perform these analysis using the R language (such as [edger](https://bioconductor.org/packages/release/bioc/html/edgeR.html) and [DESeq2](https://bioconductor.org/packages/release/bioc/html/DESeq2.html)).
+We now have a table of "raw" reads counts per gene for each sample. Since there will be different number of reads for each sample, we first need to normalize the counts. For this, we can just divide each gene count by the total number of reads for that sample (transforming it into a relative number). Since numbers are usually on the order of millions, this would make for very small numbers, so the most common measure is to divide by the total number of millions of reads (eg. divide by 5, instead of 5 million). This way, we transform "raw" counts into a relative number of "counts per million reads", or CPM.
 
-The first thing that is done by edgeR or DESeq2 is to normalize the table of counts. Given that you can have different numbers of reads for each sample, you need to account for these differences. Nonetheless, this is not enough. You also need to be aware that sequencing is a sampling experiment. If in one sample there is a gene or set of genes very highly expressed, then the amount of reads available for the rest of the genes is lower than for other samples where the highly expressed gene is not so highly expressed. So, many genes that may not be differentially expressed will appear so just because of this sampling artifact. 
+**QUESTION**:  What are the CPM for gene Rpn12R (Fbgn0036465) in all the guilgur samples starting from the featureCounts table? 
+<details><summary>Click Here to see the answer</summary><p>
 
-If we assume that most genes are not differentially expressed, then the ratio of counts between samples should be the same for most genes. Under this assumption, we can obtain the mean counts for all genes, calculate the ratio against this reference mean for each gene in each sample, and then take the median of all ratios within one sample (to avoid the outliers). This median is then the sample specific normalization factor. This is the process that DESeq applies, and it is also known as Relative Log Expression (RLE). EdgeR applies a similar, although more sophisticated, approach (trimmed mean of M-values, or TMM in short). TMM assumes that the log fold change between any sample and a reference sample (M-value) is roughly 0 for most genes. The genes with extreme M values and extreme absolute expressions values (A) are removed from the calculation of the normalization factor, and a bigger weight is given to genes with less variance.
+  * WT Lib1: 0
+  
+  * WT Lib2: 5.42
 
-To calculate differentially expressed genes, we need to take into consideration how much (normalized) counts vary between the different samples. This variation is clearly gene dependent, since highly expressed genes vary more in terms of absolute value, and low expressed genes vary more in terms of % of gene expression (fold change). If one only looks at fold change without taking variation into account, we’re more likely to have low expressed genes as differentially expressed. Therefore, we need to accurately estimate variation per gene, but we usually do not have enough replicates to do this on a gene by gene basis. One alternative that is used by edgeR and DESeq2 is to bin genes with similar expression and fit a curve. The parameter used to define the curve is then used to reestimate the "true" logFC of each individual gene.
+  * mut Lib1: 1114.17
+  
+  * mut Lib2: 1003.84
+  
+</p></details>
+<br/>
+
+It is also common to normalize counts according to gene length. One measure that is often used is RPKM (Reads per Kb per Million reads) in case of single-end data, or FPKM (Fragments per Kb per Million Reads) in case of paired-end data. This is simply obtained by dividing the CPM by the number of Kbs of a gene. For example, gene Rpn12R has 0.94kb (it is a single exon gene), so the RPKM in mut Lib 1 is 1185.29 (1114.17/0.94). Having a normalized RPKM value may lead us to think that we can now safely compare gene expression not only between samples, but also between genes of the same sample. We should always avoid comparing expression values of different genes, because read counts depend on gene length non-linearly, and also on factors such as GC content of the gene.
+
+Nonetheless, even to compare the same gene between samples, this first normalization is usually not enough. You need to be constantly aware that sequencing is a sampling experiment. If in one sample there is a gene or set of genes very highly expressed, then the amount of reads available for the rest of the genes is lower than for other samples where the highly expressed gene is not so highly expressed. So, many genes that may not be differentially expressed will appear so just because of this sampling artifact. 
+
+If we assume that most genes are not differentially expressed, then the ratio of counts between samples should be the same for most genes. This assumption is the basis for many types of normalization steps. One simple process consists of obtaining a reference sample where each gene counts is the mean of that gene counts in all samples. Then, for each sample, calculate the ratio of each gene count against the gene count in the reference. For most genes, this ratio should be 1 (under our initial assumption). Therefore, the median (to avoid the issue of outliers) can be used as a sample specific normalization factor.
+
+Moreover, after normalization, to calculate differentially expressed genes, we need to take into consideration how much (normalized) counts vary between the different samples. This variation is clearly gene dependent, since highly expressed genes vary more in terms of absolute value, and low expressed genes vary more in terms of % of gene expression (fold change). If one only looks at fold change without taking variation into account, we’re more likely to have low expressed genes as differentially expressed. Therefore, we need to accurately estimate variation per gene. 
+
+There are many freely available tools to perform normalization, estimate variance and perform statistical tests for differential expression. The most commonly used, and that have been demonstrated to work well under most conditions, are the R packages [DESeq2](https://bioconductor.org/packages/release/bioc/html/DESeq2.html)) and [edger](https://bioconductor.org/packages/release/bioc/html/edgeR.html).
+
+
+One alternative that is used by edgeR and DESeq2 is to bin genes with similar expression and fit a curve. The parameter used to define the curve is then used to reestimate the "true" logFC of each individual gene.
+
+This is the process that DESeq applies, and it is also known as Relative Log Expression (RLE). EdgeR applies a similar, although more sophisticated, approach (trimmed mean of M-values, or TMM in short). TMM assumes that the log fold change between any sample and a reference sample (M-value) is roughly 0 for most genes. The genes with extreme M values and extreme absolute expressions values (A) are removed from the calculation of the normalization factor, and a bigger weight is given to genes with less variance.
+ 
+
+The analysis methods currently most commonly used to perform RNA-Seq differential gene expression analysis start from non-normalized "raw" read counts like what we obtained previously. Given that sequencing data is based on discrete counts (notice that Salmon results are not exactly like this), most of these popular methods are based on derivations of the binomial distribution (the most popular methods use the negative binomial). 
+
+
+
 
 ![DESeq2 Dispersion](images/deseq2_dispersion.jpg) ![edgeR Dispersion](images/edgeR_dispersion.jpg)
 
