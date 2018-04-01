@@ -727,9 +727,9 @@ We then test each gene for differential expression, and we obtain a probability 
 
 ## <a id="LO8.2">LO 8.2 - Visualization and interpretation of results</a>
 
-**TASK**: In Galaxy, use DESeq2 with the featureCount tables you obtained previously for the guilgur data. Name the factor as "Genotype", with the fist factor value the "WT" and the second "Mutant". For each factor value select the appropriate results of the two replicates. Leave the other parameters at default and run. 
+**TASK**: In Galaxy, use DESeq2 with the featureCount tables you obtained previously for the guilgur data. Name the factor as "Genotype", with the fist factor value the "WT" and the second "Mutant". For each factor value select the appropriate results of the two replicates. Select the option to output normalized values, and leave the other parameters at default and run. 
 
-**QUESTION:** What information is in the DESeq2 result table?
+**QUESTION:** What information is in the DESeq2 result file?
 <details><summary>Click Here to see the answer</summary>
 
 	* GeneID (The identifier of the gene - in this case the Flybase identifier)
@@ -768,39 +768,51 @@ Only the gene FBgn0036465 (Rpn12R). The gene FBgn0003300 (run), despite having a
 	
 	* MA-plot - plots the M (fold change) against the A (total expression) for all genes
 	
-	In this case, since there were only 8 genes, the plots displaying gene information were basically empty.
+	In this case, since there were only 8 genes, the plots displaying gene by gene information were basically empty.
 	
 </details>
 <br/>
 <br/>
 
 
-**TASK**: In Galaxy, use DESeq2 with the count results you obtained previously for the Trapnell data. Name the factor as "Condition", with the fist factor value the "C1" and the second "C2". For each factor value select the appropriate count tables. Leave the other parameters at default and run. Look at the differentially expressed genes. In the next section we'll see how to interpret these results.
+Even before interpreting the results of the differential expression analysis, we should have an idea of how the samples compare to each other. For this, we can look at plots such as Principal Coordinate Analysis (PCoA) or Multi-Dimensional Scaling (MDS). The way each software implements these plots vary a bit, but in short, they provide some evidence for the relatedness of the samples. In a nutshell, samples are compared against each other, generating a matrix of distances. The, the two components explaining most of the variation between samples are calculated (each component being a linear combination of samples). Ideally, we should have the expected biological variation separated along the first component. Another important aspect to consider is how much of the variance is explained by each of the components. Again, ideally, the first component should explain as much as possible the observed variation.
 
-
-**TASK**: In Galaxy, use DESeq2 with the salmon results you obtained previously for the guilgur data. Do the same as with the htseq-count results, but now choose as "Choice of Input Data" the option TPM values. You'll need to map transcripts to genes, and for this choose the "Gene Mapping Format" Transcript-ID and Gene-ID mapping, and select the file 'Drosophila_melanogaster.BDGP6.88.sample.cdna.tr_to_gene.tab'. Compare the results with what you obtained previously.
-
-
-
-Even before interpreting the results of the differential expression analysis, we should have an idea of how the samples compare to each other. For this, we can look at plots such as Principal Coordinate Analysis (PCoA) or Multi-Dimensional Scaling (MDS). The way each software implements these plots vary a bit, but in short, they provide some evidence for the relatedness of the samples. In a nutshell, samples are compared against each other, and two components explaining most of the variation between samples are calculated (each component being a linear combination of samples). Ideally, we should have the expected biological variation separated along the first component. Another important aspect to consider is how much of the variance is explained by each of the components. Again, ideally, the first component should explain as much as possible the observed variation.
-
+TODO - Actualizar com PcoA do Guilgur mas com versão nova DESEq2 Galaxy já com nomes amostras...
 ![PLOT PCoA](images/pcoa.jpg)
 
-Another common plot shows the hierarchical clustering of samples by explicitly displaying a heatmap with the full matrix of distances between the samples. 
+**QUESTION:** How is the biological variation separated in the PCoA plot you obtained for the guilgur dataset?
+<details><summary>Click Here to see the answer</summary>
+The Genotype is separated clearly by the first axis in the PCoA, which explains XX% variation. Nonetheless, there is also 
+</details>
+<br/>
 
+Another common plot shows the hierarchical clustering of samples by explicitly displaying a heatmap with the full matrix of distances between the samples, where samples are grouped according to the distance they have to each other.
+
+TODO - Actualizar com PcoA do Guilgur mas com versão nova DESEq2 Galaxy já com nomes amostras...
 ![PLOT HEATMAP](images/heatmap.jpg)
+
+**QUESTION:** How is the biological variation separated in the heatmap plot you obtained for the guilgur dataset?
+<details><summary>Click Here to see the answer</summary>
+The samples sharing the genotype are clearly closer together. 
+</details>
+<br/>
+
+
+**TASK**: In Galaxy, use DESeq2 to perform a pairwise comparison with the count results you obtained for the Trapnell dataset. Name the factor "Condition" and two factor variables "C1" and "C2", with 3 replicates each.
 
 DESeq2 and edgeR also show the estimates of the biological coefficient of variation (BCV), which depicts the sample variation of genes according to their expression, and illustrates the variation correction the software performed, as we discussed in the previous section. 
 
 Finally, another type of common plot is the MA plots, which displays the log fold change between groups (M) versus the average normalized expression of genes (A). The "vulcano" plot is also commonly used, depicting logFC versus adjusted p-value. On top of these graphs it is common to signal the genes that were detected as differentially expressed under certain criteria.  
 
+TODO: Now show plots from Trapnell dataset
 ![PLOT Volcano](images/volcano.jpg)
 
-**TASK**: In Galaxy, use DESeq2 to perform a pairwise comparison with the count results you obtained for the Trapnell dataset. Name the factor "Condition" and two factor variables "C1" and "C2", with 3 replicates each. Look at the different plots you obtain. (optional) Use DESeq2 on counts for your data, if you have.
 
-**Hint**: If you have not generated the counts for the Trapnell dataset, you can find them in the folder difftests.
 
-Finally, the result that we're usually most interested in is the table with the differential expression analysis. In the table resulting from a DESeq2 analysis comparing two groups, we have, for each gene, the mean normalized expression value among all samples, the reestimated log2 fold change, the estimated standard error, the wald statistic which indicates how far is the log fold change from the expected (0), the p-value indicating the probability that this fold change could be observed by chance, and the corrected (adjusted) p-value using Benjamini-Hochberg. One can now select genes of interest based on the adjusted p-value, and eventually on other factors such as the log2FC (we may want to prioritize genes with larger effect, although we should take the variation into consideration also).
+
+**TASK**: In Galaxy, use DESeq2 with the salmon results you obtained previously for the guilgur data. Do the same as with the htseq-count results, but now choose as "Choice of Input Data" the option TPM values. You'll need to map transcripts to genes, and for this choose the "Gene Mapping Format" Transcript-ID and Gene-ID mapping, and select the file 'Drosophila_melanogaster.BDGP6.88.sample.cdna.tr_to_gene.tab'. Compare the results with what you obtained previously.
+
+
 
 Unfortunately, Galaxy does not produce gene-centered plots, and for those we may need to go to other software such as R. Nonetheless, the Galaxy tools output tables with normalized values that can be used for plotting in any type of software.
 
