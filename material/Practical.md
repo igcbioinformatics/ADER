@@ -710,20 +710,13 @@ Nonetheless, even to compare the same gene between samples, this first normaliza
 
 If we assume that most genes are not differentially expressed, then the ratio of counts between samples should be the same for most genes. This assumption is the basis for many types of normalization steps. One simple process consists of obtaining a reference sample where each gene counts is the mean of that gene counts in all samples. Then, for each sample, calculate the ratio of each gene count against the gene count in the reference. For most genes, this ratio should be 1 (under our initial assumption). Therefore, the median (to avoid the issue of outliers) can be used as a sample specific normalization factor.
 
-Moreover, after normalization, to calculate differentially expressed genes, we need to take into consideration how much (normalized) counts vary between the different samples. This variation is clearly gene dependent, since highly expressed genes vary more in terms of absolute value, and low expressed genes vary more in terms of % of gene expression (fold change). If one only looks at fold change without taking variation into account, we’re more likely to have low expressed genes as differentially expressed. Therefore, we need to accurately estimate variation per gene. 
+After normalization, the next step is to apply a statistical test for differential expression. For this we need to make a model, usually based on a statistical distribution. Given that sequencing data is based on discrete counts, most of these popular methods are based on derivations of the binomial distribution. For most experiments, the distribution that seems to fit best distribution of normalized gene expression is the negative binomial. After normalization, we need to estimate the parameters of the distribution, as well as variance in those parameters, namely how much the (normalized) counts vary between the different samples. This variation is clearly gene dependent, since highly expressed genes vary more in terms of absolute value, and low expressed genes vary more in terms of % of gene expression (fold change). If one only looks at fold change without taking variation into account, we’re more likely to have low expressed genes as differentially expressed. Therefore, we need to accurately estimate variation per gene. But usually we have a limited number of replicates, insufficient for the accurate estimation of parameters. We thus need to find a way to produce such estimates, and we need specialized tools to do it.
 
 There are many freely available tools to perform normalization, estimate variance and perform statistical tests for differential expression. The most commonly used, and that have been demonstrated to work well under most conditions, are the R packages [DESeq2](https://bioconductor.org/packages/release/bioc/html/DESeq2.html)) and [edger](https://bioconductor.org/packages/release/bioc/html/edgeR.html).
 
-
-One alternative that is used by edgeR and DESeq2 is to bin genes with similar expression and fit a curve. The parameter used to define the curve is then used to reestimate the "true" logFC of each individual gene.
-
-This is the process that DESeq applies, and it is also known as Relative Log Expression (RLE). EdgeR applies a similar, although more sophisticated, approach (trimmed mean of M-values, or TMM in short). TMM assumes that the log fold change between any sample and a reference sample (M-value) is roughly 0 for most genes. The genes with extreme M values and extreme absolute expressions values (A) are removed from the calculation of the normalization factor, and a bigger weight is given to genes with less variance.
+DESeq applies the normalization with the median of the ratio of gene expression like we saw before. EdgeR applies a similar, although more sophisticated, approach (trimmed mean of M-values, or TMM in short). TMM assumes that the log fold change between any sample and a reference sample (M-value) is roughly 0 for most genes. The genes with extreme M values and extreme absolute expressions values (A) are removed (trimmed) from the calculation of the normalization factor, and a bigger weight is given to genes with less variance.
  
-
-The analysis methods currently most commonly used to perform RNA-Seq differential gene expression analysis start from non-normalized "raw" read counts like what we obtained previously. Given that sequencing data is based on discrete counts (notice that Salmon results are not exactly like this), most of these popular methods are based on derivations of the binomial distribution (the most popular methods use the negative binomial). 
-
-
-
+To estimate variances, a strategy that is used by edgeR and DESeq2 is to bin genes with similar expression and fit a curve. The parameter used to define the curve is then used to reestimate the "true" diference of gene expression between groups of samples. 
 
 ![DESeq2 Dispersion](images/deseq2_dispersion.jpg) ![edgeR Dispersion](images/edgeR_dispersion.jpg)
 
@@ -734,6 +727,9 @@ We then test each gene for differential expression, and we obtain a probability 
 **TASK**: In Galaxy, use DESeq2 with the htseq-count results you obtained previously for the guilgur data. Name the factor as "Genotype", with the fist factor value the "WT" and the second "Mutant". For each factor value select the htseq-count results of the two replicates. Leave the other parameters at default and run. Look at the differentially expressed genes. In the next section we'll see how to interpret these results.
 
 **TASK**: In Galaxy, use DESeq2 with the salmon results you obtained previously for the guilgur data. Do the same as with the htseq-count results, but now choose as "Choice of Input Data" the option TPM values. You'll need to map transcripts to genes, and for this choose the "Gene Mapping Format" Transcript-ID and Gene-ID mapping, and select the file 'Drosophila_melanogaster.BDGP6.88.sample.cdna.tr_to_gene.tab'. Compare the results with what you obtained previously.
+
+
+
 
 ## <a id="LO8.2">LO 8.2 - Visualization and interpretation of results</a>
 
