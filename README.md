@@ -73,14 +73,11 @@ For this, we are providing small example datasets and exercises that participant
 
 ### LO 4 - Do simple processing operations in the raw data to improve its quality
 
-#### 	LO 4.1 - Use tools such as seqtk and trimmomatic to remove low quality bases from your reads
-		Use seqtk to remove a fixed number of bases from either ends of a fastq
-		Use seqtk to remove low quality bases from end of a fastq file
-		Use trimmomatic to filter/trim low quality bases using more complex approaches
+#### 	LO 4.1 - Use  trimmomatic to remove low quality bases from your reads
+		Use trimmomatic to filter/trim low quality bases from your reads
 
-#### 	LO 4.2 - Use tools such as cutadapt and trimmomatic to remove adaptors and other artefactual sequences from your reads
-		Remove Illumina adaptor from an example dataset using cutadapt
-		Remove PolyA from an example dataset using cutadapt
+#### 	LO 4.2 - Use trimmomatic to remove adaptors and other artefactual sequences from your reads
+		Remove adaptors (such as illumina adaptors) from your reads
 		Check results using FastQC on filtered data
 
 ### LO 5 - Generate alignments of processed reads against a reference genome
@@ -89,12 +86,12 @@ For this, we are providing small example datasets and exercises that participant
 		Are genomes constant?
 		Obtain genome fasta from Ensembl
 
-#### 	LO 5.2 - Alignment software: tophat2/hisat2; bwa; sailfish/salmon
+#### 	LO 5.2 - Alignment software: hisat2; salmon
 		What are the conditions of using burrows-wheeler approaches?	
-		Prepare a reference genome to use with hisat2 and bwa
+		Prepare a reference genome to use with hisat2
 
 #### 	LO 5.3 - Run an alignment: the SAM/BAM alignment format
-		Run hisat2 / bwa mem in an example dataset
+		Run hisat2 in an example dataset
 		What is the SAM format; what is the BAM format
 	
 ### LO 6 - Assess the general quality of the alignments and detect possible problems
@@ -105,7 +102,7 @@ For this, we are providing small example datasets and exercises that participant
 			
 #### 	LO 6.2 - Visualizing alignments in IGV for single genes
 
-#### 	LO 6.3 - Use tools such as RSeQC and Qualimap to assess quality of alignments
+#### 	LO 6.3 - Use Qualimap to assess quality of alignments
 		Interpret general alignment statistics such as percentage of aligned reads
 		Check the reports to assess RNA integrity and diversity
 
@@ -114,7 +111,7 @@ For this, we are providing small example datasets and exercises that participant
 #### 	LO 7.1 - The process of generating gene counts from genome aligments
 		What parameters we need to consider when counting
 
-#### 	LO 7.2 - Use tools such as htseq-counts and featurecounts to generate table of gene counts
+#### 	LO 7.2 - Use featurecounts to generate table of gene counts
 
 #### 	LO 7.3 - Using Salmon to generate counts only with the transcriptome
 
