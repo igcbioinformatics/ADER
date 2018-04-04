@@ -160,9 +160,9 @@ For this, we are providing small example datasets and exercises that participant
 + 09:30 - 10:00 Morning Wrap-up (what have we done so far?)
 + 10:00 - 11:00 [What is a reference gene annotation, versioning and where to obtain](material/Practical.md#LO6.1). [Visualizing alignments in IGV for single genes](material/Practical.md#LO6.2).
 + 11:00 - 11:30 ***Coffee Break***
-+ 11:30 - 12:30 [Use tools such as RSeQC and Qualimap to assess quality of alignments]((material/Practical.md#LO6.3)).
++ 11:30 - 12:30 [Use Qualimap to assess quality of alignments]((material/Practical.md#LO6.3)).
 + 12:30 - 14:00 ***LUNCH BREAK***
-+ 14:00 - 16:00 [The process of generating gene counts from genome aligments](material/Practical.md#LO7.1). [Use tools such as htseq-counts and featurecounts to generate tables of gene counts](material/Practical.md#LO7.2). [Use Salmon to generate counts using only the transcriptome](material/Practical.md#LO7.3).
++ 14:00 - 16:00 [The process of generating gene counts from genome aligments](material/Practical.md#LO7.1). [Use featurecounts to generate tables of gene counts](material/Practical.md#LO7.2). [Use Salmon to generate counts using only the transcriptome](material/Practical.md#LO7.3).
 + 16:00 - 16:30 ***Tea Break***
 + 16:30 - 18:00 [Using the R package edgeR and DESeq2 in Galaxy to produce a pairwise differential expression analysis](material/Practical.md#LO8.1)
 
