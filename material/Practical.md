@@ -127,7 +127,7 @@ The identifier is HWI-M01876:76:000000000-AF16W:1:1101:10853:1000. The sequence 
 </p></details>
 <br/>
 
-**QUESTION**: Uncompress the files s20150821.A-2_BGVR_P218_R1.sample.fastq.gz and 20150821.A-2_BGVR_P218_R2.sample.fastq.gz and open them in a text editor. What's the identifier and sequence of the first read of both fastq files? 
+**QUESTION**: Uncompress the files 20150821.A-2_BGVR_P218_R1.sample.fastq.gz and 20150821.A-2_BGVR_P218_R2.sample.fastq.gz and open them in a text editor. What's the identifier and sequence of the first read of both fastq files? 
 <details><summary>Click Here to see the answer</summary><p>
 The read identifier is the same for both files (HWI-D00418:83:C7G9GANXX:2:2108:16128:97655). This is because they are readings of the same fragment, one (_R1) in the forward and another (_R2) in the reverse direction. The sequences are different, as they are readings of different parts of the fragment, and of opposing strands.
 </p></details>
