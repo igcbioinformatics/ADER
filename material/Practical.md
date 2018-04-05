@@ -647,7 +647,7 @@ As mentioned previously, Salmon directly matches the raw reads against a fasta w
 **TASK**: Like for the other aligners, Salmon also needs to create an index. In the terminal, run the command 'salmon index --transcripts Drosophila_melanogaster.BGP6.88.sample.cdna.fa --index  Drosophila_melanogaster.BGP6.88.sample.cdna.salmon'. Next, run the alignment using the command 'salmon quant --index  Drosophila_melanogaster.BGP6.88.sample.cdna.salmon -l A -r mut_lib1_R1.fq.gz -o mut_lib1_R1.salmon.counts'.
 <br/>
 
-**QUESTION**:  What is the result you obtain? (open mut_lib1_R1.salmon.counts with a text editor or spreadsheet) 
+**QUESTION**:  What is the result you obtain? (there should be a folder called mut_lib1_R1.salmon.counts. Inside the folder, there should be a file "quant.sf". Open that file with a text editor or spreadsheet) 
 <details><summary>Click Here to see the answer</summary><p>
   You obtain a table of counts, but for each transcript. The counts are fractional numbers. You also have normalized counts (per million reads), and information on the "real" transcript length and an "effective" length that can be used for normalization, which takes into account several biases.
 </p></details>
