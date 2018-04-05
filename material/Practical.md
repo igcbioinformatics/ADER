@@ -575,10 +575,12 @@ The Genomic origin indicates reads as being mostly exonic, although in the case 
 </p></details>
 <br/>
 
-**TASK**: You can also run qualimap using the command line. Run the command: 'qualimap rnaseq -bam mut_lib1_R1.bam -gtf Drosophila_melanogaster.BGP6.85.sample.gtf' (you may need to adjust the file names and locations). You should see a new folder created, containing the qualimap report in html format.
-<br/>
 
 **TASK**: Run a Qualimap RNA-Seq report with one of the Trapnell BAM files (use the full Drosophila annotation). In this case you should see an ideal RNA-Seq profile, with almost all reads alignining, close to 100% exonic reads, and homogeneous coverage along the gene.
+<br/>
+
+
+**TASK**: You can also run qualimap using the command line, using a command like: 'qualimap rnaseq -bam mut_lib1_R1.bam -gtf Drosophila_melanogaster.BGP6.85.sample.gtf' (you may need to adjust the file names and locations). You should see a new folder created, containing the qualimap report in html format.
 <br/>
 
 **NOTE**: Assess how well you achieved the learning outcome. For this, see how well you responded to the different questions during the activities and also make the following questions to yourself.
