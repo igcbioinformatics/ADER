@@ -535,7 +535,7 @@ One important general measure is how many (out of all reads) were properly align
 
 **QUESTION**:  Some aligners, such as Hisat, report the alignment rate. What were the alignment rates for the fastq files from the guilgur dataset? 
 <details><summary>Click Here to see the answer</summary><p>
-The alignment rates were all very high (>99%).  This is because reads were selected based on previously successfull alignments. In the case of the example files 20150821.A-2_BGVR_P218_R1/R2.sample.fastq.gz (where reads were chosen randomly), alignment rates are around 80%, slightly higher after trimming and using paired information (which improves alignment).
+The alignment rates were all very high (>=90%). This is because this is a selected set of reads. In the case of the example files 20150821.A-2_BGVR_P218_R1/R2.sample.fastq.gz (where reads were chosen randomly), alignment rates are around 80%, slightly higher after trimming and using paired information (which improves alignment).
 </p></details>
 <br/>
 
