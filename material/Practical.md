@@ -830,7 +830,7 @@ You can see the re-estimated log fold changes (M, in the y axis) along the range
 **TASK**: In Galaxy, use DESeq2 with the salmon results you obtained previously for the guilgur data. Do the same as with the htseq-count results, but now choose as "Choice of Input Data" the option TPM values. You'll need to map transcripts to genes, and for this choose the "Gene Mapping Format" Transcript-ID and Gene-ID mapping, and select the file 'Drosophila_melanogaster.BDGP6.88.sample.cdna.tr_to_gene.tab'. Compare the results with what you obtained previously.
 
 
-## <a id="LO8.3">LO 8.3 - More complex settings for differential expression: batch effects, blocks</a>
+## <a id="LO8.3">LO 8.3 - More complex settings for differential expression: paired data, batch effects</a>
 
 So far, we just considered the simple case of pairwise comparison, where all samples are independent. But we may have cases where the samples are not independent. For example, in case of cancer, it is common (and desirable) to have tumor tissue and normal tissue for the same individual. In this case, we have paired information that needs to be taken into account in the test. There can also be other variables (eg. samples were prepared in different batches) that may confound the differential expression analysis. 
 
@@ -852,14 +852,38 @@ There are 1482 genes with adjusted p-value less than 0.05.
 </details>
 <br/>
 
-**TASK**: Now let's add the pairing information. Repeat the previous job, but now add a second factor Patient (which DESeq2 will use as 'block'). For this factor, create three factor values, one for each patient (8,33,51) and run.
+**TASK**: Now let's add the pairing information. Repeat the previous job, but now add a second factor Patient (which DESeq2 will use as 'block'). For this factor, create three factor values, one for each patient (8,33,51) and run. 
 
 **QUESTION:** How many genes were detected to be differentially expressed (P-adj < 0.05)? 
 <details><summary>Click Here to see the answer</summary>
 Now, there are 1,943 genes with adjusted p-value less than 0.05. Because it controlled for the variation related to each patient.
 </details>
 <br/>
+<br/>
 
+**TASK**: In a second example, we have a classic batch effect. Here we have an experiment in Arabidopsis, where plants where subjected to a treatment with a chemical (hrcc) or mock. In Galaxy, upload the count files for 'cumbie_*.tab'. Define the main Factor we're interested in (Treatment), dividing it in two Factor Levels (hrcc, and mock). Then associate samples corresponding to each case.  
+
+**QUESTION:** Can you see the batch effect? Hint: look at the PCA plot and sample to sample distances.
+<details><summary>Click Here to see the answer</summary>
+The main source of variation is related to tumour versus normal (as expected). There is nonetheless a second axis of variation related to the patient.
+
+![PLOT Cumbie PCA](images/Cumbie_PCA.jpg)
+
+![PLOT Cumbie Sample Distance](images/Cumbie_sample_distances.jpg)
+
+</details>
+<br/>
+
+What can you do in this case? You can either control for the batch effect giving the batch as an extra factor, or you can remove that batch altogether. What is the best way? Unfortunately there is no clear answer. Having more replicates is usually better, but given that the batch seems to be responsible for the larger fraction of the variation, it might be better to remove it. In any case, if you keep the second batch (without controling for it), your results are valid, although you'll be losing genes because of the variation.
+
+**TASK**: Try both alternatives: Try the same as before, but removing the second batch. Next, use the second batch but include another factor (batch), with three values, one for each batch, and correspond the samples to each.  
+
+**QUESTION:** How many genes were detected to be differentially expressed (P-adj < 0.05) in each case? 
+<details><summary>Click Here to see the answer</summary>
+In the original case with all samples, there are 752 genes with adjusted p-value less than 0.05. There were only 251 when only two samples were used. When controling for the batch, we could obtain 1220 genes. So in this case, it seems to be better to control for the batch.
+</details>
+<br/>
+<br/>
 
 ## <a id="LO8.4">LO 8.4 - Using R and rstudio to have full control of your analysis  TODO dneves!</a>
 
