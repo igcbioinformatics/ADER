@@ -801,7 +801,7 @@ The samples sharing the genotype are clearly closer together.
 
 **QUESTION:** How many genes were detected to be differentially expressed (P-adj < 0.05)? Hint: you can use the filter tool in Galaxy. TODO Check numbers.
 <details><summary>Click Here to see the answer</summary>
-There are now 259 (? confirm).
+There are 267 genes with adjusted p-value less than 0.05.
 </details>
 <br/>
 
@@ -811,18 +811,18 @@ DESeq2 and edgeR also show the estimates of the biological coefficient of variat
 <details><summary>Click Here to see the answer</summary>
 You can see a curve (in red) approximating the dispersion (y axis) along expression (x axis). As you can see, dispersion is not uniform with expression, being noticeably greater with low expression (NOTE: verify this with the Trapnell dataset). Assuming dispersion should be constant for most genes, independently of expression, then you can see dispersion being re-fitted to the curve (blue dots).
 
-![PLOT Dispersion](images/volcano.jpg)
+![PLOT Dispersion](images/Trapnell_dispersion.jpg)
 
 </details>
 <br/>
 
 Finally, another type of common plot is the MA plots, which displays the log fold change between groups (M) versus the average normalized expression of genes (A). The "vulcano" plot is also commonly used, depicting logFC versus adjusted p-value. On top of these graphs it is common to signal the genes that were detected as differentially expressed under certain criteria.  
 
-**QUESTION:** What can you see in the volcano plot for the Trapnell dataset?  TODO again.
+**QUESTION:** What can you see in the MA plot for the Trapnell dataset?  TODO again.
 <details><summary>Click Here to see the answer</summary>
-You can see a curve (in red) approximating the dispersion (y axis) along expression (x axis). As you can see, dispersion is not uniform with expression, being noticeably greater with low expression (NOTE: verify this with the Trapnell dataset). Assuming dispersion should be constant for most genes, independently of expression, then you can see dispersion being re-fitted to the curve (blue dots).
+You can see the re-estimated log fold changes (M, in the y axis) along the range of gene expression (A, in the x axis). In red are the differentially expressed genes. Since this is an artificial dataset, these can be seen quite clearly as a group. You can also see a small group of false positives, on the positive range of fold change (and probably a few in the negative range too).
 
-![PLOT Volcano](images/volcano.jpg)
+![PLOT MA](images/Trapnell_MA.jpg)
 
 </details>
 <br/>
@@ -833,8 +833,6 @@ You can see a curve (in red) approximating the dispersion (y axis) along express
 ## <a id="LO8.3">LO 8.3 - More complex settings for differential expression: batch effects, blocks</a>
 
 So far, we just considered the simple case of pairwise comparison, where all samples are independent. But we may have cases where the samples are not independent. For example, in case of cancer, it is common (and desirable) to have tumor tissue and normal tissue for the same individual. In this case, we have paired information that needs to be taken into account in the test. There can also be other variables (eg. samples were prepared in different batches) that may confound the differential expression analysis. 
-
-The [edgeR manual](https://www.bioconductor.org/packages/devel/bioc/vignettes/edgeR/inst/doc/edgeRUsersGuide.pdf) contains several examples that explore these issues. In the pairwise case, the statistical methods are comparable to a t-test or a fisher exact test. Generalized Linear Models (GLM) allow to include information from several variables simultaneously. The simple pairwise case can also be considered as a GLM, although the statistical methods applied for the test are different than in the "classic" pairwise model. 
 
 **TASK**: In a first example, we have a classic paired test, with tumor and normal samples for one same case. Let's first try a simple pairwise comparison, ignoring the pairing. In Galaxy, upload the file 'edgeR_example1_Tuch.tab'. First, make the design matrix using the tool "edgeR: Design [...]". Define the main Factor we're interested in (Disease), dividing it in two Factor Levels (Tumor, and Normal). For each of the levels, select the appropriate count columns from the edgeR_example1_Tuch.tab table (you need to select it as Expression Matrix). Click execute (you should now create a design matrix that attributes a group to each of the samples). Now, select the tool "edgeR: Differential Gene(Expression) Analysis". Select Multigroup as the "Analysis type". Select edgeR_example1_Tuch.tab as the expression matrix and the design matrix you previously created. As contrast, type "Tumor-Normal" (make sure you use the same names you used for the design matrix). Select a few plots (you also need to select the pdf output to visualize them).
 
@@ -851,6 +849,8 @@ The [edgeR manual](https://www.bioconductor.org/packages/devel/bioc/vignettes/ed
 The tools available in Galaxy are limited in terms of the ability to express more complex experimental designs. Moreover, we are limited to the plots and outputs Galaxy gives us. To have full control on our analysis, we need to go to R and explore all the flexibility that it allows.
 
 **TASK**: In RStudio, open the file trapnell_deseq.R that you can find in the folder difftests. In Rstudio, set "Session>Set Working Directory>To Source File Location". Then run each of the commands in the R script and see what they do.
+
+The [edgeR manual](https://www.bioconductor.org/packages/devel/bioc/vignettes/edgeR/inst/doc/edgeRUsersGuide.pdf) contains several examples that explore these issues. In the pairwise case, the statistical methods are comparable to a t-test or a fisher exact test. Generalized Linear Models (GLM) allow to include information from several variables simultaneously. The simple pairwise case can also be considered as a GLM, although the statistical methods applied for the test are different than in the "classic" pairwise model. 
 
 **TASK**: In Rstudio, open trapnell_edgeR.R and run the commands that are inside. Run also edgeR_example1_Tuch.R and edgeR_example2_Cumbie.R.
 
