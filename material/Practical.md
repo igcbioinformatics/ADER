@@ -799,7 +799,7 @@ The samples sharing the genotype are clearly closer together.
 
 **TASK**: In Galaxy, use DESeq2 to perform a pairwise comparison with the count results you obtained for the Trapnell dataset. Name the factor "Condition" and two factor variables "C1" and "C2", with 3 replicates each.
 
-**QUESTION:** How many genes were detected to be differentially expressed (P-adj < 0.05)? Hint: you can use the filter tool in Galaxy. TODO Check numbers.
+**QUESTION:** How many genes were detected to be differentially expressed (P-adj < 0.05)? Hint: you can use the filter tool in Galaxy.
 <details><summary>Click Here to see the answer</summary>
 There are 267 genes with adjusted p-value less than 0.05.
 </details>
@@ -807,7 +807,7 @@ There are 267 genes with adjusted p-value less than 0.05.
 
 DESeq2 and edgeR also show the estimates of the biological coefficient of variation (BCV), which depicts the sample variation of genes according to their expression, and illustrates the variation correction the software performed, as we discussed in the previous section. 
 
-**QUESTION:** What can you see in the dispersion plot for the Trapnell dataset?  TODO again.
+**QUESTION:** What can you see in the dispersion plot for the Trapnell dataset?
 <details><summary>Click Here to see the answer</summary>
 You can see a curve (in red) approximating the dispersion (y axis) along expression (x axis). As you can see, dispersion is not uniform with expression, being noticeably greater with low expression (NOTE: verify this with the Trapnell dataset). Assuming dispersion should be constant for most genes, independently of expression, then you can see dispersion being re-fitted to the curve (blue dots).
 
@@ -818,7 +818,7 @@ You can see a curve (in red) approximating the dispersion (y axis) along express
 
 Finally, another type of common plot is the MA plots, which displays the log fold change between groups (M) versus the average normalized expression of genes (A). The "vulcano" plot is also commonly used, depicting logFC versus adjusted p-value. On top of these graphs it is common to signal the genes that were detected as differentially expressed under certain criteria.  
 
-**QUESTION:** What can you see in the MA plot for the Trapnell dataset?  TODO again.
+**QUESTION:** What can you see in the MA plot for the Trapnell dataset?
 <details><summary>Click Here to see the answer</summary>
 You can see the re-estimated log fold changes (M, in the y axis) along the range of gene expression (A, in the x axis). In red are the differentially expressed genes. Since this is an artificial dataset, these can be seen quite clearly as a group. You can also see a small group of false positives, on the positive range of fold change (and probably a few in the negative range too).
 
@@ -834,15 +834,32 @@ You can see the re-estimated log fold changes (M, in the y axis) along the range
 
 So far, we just considered the simple case of pairwise comparison, where all samples are independent. But we may have cases where the samples are not independent. For example, in case of cancer, it is common (and desirable) to have tumor tissue and normal tissue for the same individual. In this case, we have paired information that needs to be taken into account in the test. There can also be other variables (eg. samples were prepared in different batches) that may confound the differential expression analysis. 
 
-**TASK**: In a first example, we have a classic paired test, with tumor and normal samples for one same case. Let's first try a simple pairwise comparison, ignoring the pairing. In Galaxy, upload the file 'edgeR_example1_Tuch.tab'. First, make the design matrix using the tool "edgeR: Design [...]". Define the main Factor we're interested in (Disease), dividing it in two Factor Levels (Tumor, and Normal). For each of the levels, select the appropriate count columns from the edgeR_example1_Tuch.tab table (you need to select it as Expression Matrix). Click execute (you should now create a design matrix that attributes a group to each of the samples). Now, select the tool "edgeR: Differential Gene(Expression) Analysis". Select Multigroup as the "Analysis type". Select edgeR_example1_Tuch.tab as the expression matrix and the design matrix you previously created. As contrast, type "Tumor-Normal" (make sure you use the same names you used for the design matrix). Select a few plots (you also need to select the pdf output to visualize them).
+**TASK**: In a first example, we have a classic paired test, with tumor and normal samples for one same patient. Let's first try a simple pairwise comparison, ignoring the pairing. In Galaxy, upload the count files for 'tuch_*.tab'. Define the main Factor we're interested in (Disease), dividing it in two Factor Levels (Tumor, and Normal). Then associate samples with 'N' to the Normal factor value and with 'T' with Tumour factor value. 
 
-**TASK**: Now let's add the pairing information. Create another Design Matrix similar to the previous one, but where you also Define Blocking. Name the blocking condition 'Patients' (although you can name it as you like). Make each patient one block and select for each block the columns corresponding to that patient (in this case you have three patients). Inspect the design matrix that was created. Now, run the differential gene expression the same way as before, but with the new design matrix. Compare the results with the previous one.
+**QUESTION:** How can you see the effect of the variation of the patients? Hint: look at the PCA plot.
+<details><summary>Click Here to see the answer</summary>
+The main source of variation is related to tumour versus normal (as expected). There is nonetheless a second axis of variation related to the patient.
 
-**Question**: Do you have more or less differentially expressed genes?
+![PLOT Tuch Variation](images/Tuch_Patient_Variation.jpg)
 
-**TASK**: In a second example, we want to see the effect of a treatment, but where the samples were obtained in three different moments in time (batches). Upload the file 'edgeR_example2_Cumbie.tab' to Galaxy. Use edgeR to compare treatment (hrcc) versus mock treatment (mock). As before, make first a design matrix without taking the batch effect into consideration. Look at PCoA/MDS plot and Hierarchical clustering plots to see the batch effect. Next, make time as a block in the design and redo the test.
+</details>
+<br/>
 
-**TASK**: In Galaxy, use edgeR to perform a pairwise comparison with the count results you obtained for your complete dataset (if you don't have one, use the Trapnell dataset). Apply any pairing or batch effects that make sense for your case (In the Trapnell case, you may try replicate as a batch effect). You will need to transform the htseq-count results into something edgeR can use. Namely, you'll need to concatenate all counts in one single file, and add a header. For convenience, the Trapnell dataset has already been transformed into a table that can be used in edgeR.
+
+**QUESTION:** How many genes were detected to be differentially expressed (P-adj < 0.05)? Hint: you can use the filter tool in Galaxy.
+<details><summary>Click Here to see the answer</summary>
+There are 1482 genes with adjusted p-value less than 0.05.
+</details>
+<br/>
+
+**TASK**: Now let's add the pairing information. Repeat the previous job, but now add a second factor Patient (which DESeq2 will use as 'block'). For this factor, create three factor values, one for each patient (8,33,51) and run.
+
+**QUESTION:** How many genes were detected to be differentially expressed (P-adj < 0.05)? 
+<details><summary>Click Here to see the answer</summary>
+Now, there are 1,943 genes with adjusted p-value less than 0.05. Because it controlled for the variation related to each patient.
+</details>
+<br/>
+
 
 ## <a id="LO8.4">LO 8.4 - Using R and rstudio to have full control of your analysis  TODO dneves!</a>
 
