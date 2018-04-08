@@ -861,7 +861,7 @@ Now, there are 1,943 genes with adjusted p-value less than 0.05. Because it cont
 <br/>
 <br/>
 
-**TASK**: In a second example, we have a classic batch effect. Here we have an experiment in Arabidopsis, where plants where subjected to a treatment with a chemical (hrcc) or mock. In Galaxy, upload the count files for 'cumbie_*.tab'. Define the main Factor we're interested in (Treatment), dividing it in two Factor Levels (hrcc, and mock). Then associate samples corresponding to each case.  
+**TASK**: In a second example, we have a classic batch effect. Here we have an experiment in Arabidopsis, where plants were subjected to a treatment with a chemical (hrcc) or mock. In Galaxy, upload the count files for 'cumbie_*.tab'. Define the main Factor we're interested in (Treatment), dividing it in two Factor Levels (hrcc, and mock). Then associate samples corresponding to each case.  
 
 **QUESTION:** Can you see the batch effect? Hint: look at the PCA plot and sample to sample distances.
 <details><summary>Click Here to see the answer</summary>
