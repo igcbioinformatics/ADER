@@ -690,7 +690,7 @@ As mentioned previously, Salmon directly matches the raw reads against a fasta w
 
 We now have a table of "raw" reads counts per gene for each sample. Since there will be different number of reads for each sample, we first need to normalize the counts. For this, we can just divide each gene count by the total number of reads for that sample (transforming it into a relative number). Since numbers are usually on the order of millions, this would make for very small numbers, so the most common measure is to divide by the total number of millions of reads (eg. divide by 5, instead of 5 million). This way, we transform "raw" counts into a relative number of "counts per million reads", or CPM.
 
-**QUESTION**:  What are the CPM for gene Rpn12R (Fbgn0036465) in all the guilgur samples starting from the featureCounts table? 
+**QUESTION**:  What are the CPM for gene Rpn12R (Fbgn0036465) in all the guilgur samples starting from the featureCounts table?  TODO UPDATE with the new data
 <details><summary>Click Here to see the answer</summary><p>
 
   * WT Lib1: 0
