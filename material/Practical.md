@@ -670,8 +670,6 @@ As mentioned previously, Salmon directly matches the raw reads against a fasta w
 </p></details>
 <br/>
 
-**TASK**: Use salmon to generate tables of counts for the Trapnell dataset.
-<br/>
 
 **NOTE**: Assess how well you achieved the learning outcome. For this, see how well you responded to the different questions during the activities and also make the following questions to yourself.
 
