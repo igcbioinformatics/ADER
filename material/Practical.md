@@ -690,16 +690,16 @@ As mentioned previously, Salmon directly matches the raw reads against a fasta w
 
 We now have a table of "raw" reads counts per gene for each sample. Since there will be different number of reads for each sample, we first need to normalize the counts. For this, we can just divide each gene count by the total number of reads for that sample (transforming it into a relative number). Since numbers are usually on the order of millions, this would make for very small numbers, so the most common measure is to divide by the total number of millions of reads (eg. divide by 5, instead of 5 million). This way, we transform "raw" counts into a relative number of "counts per million reads", or CPM.
 
-**QUESTION**:  What are the CPM for gene Rpn12R (Fbgn0036465) in all the guilgur samples starting from the featureCounts table?  TODO UPDATE with the new data
+**QUESTION**:  What are the CPM for gene Rpn12R (Fbgn0036465) in all the guilgur samples starting from the featureCounts table?
 <details><summary>Click Here to see the answer</summary><p>
 
   * WT Lib1: 0
   
-  * WT Lib2: 5.42
+  * WT Lib2: 8.90
 
-  * mut Lib1: 1114.17
+  * mut Lib1: 1389.29
   
-  * mut Lib2: 1003.84
+  * mut Lib2: 1422.17
   
 </p></details>
 <br/>
@@ -778,22 +778,25 @@ Only the gene FBgn0036465 (Rpn12R). The gene FBgn0003300 (run), despite having a
 Even before interpreting the results of the differential expression analysis, we should have an idea of how the samples compare to each other. For this, we can look at plots such as Principal Coordinate Analysis (PCoA) or Multi-Dimensional Scaling (MDS). The way each software implements these plots vary a bit, but in short, they provide some evidence for the relatedness of the samples. In a nutshell, samples are compared against each other, generating a matrix of distances. The, the two components explaining most of the variation between samples are calculated (each component being a linear combination of samples). Ideally, we should have the expected biological variation separated along the first component. Another important aspect to consider is how much of the variance is explained by each of the components. Again, ideally, the first component should explain as much as possible the observed variation.
 
 TODO - Actualizar com PcoA do Guilgur mas com versão nova DESEq2 Galaxy já com nomes amostras...
-![PLOT PCoA](images/pcoa.jpg)
+
 
 **QUESTION:** How is the biological variation separated in the PCoA plot you obtained for the guilgur dataset?
 <details><summary>Click Here to see the answer</summary>
 The Genotype is separated clearly by the first axis in the PCoA, which explains XX% variation. Nonetheless, there is also 
+
+![PLOT PCoA](images/guilgur_pca.jpg)
+
 </details>
 <br/>
 
 Another common plot shows the hierarchical clustering of samples by explicitly displaying a heatmap with the full matrix of distances between the samples, where samples are grouped according to the distance they have to each other.
 
-TODO - Actualizar com PcoA do Guilgur mas com versão nova DESEq2 Galaxy já com nomes amostras...
-![PLOT HEATMAP](images/heatmap.jpg)
-
 **QUESTION:** How is the biological variation separated in the heatmap plot you obtained for the guilgur dataset?
 <details><summary>Click Here to see the answer</summary>
 The samples sharing the genotype are clearly closer together. 
+
+![PLOT HEATMAP](images/guilgur_heatmap.jpg)
+
 </details>
 <br/>
 
