@@ -866,7 +866,7 @@ Now, there are 1,943 genes with adjusted p-value less than 0.05. Because it cont
 
 **QUESTION:** Can you see the batch effect? Hint: look at the PCA plot and sample to sample distances.
 <details><summary>Click Here to see the answer</summary>
-The main source of variation is related to tumour versus normal (as expected). There is nonetheless a second axis of variation related to the patient.
+Now, the main source of variation seems to be associated to replicate number 2 (hrrc2 and mock2). The other axis with the biological component is explaining less of the variation between samples (although still 34%).
 
 ![PLOT Cumbie PCA](images/Cumbie_PCA.jpg)
 
