@@ -782,7 +782,7 @@ Even before interpreting the results of the differential expression analysis, we
 <details><summary>Click Here to see the answer</summary>
 The Genotype is separated clearly by the first axis in the PCoA, which explains XX% variation. Nonetheless, there is also 
 
-![PLOT PCoA](images/guilgur_pca.jpg)
+![PLOT PCoA](images/guilgur_PCA.jpg)
 
 </details>
 <br/>
