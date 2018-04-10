@@ -835,7 +835,7 @@ You can see the re-estimated log fold changes (M, in the y axis) along the range
 
 So far, we just considered the simple case of pairwise comparison, where all samples are independent. But we may have cases where the samples are not independent. For example, in case of cancer, it is common (and desirable) to have tumor tissue and normal tissue for the same individual. In this case, we have paired information that needs to be taken into account in the test. There can also be other variables (eg. samples were prepared in different batches) that may confound the differential expression analysis.
 
-**TASK**: In a first example, we have a classic paired test, with tumor and normal samples for one same patient. Let's first try a simple pairwise comparison, ignoring the pairing. In Galaxy, upload the count files for 'tuch_*.tab'. Define the main Factor we're interested in (Disease), dividing it in two Factor Levels (Tumor, and Normal). Then associate samples with 'N' to the Normal factor value and with 'T' with Tumour factor value.
+**TASK**: In a first example, we have a classic paired test, with tumor and normal samples for one same patient. Let's first try a simple pairwise comparison, ignoring the pairing. In Galaxy, upload the count files for 'Tuch_*.tab' (these files are in the complex folder). Define the main Factor we're interested in (Disease), dividing it in two Factor Levels (Tumor, and Normal). Then associate samples with 'N' to the Normal factor value and with 'T' with Tumour factor value.
 
 **QUESTION:** How can you see the effect of the variation of the patients? Hint: look at the PCA plot.
 <details><summary>Click Here to see the answer</summary>
@@ -885,6 +885,24 @@ In the original case with all samples, there are 752 genes with adjusted p-value
 </details>
 <br/>
 <br/>
+
+**NOTE**: Assess how well you achieved the learning outcome. For this, see how well you responded to the different questions during the activities and also make the following questions to yourself.
+
+  * Do you understand the need to normalize your table of counts, different types of normalization and underlying assumptions?
+
+  * Do you understand some of the issues underlying the estimation of the log fold change and its variance in order to estimate differentially expressed genes?
+
+  * Could you use DESeq2 in Galaxy to produce a table of differentially expressed genes?
+
+  * Could you interpret the results coming from DESeq2?
+
+  * Did you understand how to identify issues like paired data and batch effects and how to handle them using DESeq2?
+  
+
+<br/>
+<br/>
+
+
 
 ## <a id="LO8.4">LO 8.4 - Using R and rstudio to have full control of your analysis </a>
 
