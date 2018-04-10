@@ -136,10 +136,13 @@ For this, we are providing small example datasets and exercises that participant
 		What are functional annotations, what types exist, and where to get them
        
 #### 	LO 9.2 - Understand the concept of functional enrichment analysis, and the statistics involved
-		When and why do we need multiple test corrections
+		What is enrichment analysis and how is it performed
+		How to define sample and population sets
+		Why do we need multiple test corrections
 
 #### 	LO 9.3 - Interpreting the results of functional enrichment analysis
-		Using functional enrichment analysis with your lists of genes
+		What can we get from enrichment analysis results
+		Using functional enrichment analysis with real lists of genes
 
 
 ## Detailed Program
