@@ -140,7 +140,7 @@ For this, we are providing small example datasets and exercises that participant
 		How to define sample and population sets
 		Why do we need multiple test corrections
 
-#### 	LO 9.3 - Interpreting the results of functional enrichment analysis
+#### 	LO 9.3 - Interpret the results of functional enrichment analysis
 		What can we get from enrichment analysis results
 		Using functional enrichment analysis with real lists of genes
 
@@ -189,7 +189,7 @@ For this, we are providing small example datasets and exercises that participant
 + 11:00 - 11:30 ***Coffee Break***
 + 11:30 - 12:30 [How to extract meaning from a list of genes](material/Practical.md#LO9.1). [Understand the concept of functional enrichment analysis, and the statistics involved](material/Practical.md#LO9.2).
 + 12:30 - 14:00 ***LUNCH BREAK***
-+ 14:00 - 16:00 [Interpreting the results of functional enrichment analysis](material/Practical.md#LO9.3).
++ 14:00 - 16:00 [Interpret the results of functional enrichment analysis](material/Practical.md#LO9.3).
 + 16:00 - 16:30 ***Tea Break***
 + 16:30 - 18:00 Final wrap-up Session.
 
