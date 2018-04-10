@@ -33,12 +33,15 @@ resHTSeq <- results(ddsHTSeq)
 head(resHTSeq)
 
 ## ------------------------------------------------------------------------
+table(resHTSeq$padj < 0.05)
+
+## ------------------------------------------------------------------------
 orderedRes <- resHTSeq[ order(resHTSeq$padj), ]
 
 write.csv(as.data.frame(orderedRes), file="trapnell_C1_VS_C2.DESeq2.csv")
 
 ## ------------------------------------------------------------------------
-normCounts <- counts(ddsHTSeq, normalized=TRUE)
+normCounts <- counts(ddsHTSeq, normalized = TRUE)
 
 head(normCounts)
 
@@ -64,15 +67,10 @@ vsd <- varianceStabilizingTransformation(ddsHTSeq, blind=FALSE)
 plotPCA(vsd)
 
 ## ------------------------------------------------------------------------
-rawCounts <- counts(ddsHTSeq, normalized = TRUE)
+dists <- dist(t(assay(vsd)))
 
 # headmap of distances
-heatmap(as.matrix(dist(t(assay(vsd)))), 
-        main="Clustering of euclidean distances", scale="none")
-
-# heatmap of correlations
-heatmap(as.matrix(cor(log10(rawCounts + 1), method="pearson")), 
-        main="Clustering of Pearson correlations", scale="none")
+heatmap(as.matrix(dists), main="Clustering of euclidean distances", scale="none")
 
 ## ---- fig.height=8, fig.width=5------------------------------------------
 library(gplots)
@@ -84,7 +82,6 @@ heatmap.2(diffcounts,
           labRow = "", 
           trace = "none", density.info = "none",
           scale = "row",
-          lhei = c(1,5),
           distfun = function(x) as.dist(1 - cor(t(x))))
 
 ## ------------------------------------------------------------------------
@@ -119,24 +116,52 @@ countdata <- Reduce(f = function(x, y) merge(x, y, by="Gene"), x = tabs)
 
 head(countdata)
 
+rownames(countdata) <- as.character(countdata$Gene)
+countdata$Gene<-NULL
+
 ## ------------------------------------------------------------------------
 library(edgeR)
 
-#countdata <- read.table("trapnell_counts.tab",sep="\t",header=T)
-#row.names(countdata) <- countdata$Gene
-#countdata$Gene<-NULL
-row.names(countdata) <- countdata$Gene
-countdata$Gene<-NULL
+## ------------------------------------------------------------------------
 mygroups <- c("C1","C1","C1","C2","C2","C2")
 
-w <- which(rowSums(countdata) > 0)
-countdata <- countdata[ w, ]
+y <- DGEList(counts=countdata, genes=rownames(countdata), group = mygroups)
 
-y <- DGEList(counts=countdata[,1:6], genes=rownames(countdata), group = mygroups)
+## ------------------------------------------------------------------------
 y <- calcNormFactors(y)
 y <- estimateDisp(y)
 et <- exactTest(y)
-topgenes<-topTags(et,n=dim(countdata)[[1]])
-plot(topgenes$table$logFC, -log10(topgenes$table$FDR), col=ifelse(topgenes$table$FDR<0.05,"red","black"),main="FDR volcano plot",xlab="log2FC",ylab="-log10(FDR)")
-hist(topgenes$table$PValue,breaks=20,xlab="P Value",col="royalblue",ylab="Frequency",main="P-value distribution")
+
+## ------------------------------------------------------------------------
+result_edgeR <- as.data.frame(topTags(et, n=nrow(countdata)))
+
+table(result_edgeR$FDR < 0.05)
+
+plot(result_edgeR$logFC, -log10(result_edgeR$FDR), col=ifelse(result_edgeR$FDR<0.05,"red","black"),main="FDR volcano plot",xlab="log2FC",ylab="-log10(FDR)")
+
+hist(result_edgeR$PValue, breaks=20, xlab="P-Value", col="royalblue", ylab="Frequency", main="P-value distribution")
+
+## ------------------------------------------------------------------------
+comp_table <- merge(as.data.frame(resHTSeq), result_edgeR, by="row.names")
+
+head(comp_table)
+
+## ------------------------------------------------------------------------
+table("DESeq2" = comp_table$padj < 0.05, "edgeR" = comp_table$FDR < 0.05)
+
+## ------------------------------------------------------------------------
+w <- which(rowSums(countdata) > 0)
+countdata <- countdata[ w, ]
+
+## ------------------------------------------------------------------------
+y <- DGEList(counts=countdata, genes=rownames(countdata), group = mygroups)
+y <- calcNormFactors(y)
+y <- estimateDisp(y)
+et <- exactTest(y)
+
+result_edgeR_2 <- as.data.frame(topTags(et, n=nrow(countdata)))
+
+table(result_edgeR_2$FDR < 0.05)
+
+hist(result_edgeR_2$PValue, breaks=20, xlab="P-Value", col="royalblue", ylab="Frequency", main="P-value distribution")
 
