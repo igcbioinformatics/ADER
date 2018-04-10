@@ -1,0 +1,225 @@
+---
+title: "Using DESeq2 and edgeR in R"
+author: Daniel Sobral and Daniel Neves
+date: "April 5, 2018"
+output: html_document
+---
+
+This document demonstrates how to use *DESeq2* and *edgeR* in the *R environment* to perform a differential expression analysis using the the Trapnell datasets as an example. We will first need to tell R what samples are going to be analysed, then run the *DESeq2* pipeline plot the results of the analysis.
+
+Finally, we will repeat the analysis using another common differential expression package called *edgeR*. 
+
+# Setting up the count data and metadata
+
+In this example, instead of loading the sample counts ourselves, we are going to let *DESeq2* handle that for us. For this, we just need to tell *DESeq2* what files correspond to each sample. We start by setting variables to hold the list of samples we are going to analyze. We create a list of sample names, a list of sample files (where the counts are), and a list of experimental conditions, telling which samples correspond to each condition. Type the following lines in the R console and press Enter.
+
+```{r}
+sampleNames <- c("trapnell_counts_C1_R1", "trapnell_counts_C1_R2", "trapnell_counts_C1_R3", "trapnell_counts_C2_R1", "trapnell_counts_C2_R2", "trapnell_counts_C2_R3")
+
+sampleFiles <- c("trapnell_counts_C1_R1.tab", "trapnell_counts_C1_R2.tab", "trapnell_counts_C1_R3.tab", "trapnell_counts_C2_R1.tab", "trapnell_counts_C2_R2.tab", "trapnell_counts_C2_R3.tab")
+
+sampleConditions <- c("C1", "C1", "C1", "C2", "C2", "C2")
+```
+
+We can confirm the values in these variables by simply typing a variable name in the R console and pressing Enter.
+
+```{r}
+sampleNames
+sampleFiles
+sampleConditions
+```
+
+For convenience, we place this information in a table variable that we call `sampleTable`.
+
+```{r}
+sampleTable <- data.frame(sampleName = sampleNames,
+                          fileName = sampleFiles,
+                          condition = sampleConditions)
+
+sampleTable
+```
+
+# Running a differential expression test with DESeq2
+
+With the sample table prepared, we are ready to run **DESeq2**. First need to import it into the R environment. This is done with the `library` command.
+
+```{r, message=FALSE}
+library("DESeq2")
+```
+
+Then, we prepare a special structure to tell *DESeq2* what samples we are going to analyse (our sample table), and what comparison we are goind to make. Here we use the `condition` column (C1 or C2) as the experimental variable.
+
+```{r}
+ddsHTSeq <- DESeqDataSetFromHTSeqCount(sampleTable = sampleTable,
+                                       design= ~ condition)
+```
+
+We can run the whole DESeq2 pipeline with a single command. This will perform normalization of the raw counts, estimate variances, and perform the differential expression tests.
+
+```{r}
+ddsHTSeq <- DESeq(ddsHTSeq)
+```
+
+We can then extract the results in the form of a table using the `results` function. The `head` function will print the first lines of this table on the console.
+
+```{r}
+resHTSeq <- results(ddsHTSeq)
+
+head(resHTSeq)
+```
+
+Finally, we sort this table by p-value (smaller p-values on top), and save it to a file so that we can later import it into Excel. 
+
+```{r}
+orderedRes <- resHTSeq[ order(resHTSeq$padj), ]
+
+write.csv(as.data.frame(orderedRes), file="trapnell_C1_VS_C2.DESeq2.csv")
+```
+
+We can also retrieve and save a table of normalized counts.
+
+```{r}
+normCounts <- counts(ddsHTSeq, normalized=TRUE)
+
+head(normCounts)
+
+write.csv(as.data.frame(orderedRes), file="trapnell_normCounts.DESeq2.csv")
+```
+
+# Visualizing results
+
+*DESeq2* provides several functions to visualize the results, while additional plots can be made using the extensive R graphics cappabilities. Visualization can help to better understand the results, and catch potential problems in the data and analysis.
+
+We can plot the *DESeq2* dispersion re-estimation procedure by typing:
+
+```{r}
+plotDispEsts(ddsHTSeq)
+```
+
+As a sanity check, we can inspect the distribution of p-values using the `hist` function.
+
+```{r}
+hist(resHTSeq$pvalue, breaks=0:50/50, xlab="p value", main="Histogram of nominal p values")
+```
+
+Two common visualizations for differential expression analyses are the *MA-plot*, that displays the relationship between a genes' mean expression and its fold-change between experimental conditions, and the *Volcano plot*, that displays the relationship between fold-change and evidence of differential expression (represented as -log p-value).
+
+To display an *MA-plot* type the following in the R console. 
+
+```{r}
+plotMA(resHTSeq)
+```
+
+*DESeq2* doesn't provide a function to display a *Volcano plot*, but we can create one using R's base plot functions. In red we highlight genes differentially expressed with Padj < 0.05.
+
+```{r}
+plot(resHTSeq$log2FoldChange, -log10(resHTSeq$pvalue), xlab="log2 Fold-change", ylab="-log P-value", pch=20, cex=0.5)
+points(resHTSeq$log2FoldChange[ resHTSeq$padj<0.05 ], -log10(resHTSeq$pvalue[ resHTSeq$padj<0.05 ]), col="red", pch=20, cex=0.5)
+abline(v=0, h=-log10(0.05), lty="dashed", col="grey")
+```
+
+*DESeq2* provides a function to make a Principal Component Analysis (PCA) of the count data. The *DESeq2* [vignette](http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#count-data-transformations) recommend using transformed counts as input to the PCA routines, as these transformations remove the dependence of the sample-to-sample variance on the genes' mean expression. We do this with the `varianceStabilizingTransformation` function.
+
+```{r}
+vsd <- varianceStabilizingTransformation(ddsHTSeq, blind=FALSE)
+
+plotPCA(vsd)
+```
+
+Another common visualization of high-throughput datasets is a clustered heatmap of sample-to-sample distances (or correlations). This visualization groups togheter the samples that are more similar to each other. As expected, we see that the Trapnell samples group according to condition (C1 or C2).
+
+```{r}
+rawCounts <- counts(ddsHTSeq, normalized = TRUE)
+
+# headmap of distances
+heatmap(as.matrix(dist(t(assay(vsd)))), 
+        main="Clustering of euclidean distances", scale="none")
+
+# heatmap of correlations
+heatmap(as.matrix(cor(log10(rawCounts + 1), method="pearson")), 
+        main="Clustering of Pearson correlations", scale="none")
+```
+
+Here we plot the relative expression of all differentially expressed genes in the 6 samples. This figure is useful to visualize the differences in expression between samples. 
+
+```{r, fig.height=8, fig.width=5}
+library(gplots)
+
+diffgenes <- rownames(resHTSeq)[ which(resHTSeq$padj < 0.05) ]
+diffcounts <- normCounts[ diffgenes, ]
+
+heatmap.2(diffcounts, 
+          labRow = "", 
+          trace = "none", density.info = "none",
+          scale = "row",
+          lhei = c(1,5),
+          distfun = function(x) as.dist(1 - cor(t(x))))
+```
+
+The following commands are used to plot a heatmap of the 20 most differentially expressed genes. For this, we use the ordered results table to determine which genes are most differentially expressed, and then plot the values from the normalized counts table (transformed to log10).
+
+```{r}
+library(pheatmap)
+
+# select the 20 most differentially expressed genes
+select <- row.names(orderedRes[1:20, ])
+
+# transform the counts to log10
+log10_normCounts <- log10(normCounts + 1)
+
+# get the values for the selected genes
+values <- log10_normCounts[ select, ]
+
+pheatmap(values,
+         scale = "none", 
+         cluster_rows = FALSE, 
+         cluster_cols = FALSE,
+         fontsize_row = 8,
+         annotation_names_col = FALSE,
+         gaps_col = c(3,6),
+         display_numbers = TRUE,
+         number_format = "%.2f",         
+         height=12,
+         width=6)
+```
+
+# Differential expression with edgeR
+
+Another commonly used package for differential expression analysis is *edgeR*. Here we repeat the analysis using *edgeR* and compare the results with those of *DESeq2*.
+
+To initialize *edgeR* we need to provide a table containing the count data for all samples in individual columns. For this we load individual samples into R, and merge them into a single table with the following commands.
+
+```{r}
+sampleFiles <- c("trapnell_counts_C1_R1.tab", "trapnell_counts_C1_R2.tab", "trapnell_counts_C1_R3.tab", "trapnell_counts_C2_R1.tab", "trapnell_counts_C2_R2.tab", "trapnell_counts_C2_R3.tab")
+
+tabs <- lapply(sampleFiles, function(x) read.table(x, col.names = c("Gene", x)))
+countdata <- Reduce(f = function(x, y) merge(x, y, by="Gene"), x = tabs)
+
+head(countdata)
+```
+
+
+```{r}
+library(edgeR)
+
+#countdata <- read.table("trapnell_counts.tab",sep="\t",header=T)
+#row.names(countdata) <- countdata$Gene
+#countdata$Gene<-NULL
+row.names(countdata) <- countdata$Gene
+countdata$Gene<-NULL
+mygroups <- c("C1","C1","C1","C2","C2","C2")
+
+w <- which(rowSums(countdata) > 0)
+countdata <- countdata[ w, ]
+
+y <- DGEList(counts=countdata[,1:6], genes=rownames(countdata), group = mygroups)
+y <- calcNormFactors(y)
+y <- estimateDisp(y)
+et <- exactTest(y)
+topgenes<-topTags(et,n=dim(countdata)[[1]])
+plot(topgenes$table$logFC, -log10(topgenes$table$FDR), col=ifelse(topgenes$table$FDR<0.05,"red","black"),main="FDR volcano plot",xlab="log2FC",ylab="-log10(FDR)")
+hist(topgenes$table$PValue,breaks=20,xlab="P Value",col="royalblue",ylab="Frequency",main="P-value distribution")
+```
+
+
+
