@@ -898,13 +898,11 @@ In the first exercise we will analyse the Trapnell datasets, described previousl
 
 **TASK**: Open RStudio on your computer. Using the R console, perform the steps described in this document: [Exercise 1](http://htmlpreview.github.io/?https://github.com/dsobral/ADER/blob/master/material/complex/tutorial1.html)
 
-In the second exercise, based on an example from the edgeR documentation, we will perform a differential expression analysis of the Tuch et al. dataset. This example aims to demonstrate the steps necessary to use edgeR's GLM functions.
+In the second exercise, based on an example from the edgeR documentation, we will perform a differential expression analysis of the Tuch et al. dataset. This example aims to demonstrate the steps necessary to use edgeR's GLM functions, that are applicable both to a simple pairwise comparison, as well as more complex designs.
 
 **TASK**: Open RStudio on your computer. Using the R console, perform the steps described in this document: [Exercise 2](http://htmlpreview.github.io/?https://github.com/dsobral/ADER/blob/master/material/complex/tutorial1.html)
 
-**TASK**: In RStudio, open the file trapnell_deseq.R that you can find in the folder difftests. In Rstudio, set "Session>Set Working Directory>To Source File Location". Then run each of the commands in the R script and see what they do.
-
-**TASK**: In Rstudio, open trapnell_edgeR.R and run the commands that are inside. Run also edgeR_example1_Tuch.R and edgeR_example2_Cumbie.R.
+**TASK**: In Rstudio, open edgeR_example2_Cumbie.R and run the commands inside.
 
 The final example we will explore contains several factors, and one of the factors have 3 different possible values. This introduces many possibilities of experimental questions to test. We just need to decide which ones are relevant biological questions. To define which questions make sense, it is usually best to start with the use of unbiased exploratory tools such as PCoA and Hierarchical clustering.
 
