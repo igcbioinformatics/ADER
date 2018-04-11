@@ -900,7 +900,7 @@ In the first exercise we will analyse the Trapnell datasets, described previousl
 
 In the second exercise, based on an example from the edgeR documentation, we will perform a differential expression analysis of the Tuch et al. dataset. This example aims to demonstrate the steps necessary to use edgeR's GLM functions, that are applicable both to a simple pairwise comparison, as well as more complex designs.
 
-**TASK**: Open RStudio on your computer. Using the R console, perform the steps described in this document: [Exercise 2](http://htmlpreview.github.io/?https://github.com/dsobral/ADER/blob/master/material/complex/tutorial1.html)
+**TASK**: Open RStudio on your computer. Using the R console, perform the steps described in this document: [Exercise 2](http://htmlpreview.github.io/?https://github.com/dsobral/ADER/blob/master/material/complex/tutorial2.html)
 
 **TASK**: In Rstudio, open edgeR_example2_Cumbie.R and run the commands inside.
 
