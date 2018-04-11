@@ -1026,4 +1026,4 @@ Instead of using GO slims, we may simplify/summarize the enrichment analysis res
 
 **Task**: Repeat the previous runs, but this time with "Summarize Output" set to on. Compare the results tables and graph files.
 
-**Task**: Download the generic [GO SlimRun](http://www.geneontology.org/ontology/subsets/goslim_generic.obo). Use the GOSlimmer tool in Galaxy to convert the mouse annotations from GO to GO slim. Then repeat the GOEnrichment runs using GO Slim and the corresponding annotations. How do the results compare in terms of simplicity and specificity?
+**Task**: Download the generic [GO Slim](http://www.geneontology.org/ontology/subsets/goslim_generic.obo). Use the GOSlimmer tool in Galaxy to convert the mouse annotations from GO to GO slim. Then repeat the GOEnrichment runs using GO Slim and the corresponding annotations. How do the results compare in terms of simplicity and specificity?
