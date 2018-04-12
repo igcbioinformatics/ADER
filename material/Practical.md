@@ -835,7 +835,7 @@ You can see the re-estimated log fold changes (M, in the y axis) along the range
 
 So far, we just considered the simple case of pairwise comparison, where all samples are independent. But we may have cases where the samples are not independent. For example, in case of cancer, it is common (and desirable) to have tumor tissue and normal tissue for the same individual. In this case, we have paired information that needs to be taken into account in the test. There can also be other variables (eg. samples were prepared in different batches) that may confound the differential expression analysis.
 
-**TASK**: In a first example, we have a classic paired test, with tumor and normal samples for one same patient. Let's first try a simple pairwise comparison, ignoring the pairing. In Galaxy, upload the count files for 'tuch_*.tab'. Define the main Factor we're interested in (Disease), dividing it in two Factor Levels (Tumor, and Normal). Then associate samples with 'N' to the Normal factor value and with 'T' with Tumour factor value.
+**TASK**: In a first example, we have a classic paired test, with tumor and normal samples for one same patient. Let's first try a simple pairwise comparison, ignoring the pairing. In Galaxy, upload the count files for 'Tuch_*.tab' (these files are in the complex folder). Define the main Factor we're interested in (Disease), dividing it in two Factor Levels (Tumor, and Normal). Then associate samples with 'N' to the Normal factor value and with 'T' with Tumour factor value.
 
 **QUESTION:** How can you see the effect of the variation of the patients? Hint: look at the PCA plot.
 <details><summary>Click Here to see the answer</summary>
@@ -886,6 +886,24 @@ In the original case with all samples, there are 752 genes with adjusted p-value
 <br/>
 <br/>
 
+**NOTE**: Assess how well you achieved the learning outcome. For this, see how well you responded to the different questions during the activities and also make the following questions to yourself.
+
+  * Do you understand the need to normalize your table of counts, different types of normalization and underlying assumptions?
+
+  * Do you understand some of the issues underlying the estimation of the log fold change and its variance in order to estimate differentially expressed genes?
+
+  * Could you use DESeq2 in Galaxy to produce a table of differentially expressed genes?
+
+  * Could you interpret the results coming from DESeq2?
+
+  * Did you understand how to identify issues like paired data and batch effects and how to handle them using DESeq2?
+  
+
+<br/>
+<br/>
+
+
+
 ## <a id="LO8.4">LO 8.4 - Using R and rstudio to have full control of your analysis </a>
 
 The tools available in Galaxy are limited in terms of the ability to express more complex experimental designs. Moreover, we are limited to the plots and outputs Galaxy gives us. To have full control on our analysis, we need to go to R and explore all the flexibility that it allows.
@@ -898,13 +916,11 @@ In the first exercise we will analyse the Trapnell datasets, described previousl
 
 **TASK**: Open RStudio on your computer. Using the R console, perform the steps described in this document: [Exercise 1](http://htmlpreview.github.io/?https://github.com/dsobral/ADER/blob/master/material/complex/tutorial1.html)
 
-In the second exercise, based on an example from the edgeR documentation, we will perform a differential expression analysis of the Tuch et al. dataset. This example aims to demonstrate the steps necessary to use edgeR's GLM functions.
+In the second exercise, based on an example from the edgeR documentation, we will perform a differential expression analysis of the Tuch et al. dataset. This example aims to demonstrate the steps necessary to use edgeR's GLM functions, that are applicable both to a simple pairwise comparison, as well as more complex designs.
 
-**TASK**: Open RStudio on your computer. Using the R console, perform the steps described in this document: [Exercise 2](http://htmlpreview.github.io/?https://github.com/dsobral/ADER/blob/master/material/complex/tutorial1.html)
+**TASK**: Open RStudio on your computer. Using the R console, perform the steps described in this document: [Exercise 2](http://htmlpreview.github.io/?https://github.com/dsobral/ADER/blob/master/material/complex/tutorial2.html)
 
-**TASK**: In RStudio, open the file trapnell_deseq.R that you can find in the folder difftests. In Rstudio, set "Session>Set Working Directory>To Source File Location". Then run each of the commands in the R script and see what they do.
-
-**TASK**: In Rstudio, open trapnell_edgeR.R and run the commands that are inside. Run also edgeR_example1_Tuch.R and edgeR_example2_Cumbie.R.
+**TASK**: In Rstudio, open edgeR_example2_Cumbie.R and run the commands inside.
 
 The final example we will explore contains several factors, and one of the factors have 3 different possible values. This introduces many possibilities of experimental questions to test. We just need to decide which ones are relevant biological questions. To define which questions make sense, it is usually best to start with the use of unbiased exploratory tools such as PCoA and Hierarchical clustering.
 
@@ -916,75 +932,98 @@ The final example we will explore contains several factors, and one of the facto
 
 ## <a id="LO9.1">LO 9.1 - How to extract meaning from a list of genes</a>
 
-A list of genes of “interest” produced by an ‘omics experiment (e.g., RNAseq, microarrays, proteomics, etc) is essentially meaningless: gene identifiers are opaque, and we’re generally interested in understanding phenomena at the cellular and/or organismal level, rather than the gene level. To do this, we must abstract from the genes to their functions, or whatever other aspect we’re interested in studying (e.g., the chromosome location of the genes, the transcription regulation networks, etc).
-In order to abstract to the functional level, we need functional descriptions of the genes. Furthermore, we need these descriptions to be consistent, i.e., we need all functional aspects to be described in the same manner for all genes that have those aspects − otherwise, we would be unable to integrate our gene set at the functional level. In short, we need genes to be annotated using a functional classification scheme.
+A list of genes of “interest” produced by an ‘omics experiment such as RNA-seq is mostly meaningless: gene identifiers are opaque, and we’re generally interested in understanding phenomena at the cellular and/or organismal level, rather than the gene level. To do this, we must abstract from the genes to their functions, or whatever other aspect we’re interested in studying (e.g., chromosome locations, transcription regulation networks).
+In order to abstract to the functional level, we need functional descriptions of the genes in a consistent manner, i.e., we need all functional aspects to be described in the same manner for all genes that have those aspects. In other words, we need genes to be <b>annotated</b> using a <b>functional classification scheme</b>. Moreover, this scheme should typically be organized hierarchically: the fine-grained gene functions generally occur in only one or a few genes, so further abstraction is required in order to enable integration of our gene set.
 
-There are several such schemes available, which cover different aspects and/or levels of protein function. For instance, the Enzyme Commission (EC) classification covers individual enzymatic function, whereas KEGG covers metabolic pathways, which is a different aspect (or view) of the same phenomena. However, there is only one classification scheme that covers a spectrum of gene function that is both wide and deep enough to analyze an ‘omics set as a whole: the Gene Ontology (GO).
+There are several suitable functional classification schemes available for genes, covering different aspects and/or levels of gene function. For instance, the Enzyme Commission (EC) classification covers individual enzymatic function, whereas KEGG covers metabolic pathways. The Gene Ontology (GO) is the broadest, most detailed, and most widely used classification scheme for gene function, and consequently also the most commonly used for the analysis of differential expression results.
 
-GO is divided into three major functional aspects: molecular function, which covers individual gene functions; biological process, which covers how gene functions integrate into cellular and/or organismal processes; and cellular component, which covers where gene functions take place. Each of these aspects is organized as a directed acyclic graph, which is essentially a relaxed hierarchy with multi-parenting. In addition to subclass (‘is a’) relation, GO includes other relations such as ‘part of’, ‘occurs in’, and ‘regulates’. While the three aspects of GO are ‘is a’ orthogonal, molecular functions can be ‘part of’ biological processes, and both can ‘occur’ in cellular components.
-
-GO is also available in the form of GO slims, which are ‘trimmed’ versions of the ontology where the specific fine grained terms have been removed and only broader terms are present. These usually cover the whole breadth of GO, albeit slims for particular species may exclude sections that are not applicable to that species. GO slims are useful for giving an overview of the GO annotations of a genome or a large collection of genes, when a broad classification is sufficient. However, they offer no advantage other than simplicity − whatever conclusion you derive using a GO slim would also be derived by using the whole ontology. They should not be used when a deeper classification is desired.
+GO is divided into three major functional aspects, called GO types: molecular function, which covers individual gene functions; biological process, which covers how gene functions integrate into cellular and/or organismal processes; and cellular component, which covers where gene functions take place. Each of these aspects is organized as a directed acyclic graph, which is essentially a relaxed hierarchy with multi-parenting. In addition to subclass (‘is a’) relation, GO includes other relations such as ‘part of’, ‘occurs in’, and ‘regulates’. While the three aspects of GO are ‘is a’ orthogonal, molecular functions can be ‘part of’ biological processes, and both can ‘occur’ in cellular components.
 
 Genes can be (directly) annotated to multiple GO terms, even within the same aspect. Furthermore, according to the true path rule, a gene annotated to a GO term is implicitly annotated to all ancestors of that term. For instance, a gene annotated with ‘cytochrome c oxidase activity’ is inherently annotated with ‘catalytic activity’, ‘electron carrier activity’, ‘transporter activity’, and all other GO terms in the path between them.
 
-GO annotations of genes are available, on an individual basis, in most genome databases, as well as in dedicate GO browsers such as [AmiGO](http://amigo.geneontology.org) and [QuickGO](https://www.ebi.ac.uk/QuickGO). They can also be downloaded on a genome-wide scale from [GO’s annotation repository](http://www.geneontology.org/page/download-annotations) or [BioMart](http://www.ensembl.org/biomart).
+GO annotations of genes are available on an individual basis in most genetic databases, as well as in dedicate GO browsers such as [AmiGO](http://amigo.geneontology.org) and [QuickGO](https://www.ebi.ac.uk/QuickGO). They can also be downloaded on a genome-wide scale from [GO’s annotation repository](http://www.geneontology.org/page/download-annotations) or [BioMart](http://www.ensembl.org/biomart).
 Viewing the annotations of your gene set on an individual gene basis is unfeasible and insufficient: there are too many genes to analyze manually and integrate, and even if you could, this doesn’t tell you how significant the patterns you find are.
 
-**Task**: Go to BioMart through Galaxy (Galaxy > Get Data > BioMart) and get the GO annotations for the mouse genome in tsv (Gene Stable ID; GO term accession). Download the [latest version of GO](http://geneontology.org/ontology/go.obo) and upload it into Galaxy.       
+**Task**: Go to the [Gene Ontology download page](http://www.geneontology.org/page/downloads). Under GO annotations, download the GO annotation file for <i>Drosophila melanogaster</i>. Under ontology, download the Gene Ontology itself in OBO format (which is less verbose than OWL).
+
+**Task**: Go to [BioMart](http://www.ensembl.org/biomart) and download the GO annotations for <i>Mus musculus</i>. Select "ENSEMBL Genes 92" database, then "Mouse Genes" dataset, then under Attributes, select "Gene stable ID", and from the External section, "GO term accession".
 
 
 ## <a id="LO9.2">LO 9.2 - Understand the concept of functional enrichment analysis, and the statistics involved</a>
 
-Functional enrichment analysis is the application of Fisher’s exact test to measure the statistical significance of the observed frequency of each functional annotation in a gene set. The test relies on computing the probability of said frequencies arising by chance, using the hypergeometric distribution.
+Enrichment analysis is the application of statistical tests (usually the one-tailed Fisher’s exact test) to ascertain whether a sample set of entities is enriched in relation to the overall population with respect to particular features of interest. By enriched, we mean that the sample frequency of the feature is greater than would be expected by chance given the population frequency.
 
-The statistical problem is essentially the same as determining the probability of getting x black balls in a sample of n balls, drawn without replacement from a bag with X black balls and a total of N balls. In our case the balls are genes, and a color is a functional annotation.
+The one-tailed Fisher's exact test, a.k.a hypergeometric test for over-representation, is based on the hypergeometric distribution, which is used to determine probabilities in sampling events without replacement. More concretely, the hypergeometric distribution measures the probability of obtaining <i>k</i> successes in a sample of <i>n</i> elements, given a population with <i>K</i> successes in <i>N</i> total elements. For example, we could use it to determine the probability of drawing 4 Aces in a Poker hand of 5 cards (4 successes in a sample of 5, given 4 successes in a population of 52) which is a mere 0.002%. For Fisher's test, we want to measure the probability of getting at least <i>k</i> successes, meaning we have to sum hypergeometric probabilities from <i>x</i>=<i>k</i> up to <i>x</i>=min(<i>n</i>,<i>K</i>).  
 
-To compute the probability, we need to know the following parameters:
-- The sample frequency: number of genes in the set annotated with the term
-- The sample size: total number of genes (with any annotation) in the set
-- The population frequency: number of genes in the population annotated with the term
-- The population size: total number of genes (with any annotation) in the population
+Functional enrichment analysis is the application of enrichment analysis to 'omics gene lists, which can be considered samples of the genome (or the genes covered by the experiment), with the features of interest being gene functional categories (such as GO terms). It enables us to assess how meaningful statistically are the functional patterns we observe when going from the gene level to the functional level.
 
-The population should be the total set of genes involved in the study: all expressed genes in the case of RNAseq, genes contained in the microarray in the case of microarray studies, etc. You should not use the whole genome as the population unless your dataset actually spans the whole genome. The study set can be defined in different ways: all genes with statistically significant differences in expression, only those with increased expression, or only those with decreased expression. It may make sense to perform enrichment analysis with all three study set options, as each gives you a different insight into your dataset. Note that you can also consider different thresholds for statistical significance, and different thresholds for expression increase/decrease, which may affect the enrichment analysis results.
+Some care is needed when defining the sample and the population sets of genes:
+- The sample can be all differentially expressed genes, only the under-expressed, or only the over-expressed, depending on the  biological question being addressed. It may make sense to perform enrichment analysis with all three options, as each gives you a different insight into your dataset. The genes we consider differentially expressed can simply be those with significant p-values in the differential expression test, but we can also be more strict and enforce at least 2-fold expression differences.
+- The population should only include genes observed in the experiment, for which presence or absence from the sample could be accurately determined. In RNA-seq experiments, it should not be the whole genome, but only the set of genes with meaningful expression observed in either of the conditions being compared. How we define "meaningful" expression is also subject to interpretation: we can simply exclude genes with no counts, or be stricter and exclude those with very small counts as well.
+- <b>The sample must be a subset of the population</b>, so we should first apply whatever criteria we deem fit to select the population, then select the sample from within that selection.
 
-When you use a GO enrichment analysis tool, you don’t need to define the sample or population frequencies. Instead, either you provide or the tool accesses the GO annotation set for your organism,  which is used to compute the frequencies for both sets. The tool should exclude from both sets the genes that don’t have GO annotations (of the aspect you are considering) − we don’t know their function at all, so we shouldn’t consider them as either positive or negative for any given functional aspect. However, not all tools do this, and it affects the results they produce.
-
-Biological process is typically the most interesting aspect for enrichment analysis, but it may also be interesting to analyze the molecular function or cellular component aspect in particular studies − namely for validation. For instance, in a proteomics study where you sampled membrane proteins, you should do enrichment analysis with cellular component, to verify that “cellular membrane” is enriched.
+Some care is also needed when counting the frequencies and sizes of the sample and population:
+- The sample and population frequencies (<i>k</i> and <i>K</i>) should be the number of genes in the respective set annotated with the GO term being tested or any of its descendants (according to the true path rule).
+- The sample and population sizes (<i>n</i> and <i>N</i>) should be the total number of genes in the respective set that have at least one GO annotation under the GO type of the term being tested. That is to say, we should only count genes that have determined functions, as otherwise we cannot be certain whether they should be counted as successes for the test.
 
 Most of our statistical tests − including Fisher’s exact test − rely on controlling type I errors. When we accept an event/observation as significant because it has a p-value of 0.001, we are accepting that statistically, one time in a thousand, we’ll be wrong − the event/observation in question will be the product of chance alone. This is a problem when we perform multiple related tests, as the chance of getting a statistical “extreme” in at least one of them will be greater the more tests we perform. Because GO enrichment analysis relies on performing hundreds (or sometimes thousands) of Fisher’s tests, we must correct the statistics for multiple testing.
 
 There are two families of multiple test corrections: the family-wise error rate (FWER) and the false discovery rate (FDR). In the former, we control the probability of making at least one false discovery, which is a conservative but “safe” approach that produces corrected p-values. In the latter, we control the ratio of false discoveries, which is a more powerful but less “safe” approach. It produces q-values, which indicate the ratio of false discoveries you are accepting if you reject the null hypothesis.
-
-QUESTION: Why do we need multiple test corrections? What is the difference between a p-value, a corrected p-value, and a q-value?
-
-Because GO is hierarchic, performing enrichment analysis across GO requires a high number of tests, but not that many of them are independent. Thus, multiple test correction methods overestimate the likelihood of error. One way to reduce this effect is to not make redundant tests. For instance, if the frequencies of “protein binding” and its parent “binding” in your study set are the same, testing “binding” is redundant − the test can only be positive if the test of “protein binding” is positive, and the latter is more informative than the former.
 
 There are several GO enrichment analysis tools available, for instance:
 - Webtools: [GOrilla](http://cbl-gorilla.cs.technion.ac.il/), [GO’s own tool](http://www.geneontology.org/page/go-enrichment-analysis)
 - Galaxy/Command Line tools: [GOEnrichment](https://github.com/DanFaria/GOEnrichment) (IGC Galaxy); [Ontologizer](http://ontologizer.de/) (Galaxy test toolbox)
 - R tools: gsea, GOstats, topGO
 
-**Task**: Run an enrichment analysis test on GOrilla. Use the [FEA_dataset1](https://github.com/dsobral/ADER17S/tree/master/material/FEA_dataset1), which contains the overexpressed genes from the Drosophila melanogaster dataset with 300 random genes differentially expressed. Choose “Two unranked lists of genes” as the running mode; paste or upload the study set into “target set” and the population set into “background set”. Use the biological process ontology, then repeat the analysis for the molecular function ontology.
-Are there significantly enriched terms at 0.001 significance without multiple test corrections? And with the correction?
+For some of these tools, you have to provide the version of GO and the GO annotations you want to use, in addition to the population and sample sets of genes. For other, you only need to provide the latter, and identify the organism in question. The first set of tools should be preferred, as they give you greater control over what you're testing with. In either case, the sample and population frequencies will be computed automatically by the tool. The tool should exclude from both sets the genes that don’t have GO annotations (of the GO type being tested) and perform the tests independently for each GO type, but not all tools do this.
+
+**Task**: Picking up the differential expression results from the [Trapnell et al](https://raw.githubusercontent.com/dsobral/ADER/master/material/complex/trapnell_GSE32038_gene_exp.diff) example with 300 random differentially expressed <i>Drosophila melanogaster</i> genes, define the sample set and population set of genes for performing functional enrichment analysis. You can use your own EdgeR or DESeq results for this dataset instead of the published differential expression results. You can do the filtering and selection of genes either in a spreadsheet or in Galaxy.
+
+**Task**: Using the sample and population files you generated in the previous task, as well as the GO file and <i>Drosophila melanogaster</i> GO annotation file you downloaded earlier, perform functional enrichment analsysis using the GOEnrichment tool in Galaxy, with "Summarize Output" set to off and otherwise default options. Are there significantly enriched terms at 0.01 significance without multiple test corrections? And with the correction?
+
+**NOTE**: Assess how well you achieved the learning outcome by asking yourself the following questions:
+
+  * Do you understand the concept of enrichment analysis and the underlying statistical test?
+
+  * Could you define a population set and a sample set of genes from an RNA-seq experiment, after differential expression tests have been applied?
+
+  * Why do we need to correct for multiple tests?
+
+  * What is the difference between a p-value, a corrected p-value, and a q-value?
 
 
 ## <a id="LO9.3">LO 9.3 - Interpreting the results of functional enrichment analysis</a>
 
-It is essential to keep in mind that **statistically significant does not mean biologically meaningful**.
+What we can get out of functional enrichment analysis results hinges heavily on what we put into them, i.e., on the biological context of our experiment, and the biological question(s) we are seeking to address. The clearer the question, the more straightforward it should be to interpret the results.
+In general, functional enrichment analysis can be used for:
+- Validation (e.g., of a protocol for extracting membrane proteins)
+- Characterization (e.g., of the effects of a stress in an organism)
+- Elucidation (e.g., of the functions impacted by the knock-out of a transcription factor)
 
-On the one hand, we can have functional enrichment of functional aspects that are too broad to derive any relevant conclusion, or that appear to be unrelated to the experiment in question. You should look at these with a critical eye − there may be some underlying meaning that is not readily apparent, even in the case of very generic terms such as “protein binding” or “single organism process”. In general, though, we’re more interested in functional aspects that are more specific.
-
-On the other hand, aspects that are too specific may not be very interesting. In the extreme case of a biological process associated with a single gene in a given organism, if that gene appears in the study set, it is likely to be statistically enriched (if the study set is relatively small in comparison with the population set), but that doesn’t give us any insight into the study set as a whole.
-In general, we’re interested in GO terms that are sufficiently generic to integrate a significant part of our dataset, but sufficiently specific to give us some conclusive insights.
-
-Because of GO’s hierarchical structure, we may get related enriched terms with different levels of specificity, and we should consider them together as a cluster when drawing conclusions. These clusters may not be readily apparent from a results table, but are easy to detect in a graph view of the results (albeit graph views are not always easy to analyze due to the large size of GO). There are solutions available for conflating these clusters and thus simplifying the output of functional enrichment results, both integrated into enrichment analysis tools ([GOEnrichment](https://github.com/DanFaria/GOEnrichment)) and as stand-alone tools ([REVIGO](http://revigo.irb.hr/)).
-
-It is also essential to consider that sporadic outliers may occur, despite multiple test corrections. Keep in mind that we’re making a statistical test (of enrichment) on top of another (of differential expression) which in turn is preceded by a statistical normalization. Even though we’re comfortable with the assumptions and p-values in each individual step, the likelihood of error propagates across the steps.
-
+With respect to the results, it is essential to keep in mind that **statistically significant does not mean biologically meaningful**.
+On the one hand, we can have functional enrichment of functional aspects that seem too broad to derive any relevant conclusion, or that appear to be unrelated to the experiment in question. You should look at these with a critical eye − there may be some underlying meaning that is not readily apparent, even in the case of very generic terms such as “binding” or “single organism process”. On the other hand, aspects that are too specific may not be very interesting. In the extreme case of a biological process associated with a single gene in a given organism, if that gene appears in the study set, it is likely to be statistically enriched (if the study set is relatively small in comparison with the population set), but that doesn’t give us any insight into the study set as a whole. In general, we’re interested in GO terms that are sufficiently generic to integrate a significant part of our dataset, but sufficiently specific to give us some conclusive insights.
+Despite multiple test corrections, sporadic outliers may occur. After all, we’re making a statistical test (of enrichment) on top of another (of differential expression) which in turn is preceded by a statistical normalization. Even though we’re comfortable with the assumptions and p-values in each individual step, the likelihood of error propagates across the steps, and even fine differences in each step can affect the final results.
 You should also keep in mind that enrichment analysis is qualitative, rather than quantitative: you are treating genes as either “on” or “off” (be “on” differentially expressed, overexpressed, or underexpressed) and consequently only assessing which functional aspects are statistically affected, rather than by how much they are affected.
 
-**Task**: Run an enrichment analysis test on the GOEnrichment tool in Galaxy, using the [FEA_dataset2](https://github.com/dsobral/ADER17S/tree/master/material/FEA_dataset2). Use the go.obo and Mouse annotation file you got from BioMart earlier, as well as the dataset files. Run the program with the "Summarize Output" parameter set to off (and otherwise default parameters), then analyze the results tables and graph files.
+The p-values (or q-values) are mostly meaningless for interpreting the results—their role is just to identify enriched terms. The sample frequency and the semantics of the term (its definition, its place in the ontology's structure) are the aspects you should draw upon for biological interpretation. While the former can be checked on results tables, the latter requires graph views of the results. Because of GO’s hierarchical structure, we may get related enriched terms with different levels of specificity, and we should consider them together as a cluster when drawing conclusions. These clusters may not be readily apparent from a results table, but are easy to detect in a graph view of the results.
 
-**Task**: Repeat the previous run, but this time with "Summarize Output" set to on. Compare the results tables and graph files.
+The size and complexity of GO often result in huge results tables and graphs (particularly for <i>biological process</i>), which be quite overwhelming to analyze.
+We can reduce the number of tests perfomed by excluding unnecessary tests:
+- Singletons, i.e., terms that occur in a single sample gene, may be enriched but are not very useful for understanding our dataset in an integrated manner, and thus can generally not be tested.
+- Testing a superclass when its sample frequency is the same as its subclass's is redundant and unnecessary. The superclass can only be enriched if the subclass also is, and we gain neither specificity nor integration by testing the superclass.
+Reducing the number of tests performed has the added benefit of reducing the multiple-test correction factor, which in the case of redundant tests would be artificially inflated (since the tests are fully dependent).
 
-**Task**: Run another enrichment analysis test on the GOEnrichment tool, using [FEA_dataset3](https://github.com/dsobral/ADER17S/tree/master/material/FEA_dataset3), but this time do it in the command line. You can download the mouse annotation file you were using directly from Galaxy, and the GOEnrichment tool from the [latest release on GitHub](https://github.com/DanFaria/GOEnrichment/releases/download/v2.0/GOEnrichment.jar). You will have to process the dataset to generate the lists of overexpressed and underexpressed genes. Hint: paste the dataset into a spreadsheet, and sort it and manipulate it there, then copy your up and down study sets, as well as your population set into text files. Run the tool with the same parameters as your previous run in Galaxy: read the [Readme](https://github.com/DanFaria/GOEnrichment/blob/master/README.md) file or type "java -jar GOEnrichment.jar --help" to learn how to specify the command line parameters. Analyze the results tables and graph files, comparing the overexpressed and underexpressed results.
+We can also reduce the number of tests performed by using GO slims, which are "trimmed" version of GO with only broad terms, instead of using the full GO. Different GO slims are available for different taxa. Using GO slims will greatly simplify the results. However, it will also lead to substantial loss in specificity, and the enriched terms may be more generic than we would like. Furthermore, using GO slims requires first converting the GO annotations from full GO to GO slim (which you can do using GOSlimmer in Galaxy).
+ 
+Instead of using GO slims, we may simplify/summarize the enrichment analysis results a posteriori, using one of three strategies:
+- The family-based clustering algorithm integrated into [GOEnrichment](https://github.com/DanFaria/GOEnrichment) which reduces complexity while keeping branch information, but loses some specificity
+-The semantic similarity-based [REVIGO](http://revigo.irb.hr/) tool, which not only loses specificity but may merge branches
+- An <a>ad hoc</a> filter, as long as it is not based on the enrichment analysis p-values, but rather on fixed features of GO (such as vertical or horizontal cuts of the ontology). Here the rationale is that your initial enrichment analysis is exploratory, aimed at discovering what features there are in your dataset, and you are refining it to focus on the feature that matter to you.
+
+**Task**: Pick up the differential expression results file for [mouse brain vs. heart](https://raw.githubusercontent.com/dsobral/ADER/master/material/complex/mouse_brain_vs_heart.txt). Create a population file and two sample files, one for overexpressed genes and another for underexpressed ones.
+
+**Task**: Run GOEnrichment in Galaxy using both sample files, as you did previously, using the Mouse annotation file you got from BioMart earlier. Run the program with the "Summarize Output" parameter set to off (and otherwise default parameters), then analyze the biological process results tables and graph files.
+
+**Task**: Repeat the previous runs, but this time with "Summarize Output" set to on. Compare the results tables and graph files.
+
+**Task**: Download the generic [GO Slim](http://www.geneontology.org/ontology/subsets/goslim_generic.obo). Use the GOSlimmer tool in Galaxy to convert the mouse annotations from GO to GO slim. Then repeat the GOEnrichment runs using GO Slim and the corresponding annotations. How do the results compare in terms of simplicity and specificity?

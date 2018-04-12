@@ -1,6 +1,6 @@
 ---
 title: "Using DESeq2 and edgeR in R"
-author: Daniel Sobral and Daniel Neves
+author: Daniel Neves and Daniel Sobral
 date: "April 5, 2018"
 output: html_document
 ---
@@ -8,6 +8,12 @@ output: html_document
 This document demonstrates how to use *DESeq2* and *edgeR* in the *R environment* to perform a differential expression analysis using the the Trapnell datasets as an example. We will first need to tell R what samples are going to be analysed, then run the *DESeq2* pipeline plot the results of the analysis.
 
 Finally, we will repeat the analysis using another common differential expression package called *edgeR*. 
+
+# Setting up the environment
+
+First we need to make sure that R is running on the same directory where we placed the counts files (the files called trapnell_counts_C1_R1.tab, trapnell_counts_C1_R2.tab, etc...). To do this either type `setwd("path/to/directory")` in the R console, or navigate to the counts directory using the *Files* panel in RStudio and select "Set As Working Directory".
+
+![](images/setwd.png)
 
 # Setting up the count data and metadata
 
@@ -68,6 +74,13 @@ resHTSeq <- results(ddsHTSeq)
 head(resHTSeq)
 ```
 
+We can ask how many genes are differentially expressed (using a cutoff of 0.05) with this command.
+
+```{r}
+table(resHTSeq$padj < 0.05)
+```
+
+
 Finally, we sort this table by p-value (smaller p-values on top), and save it to a file so that we can later import it into Excel. 
 
 ```{r}
@@ -79,7 +92,7 @@ write.csv(as.data.frame(orderedRes), file="trapnell_C1_VS_C2.DESeq2.csv")
 We can also retrieve and save a table of normalized counts.
 
 ```{r}
-normCounts <- counts(ddsHTSeq, normalized=TRUE)
+normCounts <- counts(ddsHTSeq, normalized = TRUE)
 
 head(normCounts)
 
@@ -126,18 +139,13 @@ vsd <- varianceStabilizingTransformation(ddsHTSeq, blind=FALSE)
 plotPCA(vsd)
 ```
 
-Another common visualization of high-throughput datasets is a clustered heatmap of sample-to-sample distances (or correlations). This visualization groups togheter the samples that are more similar to each other. As expected, we see that the Trapnell samples group according to condition (C1 or C2).
+Another common visualization of high-throughput datasets is a clustered heatmap of sample-to-sample distances (or correlations). This visualization groups togheter the samples that are more similar to each other. As expected, we see that the Trapnell samples group according to condition (C1 or C2). Here we use the transformed counts defined above.
 
 ```{r}
-rawCounts <- counts(ddsHTSeq, normalized = TRUE)
+dists <- dist(t(assay(vsd)))
 
 # headmap of distances
-heatmap(as.matrix(dist(t(assay(vsd)))), 
-        main="Clustering of euclidean distances", scale="none")
-
-# heatmap of correlations
-heatmap(as.matrix(cor(log10(rawCounts + 1), method="pearson")), 
-        main="Clustering of Pearson correlations", scale="none")
+heatmap(as.matrix(dists), main="Clustering of euclidean distances", scale="none")
 ```
 
 Here we plot the relative expression of all differentially expressed genes in the 6 samples. This figure is useful to visualize the differences in expression between samples. 
@@ -152,7 +160,6 @@ heatmap.2(diffcounts,
           labRow = "", 
           trace = "none", density.info = "none",
           scale = "row",
-          lhei = c(1,5),
           distfun = function(x) as.dist(1 - cor(t(x))))
 ```
 
@@ -196,30 +203,87 @@ tabs <- lapply(sampleFiles, function(x) read.table(x, col.names = c("Gene", x)))
 countdata <- Reduce(f = function(x, y) merge(x, y, by="Gene"), x = tabs)
 
 head(countdata)
+
+rownames(countdata) <- as.character(countdata$Gene)
+countdata$Gene<-NULL
 ```
 
+We load *edgeR* into R. 
 
 ```{r}
 library(edgeR)
+```
 
-#countdata <- read.table("trapnell_counts.tab",sep="\t",header=T)
-#row.names(countdata) <- countdata$Gene
-#countdata$Gene<-NULL
-row.names(countdata) <- countdata$Gene
-countdata$Gene<-NULL
+We initialize *edgeR* by providing the counts table, gene names, and experimental conditions.
+
+```{r}
 mygroups <- c("C1","C1","C1","C2","C2","C2")
 
-w <- which(rowSums(countdata) > 0)
-countdata <- countdata[ w, ]
+y <- DGEList(counts=countdata, genes=rownames(countdata), group = mygroups)
+```
 
-y <- DGEList(counts=countdata[,1:6], genes=rownames(countdata), group = mygroups)
+To run *edgeR* in classic mode, we need to perform 3 steps: calculate normalization factors, estimade dispersions, and finally perform the exact test for differential expression.
+
+```{r}
 y <- calcNormFactors(y)
 y <- estimateDisp(y)
 et <- exactTest(y)
-topgenes<-topTags(et,n=dim(countdata)[[1]])
-plot(topgenes$table$logFC, -log10(topgenes$table$FDR), col=ifelse(topgenes$table$FDR<0.05,"red","black"),main="FDR volcano plot",xlab="log2FC",ylab="-log10(FDR)")
-hist(topgenes$table$PValue,breaks=20,xlab="P Value",col="royalblue",ylab="Frequency",main="P-value distribution")
 ```
 
+We extract the results using the function `topTags`.
+
+```{r}
+result_edgeR <- as.data.frame(topTags(et, n=nrow(countdata)))
+
+table(result_edgeR$FDR < 0.05)
+
+plot(result_edgeR$logFC, -log10(result_edgeR$FDR), col=ifelse(result_edgeR$FDR<0.05,"red","black"),main="FDR volcano plot",xlab="log2FC",ylab="-log10(FDR)")
+
+hist(result_edgeR$PValue, breaks=20, xlab="P-Value", col="royalblue", ylab="Frequency", main="P-value distribution")
+```
+
+# Comparison between the two methods
+
+To compare the result of the two methods, we first merge both results tables. 
+
+```{r}
+comp_table <- merge(as.data.frame(resHTSeq), result_edgeR, by="row.names")
+
+head(comp_table)
+```
+
+We can then ask for a table comparing differentially expressed genes. Only 8 genes were classified differently in the two tests.
+
+```{r}
+table("DESeq2" = comp_table$padj < 0.05, "edgeR" = comp_table$FDR < 0.05)
+```
+
+# Independent filtering
+
+Notice from the edgeR p-value distribution that we seem to have alot of genes with FDR close to 1. This may indicate the presence of many genes not being expressed, or with very low expression. 
+
+It is often recommended to remove these genes from the analysis. Doing so will reduce the number of statistical tests we are making, and has an impact on the p-value adjustments.
+
+We can use the command below to remove from the table of counts all genes that are not expressed.
+
+```{r}
+w <- which(rowSums(countdata) > 0)
+countdata <- countdata[ w, ]
+```
+
+Run the code below to repeat the edgeR analysis with this counts table.
+
+```{r}
+y <- DGEList(counts=countdata, genes=rownames(countdata), group = mygroups)
+y <- calcNormFactors(y)
+y <- estimateDisp(y)
+et <- exactTest(y)
+
+result_edgeR_2 <- as.data.frame(topTags(et, n=nrow(countdata)))
+
+table(result_edgeR_2$FDR < 0.05)
+
+hist(result_edgeR_2$PValue, breaks=20, xlab="P-Value", col="royalblue", ylab="Frequency", main="P-value distribution")
+```
 
 

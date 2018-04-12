@@ -1,6 +1,6 @@
 ---
-title: "edgeR example 1"
-author: Daniel Sobral and Daniel Neves
+title: "edgeR with GLMs"
+author: Daniel Neves
 date: "April 5, 2018"
 output: html_document
 ---
