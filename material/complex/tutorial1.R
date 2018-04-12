@@ -53,6 +53,9 @@ hist(resHTSeq$pvalue, breaks=0:50/50, xlab="p value", main="Histogram of nominal
 ## ------------------------------------------------------------------------
 plotMA(resHTSeq)
 
+shrunk_res <- lfcShrink(dds = ddsHTSeq, res = resHTSeq, coef = 2)
+plotMA(shrunk_res)
+
 ## ------------------------------------------------------------------------
 plot(resHTSeq$log2FoldChange, -log10(resHTSeq$pvalue), xlab="log2 Fold-change", ylab="-log P-value", pch=20, cex=0.5)
 points(resHTSeq$log2FoldChange[ resHTSeq$padj<0.05 ], -log10(resHTSeq$pvalue[ resHTSeq$padj<0.05 ]), col="red", pch=20, cex=0.5)
