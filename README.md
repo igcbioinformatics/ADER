@@ -18,7 +18,7 @@ http://gtpb.igc.gulbenkian.pt/bicourses/2018/ADER18S/index.html
 
 # Overview
 
-This introductory course covers practical aspects of the analysis of differential gene expression by RNAseq, from planning the gathering of sequence data to the generation of tables of differentially expressed gene lists and visualization of results. We we will also cover some of the initial steps of secondary analysis, such as functional enrichment of the obtained gene lists. Participants will first start learning the concepts using small example datasets, and then will apply the learned concepts in the training room using real sized examples. At the end of the course, participants should be able to autonomously apply most of the learned concepts to their own data.
+This introductory course covers practical aspects of the analysis of differential gene expression by RNAseq, from planning the gathering of sequence data to the generation of tables of differentially expressed gene lists and visualization of results. We we will also cover some of the initial steps of secondary analysis, such as functional enrichment of the obtained gene lists. Participants will first start learning the concepts using small example datasets, and then will apply the learned concepts in the training room using real sized examples. At the end of the course, participants should be able to autonomously apply most of the learned methods to their own data.
 
 # Target Audiences
 
@@ -120,30 +120,31 @@ For this, we are providing small example datasets and exercises that participant
 
 ### LO 8 - Generate lists of differentially expressed genes, at least for a simple pairwise comparison
 
-#### 	LO 8.1 - Using the R package edgeR and DESeq2 to produce a pairwise differential expression analysis
-		Use Galaxy to produce differentially expressed genes with edgeR and DESeq2
-		Use edgeR and DESeq2 in R and RStudio 
+#### 	LO 8.1 - Execute a pairwise differential expression analysis
+		Use Galaxy to produce differentially expressed genes with DESeq2
 
 #### 	LO 8.2 - Interpretation and visualization of results
-		Produce PCA plots comparing all samples: outlier detection
+		PCA plots comparing all samples: detection of outliers, and batch effects
 		Visualize expression profiles of top differentially expressed genes
 		Produce other plots such as vulcano plots
 
-#### 	LO 8.3 - Use more complex settings: Generalized Linear Models
-		Account for confounders using Generalized Linear Models
+#### 	LO 8.3 - Use more complex settings than simple pairwise comparisons
+		Account for batch effects and paired data 
 		Performing ANOVA-like comparisons
 
-### LO 9 - Perform simple functional enrichment analysis and understand the concepts involved
+### LO 9 - Understand specificies of differential gene expression in the case of single-cell RNA-Seq
+
+### LO 10 - Perform simple functional enrichment analysis and understand the concepts involved
 		
-#### 	LO 9.1 - How to extract meaning from a list of genes
+#### 	LO 10.1 - How to extract meaning from a list of genes
 		What are functional annotations, what types exist, and where to get them
        
-#### 	LO 9.2 - Understand the concept of functional enrichment analysis, and the statistics involved
+#### 	LO 10.2 - Understand the concept of functional enrichment analysis, and the statistics involved
 		What is enrichment analysis and how is it performed
 		How to define sample and population sets
 		Why do we need multiple test corrections
 
-#### 	LO 9.3 - Interpret the results of functional enrichment analysis
+#### 	LO 10.3 - Interpret the results of functional enrichment analysis
 		What can we get from enrichment analysis results
 		Using functional enrichment analysis with real lists of genes
 
