@@ -8,17 +8,17 @@
 
 # Analysis of Differential Expression with RNAseq #
 
-A hands-on training course at Instituto Gulbenkian de Ciência (4-days)
+A hands-on training course at Instituto Gulbenkian de Ciência (5-days)
 
 Official course page of the Gulbenkian Training Programme in Bioinformatics - GTPB
 
-http://gtpb.igc.gulbenkian.pt/bicourses/2018/ADER18F/index.html
+http://gtpb.igc.gulbenkian.pt/bicourses/2018/ADER18S/index.html
 
 
 
 # Overview
 
-This introductory course covers practical aspects of the analysis of differential gene expression by RNAseq, from planning the gathering of sequence data to the generation of tables of differentially expressed gene lists and visualization of results. We we will also cover some of the initial steps of secondary analysis, such as functional enrichment of the obtained gene lists. Participants will first start learning the concepts using small example datasets, and then will apply the learned concepts in the training room using real world examples. Participants will be shown different alternatives for data analysis so they can achieve maximum autonomy after the course.
+This introductory course covers practical aspects of the analysis of differential gene expression by RNAseq, from planning the gathering of sequence data to the generation of tables of differentially expressed gene lists and visualization of results. We we will also cover some of the initial steps of secondary analysis, such as functional enrichment of the obtained gene lists. Participants will first start learning the concepts using small example datasets, and then will apply the learned concepts in the training room using real sized examples. At the end of the course, participants should be able to autonomously apply most of the learned concepts to their own data.
 
 # Target Audiences
 
@@ -46,7 +46,8 @@ Course participants will go through a series of experiences that utimately lead 
 6. Assess the general quality of the alignments and detect possible problems
 7. Generate tables of counts using the alignment and a reference gene annotation
 8. Generate lists of differentially expressed genes, at least for a simple pairwise comparison
-9. Perform simple functional enrichment analysis and understand the concepts behind them
+9. Generate lists of differentially expressed genes, at least for a simple pairwise comparison
+10. Perform simple functional enrichment analysis and understand the concepts behind them
 
 For this, we are providing small example datasets and exercises that participants can use to learn. 
 
