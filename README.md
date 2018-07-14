@@ -2,7 +2,9 @@
 ![ELIXIRPTlogo](https://github.com/dsobral/ADER17S/raw/master/elixirportugal-logo.png "ELIXIR Portugal")
 
 
-# ADER18F #
+# ADER18S #
+
+## Oct 08 - Oct 12
 
 # Analysis of Differential Expression with RNAseq #
 
