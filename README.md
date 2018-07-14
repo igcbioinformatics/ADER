@@ -46,7 +46,7 @@ Course participants will go through a series of experiences that utimately lead 
 6. Assess the general quality of the alignments and detect possible problems
 7. Generate tables of counts using the alignment and a reference gene annotation
 8. Generate lists of differentially expressed genes, at least for a simple pairwise comparison
-9. Generate lists of differentially expressed genes, at least for a simple pairwise comparison
+9. Understand specificies of differential gene expression in the case of single-cell RNA-Seq
 10. Perform simple functional enrichment analysis and understand the concepts behind them
 
 For this, we are providing small example datasets and exercises that participants can use to learn. 
