@@ -151,7 +151,7 @@ For this, we are providing small example datasets and exercises that participant
 
 ## Detailed Program
 
-### Monday, December 4th
+### Monday, October 8th
 
 + 09:30 - 10:00 Introduction to the course and self presentation of the participants
 + 10:00 - 11:00 [The High Throughput Sequencing Workflow. Designing your experiment for Differential Expression using RNA-Seq](material/Practical.md#LO1). [Steps in the analysis of RNA-Seq differential expression experiments](material/Practical.md#LO2).
@@ -162,7 +162,7 @@ For this, we are providing small example datasets and exercises that participant
 + 16:00 - 16:30 ***Tea Break***
 + 16:30 - 18:00 [What is a reference genome, versioning and where to obtain genomes](material/Practical.md#LO5.1). [Alignment software: hisat2; bwa; salmon](material/Practical.md#LO5.2). [Run an alignment: the SAM/BAM alignment format](material/Practical.md#LO5.3).
 
-### Tuesday, December 5th
+### Tuesday, October 9th
 
 + 09:30 - 10:00 Morning Wrap-up (what have we done so far?)
 + 10:00 - 11:00 [What is a reference gene annotation, versioning and where to obtain](material/Practical.md#LO6.1). [Visualizing alignments in IGV for single genes](material/Practical.md#LO6.2).
@@ -174,7 +174,7 @@ For this, we are providing small example datasets and exercises that participant
 + 16:30 - 18:00 [Using the R package edgeR and DESeq2 in Galaxy to produce a pairwise differential expression analysis](material/Practical.md#LO8.1)
 
 
-### Wednesday, December 6th
+### Wednesday, October 10th
 
 + 09:30 - 10:00 Morning Wrap-up (what have we done so far?)
 + 10:00 - 11:00 [Use edgeR and DESeq2 in R and RStudio](material/Practical.md#LO8.1). 
@@ -183,15 +183,26 @@ For this, we are providing small example datasets and exercises that participant
 + 12:30 - 14:00 ***LUNCH BREAK***
 + 14:00 - 16:00 [Interpretation and visualization of results](material/Practical.md#LO8.2).
 + 16:00 - 16:30 ***Tea Break***
-+ 16:30 - 18:00 [Use more complex settings: Generalized Linear Models](material/Practical.md#LO8.3).
++ 16:30 - 18:00 [More complex settings: batch effects and paired samples](material/Practical.md#LO8.3).
 
 
-### Thursday, December 7th
+### Thursday, October 11th
 
 + 09:30 - 10:00 Morning wrap-up (what have we done so far?)
-+ 10:00 - 11:00 [Use more complex settings: Generalized Linear Models](material/Practical.md#LO8.3).
++ 10:00 - 11:00 Specificities of Single Cell Analysis.
 + 11:00 - 11:30 ***Coffee Break***
-+ 11:30 - 12:30 [How to extract meaning from a list of genes](material/Practical.md#LO9.1). [Understand the concept of functional enrichment analysis, and the statistics involved](material/Practical.md#LO9.2).
++ 11:30 - 12:30 Specificities of Single Cell Analysis.
++ 12:30 - 14:00 ***LUNCH BREAK***
++ 14:00 - 16:00 Specificities of Single Cell Analysis.
++ 16:00 - 16:30 ***Tea Break***
++ 16:30 - 18:00 Specificities of Single Cell Analysis.
+
+### Friday, October 11th
+
++ 09:30 - 10:00 Morning wrap-up (what have we done so far?)
++ 10:00 - 11:00 [How to extract meaning from a list of genes](material/Practical.md#LO9.1).
++ 11:00 - 11:30 ***Coffee Break***
++ 11:30 - 12:30 [Understand the concept of functional enrichment analysis, and the statistics involved](material/Practical.md#LO9.2).
 + 12:30 - 14:00 ***LUNCH BREAK***
 + 14:00 - 16:00 [Interpret the results of functional enrichment analysis](material/Practical.md#LO9.3).
 + 16:00 - 16:30 ***Tea Break***
