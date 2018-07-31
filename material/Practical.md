@@ -87,7 +87,7 @@ Steps in the analysis of RNA-Seq:
 
   * Differential Analysis tests ([Learning Outcome 8](#LO8))
 
-  * Post-analysis: Functional Enrichment ([Learning Outcome 9](#LO9))
+  * Post-analysis: Functional Enrichment ([Learning Outcome 10](#L10))
 </p>
 <br/>
 
