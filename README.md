@@ -1,5 +1,5 @@
 ![IGClogo](https://github.com/dsobral/ADER17S/raw/master/Logo_IGC_2014.png "IGC")
-![Acknowldgments](https://github.com/dsobral/ADER/raw/master/material/images/acknowledgments.jpg "ELIXIR Portugal")
+![Acknowledgments](https://github.com/dsobral/ADER/raw/master/material/images/acknowledgments.jpg "Acknowledgments")
 
 
 # ADER18S #
