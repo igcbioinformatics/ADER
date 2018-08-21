@@ -18,7 +18,7 @@ http://gtpb.igc.gulbenkian.pt/bicourses/2018/ADER18S/index.html
 
 # Overview
 
-This introductory course covers practical aspects of the analysis of differential gene expression by RNAseq, from planning the gathering of sequence data to the generation of tables of differentially expressed gene lists and visualization of results. For this edition of the course, we will also explore some specificities of single-cell RNA-Seq data analysis. Towards the end, we will cover some of the initial steps of secondary analysis, such as functional enrichment of the obtained gene lists. Participants will first start learning the concepts using small example datasets, and then will apply the learned concepts in the training room using real sized examples. At the end of the course, participants should be able to autonomously apply most of the learned methods to their own data.
+This introductory course covers practical aspects of the analysis of differential gene expression by RNAseq, from planning the gathering of sequence data to the generation of tables of differentially expressed gene lists and visualization of results. For this edition of the course, we will also explore some specificities of single-cell RNAseq data analysis. Towards the end, we will cover some of the initial steps of secondary analysis, such as functional enrichment of the obtained gene lists. Participants will first start learning the concepts using small example datasets, and then will apply the learned concepts in the training room using real sized examples. At the end of the course, participants should be able to autonomously apply most of the learned methods to their own data.
 
 # Target Audiences
 
@@ -46,7 +46,7 @@ Course participants will go through a series of experiences that utimately lead 
 6. Assess the general quality of the alignments and detect possible problems
 7. Generate tables of counts using the alignment and a reference gene annotation
 8. Generate lists of differentially expressed genes, at least for a simple pairwise comparison
-9. Understand specificies of differential gene expression in the case of single-cell RNA-Seq
+9. Understand specificies of differential gene expression in the case of single-cell RNAseq
 10. Perform simple functional enrichment analysis and understand the concepts behind them
 
 For this, we are providing small example datasets and exercises that participants can use to learn. 
@@ -62,8 +62,8 @@ For this, we are providing small example datasets and exercises that participant
 ####	LO 1.2 - Choose adequate sequencing for your biological question
 		How do the sequencing choices influence the kind of questions you can answer
 
-### LO 2 - List steps in the analysis of RNA-Seq differential expression experiments
-		What are the steps in RNA-Seq data analysis
+### LO 2 - List steps in the analysis of RNAseq differential expression experiments
+		What are the steps in RNAseq data analysis
 
 ### LO 3 - Assess the general quality of the raw data from the sequencing facility
 
@@ -80,7 +80,7 @@ For this, we are providing small example datasets and exercises that participant
 		Use trimmomatic to filter/trim low quality bases from your reads
 
 #### 	LO 4.2 - Use trimmomatic to remove adaptors and other artefactual sequences from your reads
-		Remove adaptors (such as illumina adaptors) from your reads
+		Remove adaptors (eg. illumina adaptors) and unwanted sequences (eg. polyA tails) from your reads
 		Check results using FastQC on filtered data
 
 ### LO 5 - Generate alignments of processed reads against a reference genome
@@ -90,12 +90,12 @@ For this, we are providing small example datasets and exercises that participant
 		Obtain genome fasta from Ensembl
 
 #### 	LO 5.2 - Alignment software: hisat2; salmon
-		What are the conditions of using burrows-wheeler approaches?	
+		What are the requisites for using burrows-wheeler approaches?	
 		Prepare a reference genome to use with hisat2
 
 #### 	LO 5.3 - Run an alignment: the SAM/BAM alignment format
 		Run hisat2 in an example dataset
-		What is the SAM format; what is the BAM format
+		What is the SAM/BAM format
 	
 ### LO 6 - Assess the general quality of the alignments and detect possible problems
 
@@ -115,8 +115,10 @@ For this, we are providing small example datasets and exercises that participant
 		What parameters we need to consider when counting
 
 #### 	LO 7.2 - Use featurecounts to generate table of gene counts
+		Interpret results from featurecounts
 
 #### 	LO 7.3 - Using Salmon to generate counts only with the transcriptome
+		Interpret results from salmon
 
 ### LO 8 - Generate lists of differentially expressed genes, at least for a simple pairwise comparison
 
@@ -125,8 +127,7 @@ For this, we are providing small example datasets and exercises that participant
 
 #### 	LO 8.2 - Interpretation and visualization of results
 		PCA plots comparing all samples: detection of outliers, and batch effects
-		Visualize expression profiles of top differentially expressed genes
-		Produce other plots such as vulcano plots
+		Heatmaps and vulcano plots
 
 #### 	LO 8.3 - Use more complex settings than simple pairwise comparisons
 		Account for batch effects and paired data 
@@ -135,7 +136,7 @@ For this, we are providing small example datasets and exercises that participant
 ### LO 9 - Understand specificies of differential gene expression in the case of single-cell RNA-Seq
 
 #### 	LO 9.1 - Generate a count matrix for a single cell RNA-Seq dataset (Chromium - 10x Genomics)
-		TODOTODOTODO
+		Diferences in raw data preprocessing and counting
 		
 
 ### LO 10 - Perform simple functional enrichment analysis and understand the concepts involved
