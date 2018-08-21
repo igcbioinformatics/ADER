@@ -261,14 +261,17 @@ You can perform the following operations with Trimmomatic (either isolated, or i
 <br/>
 
 **Hint**: When uploading, Galaxy will try to guess the type of your files, but you can also explicitly specify the type of the files when uploading. For example, by default Galaxy will uncompress files when ulpoading, but if you specify that your files are fastqsanger.gz, it will keep them compressed, saving disk space.
-
-
-**TASK**: Although Galaxy is much simpler to use, it is just hiding some details from you (and sometimes, important details are left out), so if you can, you should invest in learning the detailed command line usage of the tool. In the commandline, use Trimmomatic to remove low quality bases from sample_quality_and_adaptors. Type the command "TrimmomaticSE -phred33 sample_quality_and_adaptors.fastq.gz sample_quality_and_adaptors.trimmed.fastq.gz SLIDINGWINDOW:4:20".  You should now have a new file with the trimmed reads. Evaluate the impact by using FastQC on the file with the trimmed reads.
+<br/>
 
 **QUESTION**: What was the impact of running Trimmomatic?
 <details><summary>Click Here to see the answer</summary><p>
 The base quality improved significantly. Nonetheless, several sequences now became smaller due to the trimming. Some became very small, and it should even be impossible to use them afterwards in the remaining of the analysis. Therefore, it is common to remove sequences that fall below a certain length (eg. 36bp). This can be done in Trimmomatic using the extra trimming option of 'MINLEN:36'.
 </p></details>
+<br/>
+
+**TASK**: Although Galaxy is much simpler to use, it is just hiding some details from you (and sometimes, important details are left out), so if you can, you should invest in learning the detailed command line usage of the tool. In the commandline, use Trimmomatic to remove low quality bases from sample_quality_and_adaptors. Type the command "TrimmomaticSE -phred33 sample_quality_and_adaptors.fastq.gz sample_quality_and_adaptors.trimmed.fastq.gz SLIDINGWINDOW:4:20".  You should now have a new file with the trimmed reads. Evaluate the impact by using FastQC on the file with the trimmed reads.
+
+
 <br/>
 <br/>
 
