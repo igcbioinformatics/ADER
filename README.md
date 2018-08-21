@@ -133,7 +133,7 @@ For this, we are providing small example datasets and exercises that participant
 		Account for batch effects and paired data 
 		Performing ANOVA-like comparisons
 
-### LO 9 - Understand specificies of differential gene expression in the case of single-cell RNA-Seq
+### LO 9 - Understand specificies of differential gene expression in single-cell RNAseq
 
 #### 	LO 9.1 - Generate a count matrix for a single-cell RNAseq dataset (Chromium - 10x Genomics)
 		Specificities of single-cell RNAseq, using the Chromium system as example
