@@ -231,7 +231,7 @@ Like Trimmomatic, most software for the analysis of HTS data is freely available
 
 **TASK**: Let's use Galaxy to run Trimmomatic. Open the web browser (eg. Firefox). Type [localhost:8080](localhost:8080) in the URL tab (where you put the web addresses). This means that you are accessing a galaxy instance that is running on your local machine. You should see the Galaxy interface on your web browser. The available tools are listed on the left panel, and you can search for tools by their name. Search for trimmomatic in the tool search bar. Click on the tool Trimmomatic to see the options for running the tool.
 
-**QUESTION**: What different operations can you perform with Trimmomatic that use the base quality information?
+**QUESTION**: What different operations can you perform on the reads with Trimmomatic?
 <details><summary>Click Here to see the answer</summary>
 
 You can perform the following operations with Trimmomatic (either isolated, or in combination):
