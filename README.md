@@ -139,7 +139,7 @@ For this, we are providing small example datasets and exercises that participant
 		Specificities of single-cell RNAseq, using the Chromium system as example
 		Diferences in raw data preprocessing and counting
 
-#### 	LO 9.2 - Generate groups of cells by clustering 
+#### 	LO 9.2 - Generate groups of cells by clustering gene expression
 		Quality checking and filtering of the count table
 		Interpreting PCA plots and dimensionality reduction
 
@@ -201,22 +201,22 @@ For this, we are providing small example datasets and exercises that participant
 ### Thursday, October 11th
 
 + 09:30 - 10:00 Morning wrap-up (what have we done so far?)
-+ 10:00 - 11:00 Specificities of Single Cell Analysis.
++ 10:00 - 11:00 [Specificities of single-cell RNAseq, using the Chromium system as example](material/Practical.md#LO9.1).
 + 11:00 - 11:30 ***Coffee Break***
-+ 11:30 - 12:30 Specificities of Single Cell Analysis.
++ 11:30 - 12:30 [Generate a count matrix for a single-cell RNAseq dataset](material/Practical.md#LO9.1).
 + 12:30 - 14:00 ***LUNCH BREAK***
-+ 14:00 - 16:00 Specificities of Single Cell Analysis.
++ 14:00 - 16:00 [Generate groups of cells by clustering gene expression](material/Practical.md#LO9.2).
 + 16:00 - 16:30 ***Tea Break***
-+ 16:30 - 18:00 Specificities of Single Cell Analysis.
++ 16:30 - 18:00 [Obtain marker genes for the different groups of cells](material/Practical.md#LO9.3).
 
 ### Friday, October 11th
 
 + 09:30 - 10:00 Morning wrap-up (what have we done so far?)
-+ 10:00 - 11:00 [How to extract meaning from a list of genes](material/Practical.md#LO9.1).
++ 10:00 - 11:00 [How to extract meaning from a list of genes](material/Practical.md#LO10.1).
 + 11:00 - 11:30 ***Coffee Break***
-+ 11:30 - 12:30 [Understand the concept of functional enrichment analysis, and the statistics involved](material/Practical.md#LO9.2).
++ 11:30 - 12:30 [Understand the concept of functional enrichment analysis, and the statistics involved](material/Practical.md#LO10.2).
 + 12:30 - 14:00 ***LUNCH BREAK***
-+ 14:00 - 16:00 [Interpret the results of functional enrichment analysis](material/Practical.md#LO9.3).
++ 14:00 - 16:00 [Interpret the results of functional enrichment analysis](material/Practical.md#LO10.3).
 + 16:00 - 16:30 ***Tea Break***
 + 16:30 - 18:00 Final wrap-up Session.
 
