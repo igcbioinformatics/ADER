@@ -135,9 +135,16 @@ For this, we are providing small example datasets and exercises that participant
 
 ### LO 9 - Understand specificies of differential gene expression in the case of single-cell RNA-Seq
 
-#### 	LO 9.1 - Generate a count matrix for a single cell RNA-Seq dataset (Chromium - 10x Genomics)
+#### 	LO 9.1 - Generate a count matrix for a single-cell RNAseq dataset (Chromium - 10x Genomics)
+		Specificities of single-cell RNAseq, using the Chromium system as example
 		Diferences in raw data preprocessing and counting
-		
+
+#### 	LO 9.2 - Generate groups of cells by clustering 
+		Quality checking and filtering of the count table
+		Interpreting PCA plots and dimensionality reduction
+
+#### 	LO 9.3 - Obtain marker genes for the different groups of cells
+		Indentify genes that distinguish the different groups
 
 ### LO 10 - Perform simple functional enrichment analysis and understand the concepts involved
 		
