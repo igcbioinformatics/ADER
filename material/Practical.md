@@ -4,9 +4,7 @@ A good source of information for this part is [RNA-seqlopedia](http://rnaseq.uor
 
 #### The High Throughput Sequencing Workflow
 
-[Sanger sequencing](https://en.wikipedia.org/wiki/Sanger_sequencing) brought about a technological revolution, as it allowed to directly read DNA molecules with relative ease and affordability. The [Human Genome Project](https://en.wikipedia.org/wiki/Human_Genome_Project) motivated further progress, leading to automated DNA-sequencing machines capable of sequencing up to 384 samples in a single batch using capillary electrophoresis.
-
-![NGS Workflow](images/NGSworkflow.jpg)
+[Sanger sequencing](https://en.wikipedia.org/wiki/Sanger_sequencing) brought about a technological revolution, as it allowed to directly read DNA molecules with relative ease and affordability. The [Human Genome Project](https://en.wikipedia.org/wiki/Human_Genome_Project) motivated further progress, leading to automated DNA-sequencing machines capable of sequencing up to 384 samples in a single batch using capillary electrophoresis. Further advances enabled the development of high throughput (HTS) platforms.
 
 At the moment, the high throughput sequencing technology most often used (by far) is Illumina. Similarly to the Sanger method, it is also based on the addition of nucleotides specifically modified to block DNA strand elongation, where each nucleotide is marked with a different color. Unlike the Sanger method, where a single DNA molecule is "read" at a time, modern illumina machines allow reading up to millions of DNA molecules simultaneously.  
 
@@ -29,6 +27,8 @@ Commmon steps in most high throughput sequencing workflows:
 
 </p>
 <br/>
+
+![NGS Workflow](images/NGSworkflow.jpg)
 
 Many sequencing machines can read both ends of a fragment. This is called paired-end sequencing.
 
