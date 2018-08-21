@@ -59,7 +59,7 @@ When sending your samples to a sequencing facility, these are the most frequent 
 </p>
 <br/>
 
-#### Designing your experiment for differential expression using RNA-Seq.
+#### Designing your experiment for differential expression using RNAseq.
 
 Longer read length, paired-end sequencing and strand-specific library preparation are particularly relevant to reveal gene structure. For example, on a non-model organism for which there is no genome sequenced, or the genes are poorly annotated. They are also relevant when alterative splicing is a factor to take into consideration. Discovering gene structure is a complex process and it would be the subject of an entire course on its own.
 
@@ -70,7 +70,7 @@ To infer genes differentially expressed between conditions, we need to obtain ac
 At IGC we mainly use two library preparation methods (both unstranded): [Smart-seq](http://www.clontech.com/GQ/Products/cDNA_Synthesis_and_Library_Construction/Next_Gen_Sequencing_Kits/Single_cell_RNA_Seq_Kits_for_mRNA_seq/Single_Cell_RNA_Seq_v4) and [QuantSeq](https://www.lexogen.com/quantseq-3mrna-sequencing/).  Smart-seq sequences full length cDNAs, while QuantSeq only sequences the ends of the transcripts (and thus requires less reads per sample). Smart-Seq can take samples with very low numbers of cells, including single-cell experiments which usually require less reads (5-10M), and many replicates. Specific analysis techniques are necessary for samples with very low cell numbers, which we will not be able to cover in this course.
 
 
-### <a id="LO2">Learning Outcome 2: List steps in the analysis of RNA-Seq differential expression experiments</a>
+### <a id="LO2">Learning Outcome 2: List steps in the analysis of RNAseq differential expression experiments</a>
 
 Steps in the analysis of RNA-Seq:
 <p>
@@ -91,7 +91,7 @@ Steps in the analysis of RNA-Seq:
 </p>
 <br/>
 
-![RNA-Seq Workflow](images/RNASeqworkflow.jpg)
+![RNAseq Workflow](images/RNASeqworkflow.jpg)
 
 
 # <a id="LO3">Learning Outcome 3: Assess the general quality of the raw data from the sequencing facility</a>
