@@ -927,10 +927,18 @@ The final example we will explore contains several factors, and one of the facto
 **TASK**: In Rstudio, run edgeR_example4_GSE60450.R.
 
 
+# <a id="LO9">Learning Outcome 9 - Understand specificies of differential gene expression in the case of single-cell RNAseq</a>
 
-# <a id="LO9">Learning Outcome 9 - Perform simple functional enrichment analysis and understand the concepts involved</a>
+## <a id="LO9.3">LO 9.1 - Generate a count matrix for a single-cell RNAseq dataset (Chromium - 10x Genomics)</a>
 
-## <a id="LO9.1">LO 9.1 - How to extract meaning from a list of genes</a>
+## <a id="LO9.3">LO 9.2 - Generate groups of cells by clustering gene expression</a>
+
+## <a id="LO9.3">LO 9.3 - Obtain marker genes for the different groups of cells</a>
+
+
+# <a id="LO10">Learning Outcome 10 - Perform simple functional enrichment analysis and understand the concepts involved</a>
+
+## <a id="LO10.1">LO 10.1 - How to extract meaning from a list of genes</a>
 
 A list of genes of “interest” produced by an ‘omics experiment such as RNA-seq is mostly meaningless: gene identifiers are opaque, and we’re generally interested in understanding phenomena at the cellular and/or organismal level, rather than the gene level. To do this, we must abstract from the genes to their functions, or whatever other aspect we’re interested in studying (e.g., chromosome locations, transcription regulation networks).
 In order to abstract to the functional level, we need functional descriptions of the genes in a consistent manner, i.e., we need all functional aspects to be described in the same manner for all genes that have those aspects. In other words, we need genes to be <b>annotated</b> using a <b>functional classification scheme</b>. Moreover, this scheme should typically be organized hierarchically: the fine-grained gene functions generally occur in only one or a few genes, so further abstraction is required in order to enable integration of our gene set.
@@ -949,7 +957,7 @@ Viewing the annotations of your gene set on an individual gene basis is unfeasib
 **Task**: Go to [BioMart](http://www.ensembl.org/biomart) and download the GO annotations for <i>Mus musculus</i>. Select "ENSEMBL Genes 92" database, then "Mouse Genes" dataset, then under Attributes, select "Gene stable ID", and from the External section, "GO term accession".
 
 
-## <a id="LO9.2">LO 9.2 - Understand the concept of functional enrichment analysis, and the statistics involved</a>
+## <a id="LO10.2">LO 10.2 - Understand the concept of functional enrichment analysis, and the statistics involved</a>
 
 Enrichment analysis is the application of statistical tests (usually the one-tailed Fisher’s exact test) to ascertain whether a sample set of entities is enriched in relation to the overall population with respect to particular features of interest. By enriched, we mean that the sample frequency of the feature is greater than would be expected by chance given the population frequency.
 
@@ -992,7 +1000,7 @@ For some of these tools, you have to provide the version of GO and the GO annota
   * What is the difference between a p-value, a corrected p-value, and a q-value?
 
 
-## <a id="LO9.3">LO 9.3 - Interpreting the results of functional enrichment analysis</a>
+## <a id="LO10.3">LO 10.3 - Interpreting the results of functional enrichment analysis</a>
 
 What we can get out of functional enrichment analysis results hinges heavily on what we put into them, i.e., on the biological context of our experiment, and the biological question(s) we are seeking to address. The clearer the question, the more straightforward it should be to interpret the results.
 In general, functional enrichment analysis can be used for:
