@@ -90,8 +90,6 @@ Steps in the analysis of RNA-Seq:
 </p>
 <br/>
 
-![RNAseq Workflow](images/RNASeqworkflow.jpg)
-
 
 # <a id="LO3">Learning Outcome 3: Assess the general quality of the raw data from the sequencing facility</a>
 
