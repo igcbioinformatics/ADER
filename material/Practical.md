@@ -425,12 +425,12 @@ The BAM file contains exactly the same information as the SAM file, but compress
 Using services such as Galaxy, the genome indexing step is hidden from the user. When performing the alignment in Galaxy, you usually have two options: either you provide a fasta with the reference genome, or you select an available pre-built genome. When using an available genome, the indexing step was already performed, while if you provide your own fasta of the genome, an indexing step will have to be performed before the alignment step. If your genome of interest is relatively large (roughly >100Mb), it is more efficient to have it pre-built, particularly if you're reusing it often. For this, you will need to ask the persons managing the service you're using. Moreover, the transformation from SAM to BAM and the BAM indexing steps are usually also transparent.
 <br/>
 
-**TASK**: In Galaxy, run Hisat2 on the 20150821.A-2_BGVR_P218 R1 file (in single-end mode) against the Drosophila genome that should be prebuilt in your Galaxy instance (you only need to set the parameter for input fastq and the genome). Now run the same, but using as genome the fasta for the Drosophila genome that you downloaded previously (you'll need to upload it into Galaxy). Compare the differences in the time it takes.
+**TASK**: In Galaxy, run Hisat2 on the 20150821.A-2_BGVR_P218 R1 file (in single-end mode) like you did before, but using as genome the fasta for the Drosophila genome that you downloaded previously (you'll need to upload it into Galaxy). Compare the differences in the time it takes to run Hisat2.
 <br/>
 
 **QUESTION**:: Which took longer: the one with the prebuilt genome index or the one where you passed the genome fasta?
 <details><summary>Click Here to see the answer</summary><p>
-The alignment using the prebuilt genome index took much less time.
+The alignment using the prebuilt genome index took much less time, since the genome index was already generated.
 </p></details>
 <br/>
 
@@ -444,18 +444,17 @@ Most genomes (particularly mamallian genomes) contain areas of low complexity, c
 In the guilgur folder, you'll have data extracted from [Guilgur et al, 2014](https://elifesciences.org/content/3/e02181). In this Drosophila melanogaster dataset, we have two conditions (WT and mut), with two replicates for each (note that nowadays, it is more common to use 3 or more replicates). To make it quick to run, we have extracted data for a very limited set of genes. This data is already of good quality, ready to align.
 <br/>
 
-**TASK**: In Galaxy, upload all R1 files from the guilgur folder (NOTE: when uploading to Galaxy, explicitly set their type to fastqsanger.gz). Next run Hisat2 on them using the Drosophila genome that is already prebuilt. After finishing, download all BAM files **and** their companion indexes (when clicking on the disk, you'll have two files to download, download them both).
+**TASK**: In Galaxy, upload all R1 files from the guilgur folder (NOTE: when uploading to Galaxy, explicitly set their type to fastqsanger.gz). Next run Hisat2 on them using the Drosophila genome that is already prebuilt. After finishing, download all BAM files **and** their companion indexes (when clicking on the disk icon, you'll have two files to download, download them both).
 <br/>
 
-**Hint**: You can rename an item in you history by pressing the Edit Attributes button ![edit](images/edit.jpg). Renaming files may come in handy later.
+**Hint**: You may want to create a new empty history to avoid having too many datasets in the same history. You can rename an item in you history by pressing the Edit Attributes button ![edit](images/edit.jpg). Renaming files may come in handy later.
 <br/>
 
-To have a dataset with a more realistic size, we will also use data from Trapnell and colleagues [(Trapnell et. al, 2012)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3334321/), where the authors created an artificial Drosophila melanogaster dataset with 2 conditions and 3 replicates each, where 300 genes were perturbed in-silico. The original "raw" data and processed files can be found [here](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE32038).
+To have a dataset with a more realistic size, we will also use data from Trapnell and colleagues [(Trapnell et. al, 2012)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3334321/), where the authors created an artificial Drosophila melanogaster dataset with 2 conditions and 3 replicates each, where 300 randomly selected genes (from the set of genes expressed) were perturbed in-silico. The original "raw" data and processed files can be found [here](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE32038).
 <br/>
 
-**TASK**: Use Hisat2 on all the R1 files from the Trapnell dataset, either in Galaxy (using the Drosophila genome that is already prebuilt) or using the command line. When uploading to Galaxy, also explicitly set their type to fastqsanger.gz.
+**TASK**: Use Hisat2 on all the R1 files from the Trapnell dataset, either in Galaxy (using the Drosophila genome that is already prebuilt) or using the command line. When uploading to Galaxy, also explicitly set their type to fastqsanger.gz to minimize the disk space used.
 <br/>
-
 <br/>
 
 **NOTE**: Assess how well you achieved the learning outcome. For this, see how well you responded to the different questions during the activities and also make the following questions to yourself.
