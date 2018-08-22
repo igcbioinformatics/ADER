@@ -450,12 +450,6 @@ In the guilgur folder, you'll have data extracted from [Guilgur et al, 2014](htt
 **Hint**: You may want to create a new empty history to avoid having too many datasets in the same history. You can rename an item in you history by pressing the Edit Attributes button ![edit](images/edit.jpg). Renaming files may come in handy later.
 <br/>
 
-To have a dataset with a more realistic size, we will also use data from Trapnell and colleagues [(Trapnell et. al, 2012)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3334321/), where the authors created an artificial Drosophila melanogaster dataset with 2 conditions and 3 replicates each, where 300 randomly selected genes (from the set of genes expressed) were perturbed in-silico. The original "raw" data and processed files can be found [here](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE32038).
-<br/>
-
-**TASK**: Use Hisat2 on all the R1 files from the Trapnell dataset, either in Galaxy (using the Drosophila genome that is already prebuilt) or using the command line. When uploading to Galaxy, also explicitly set their type to fastqsanger.gz to minimize the disk space used.
-<br/>
-<br/>
 
 **NOTE**: Assess how well you achieved the learning outcome. For this, see how well you responded to the different questions during the activities and also make the following questions to yourself.
 
@@ -586,14 +580,10 @@ A Qualimap report includes, among other things:
 <br/>
 
 
-**QUESTION**:  Can you see differences in the Qualimap reports of the different samples?
+**QUESTION**: Can you see differences in the Qualimap reports of the different samples?
 <details><summary>Click Here to see the answer</summary><p>
 The Genomic origin indicates reads as being mostly exonic, although in the case of the mutant samples there is a slightly larger proportion of intronic reads. Although we know that mutant samples have splicing issues, this is not very noticeable here because the plot is dominated by highly expressed ubiquitous genes that are also of maternal origin (and thus do not have splicing issues). The greatest difference is in the plot for the coverage along the gene, but surprisingly (or not, given what we saw in IGV), the difference is between the replicates and not between genotypes. As we saw before, the libraries for the second replicate seem to have greater degradation, and thus reads get concentrated towards the polyA tail ("end" of the gene). Also note that this plot is highly dominated by the highly expressed gene Act5C.
 </p></details>
-<br/>
-
-
-**TASK**: Run a Qualimap RNA-Seq report with one of the Trapnell BAM files (use the full Drosophila annotation). In this case you should see an ideal RNA-Seq profile, with almost all reads alignining, close to 100% exonic reads, and homogeneous coverage along the gene.
 <br/>
 
 
@@ -656,8 +646,6 @@ Finally, how to avoid PCR artifacts? To be as safe as possible, we would remove 
 **Hint**: featureCounts can take multiple BAM files simultaneously, generating a single table with the counts for all samples.
 <br/>
 
-**TASK**: Use featureCounts (in Galaxy or the command line) to generate tables of counts for the Trapnell dataset (now using the full annotation).
-<br/>
 
 ## <a id="LO7.3">LO 7.3 - Use Salmon to generate counts with only the transcriptome</a>
 
@@ -818,6 +806,26 @@ The samples sharing the genotype are clearly closer together.
 </details>
 <br/>
 
+
+**TASK**: In Galaxy, use DESeq2 with the salmon results you obtained previously for the guilgur data. Do the same as with the htseq-count results, but now choose as "Choice of Input Data" the option TPM values. You'll need to map transcripts to genes, and for this choose the "Gene Mapping Format" Transcript-ID and Gene-ID mapping, and select the file 'Drosophila_melanogaster.BDGP6.88.sample.cdna.tr_to_gene.tab'. Compare the results with what you obtained previously.
+<br/>
+<br/>
+
+To have a dataset with a more realistic size, we will also use data from Trapnell and colleagues [(Trapnell et. al, 2012)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3334321/), where the authors created an artificial Drosophila melanogaster dataset with 2 conditions and 3 replicates each, where 300 randomly selected genes (from the set of genes expressed) were perturbed in-silico. The original "raw" data and processed files can be found [here](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE32038).
+<br/>
+
+**TASK**: Use Hisat2 on all the R1 files from the Trapnell dataset, either in Galaxy (using the Drosophila genome that is already prebuilt) or using the command line. When uploading to Galaxy, also explicitly set their type to fastqsanger.gz to minimize the disk space used.
+<br/>
+
+**Hint**: You may want to create a new empty history to avoid having too many datasets in the same history. You can rename an item in you history by pressing the Edit Attributes button ![edit](images/edit.jpg). Renaming files may come in handy later.
+<br/>
+
+**TASK**: Run a Qualimap RNA-Seq report with one of the Trapnell BAM files (use the full Drosophila annotation). In this case you should see an ideal RNA-Seq profile, with almost all reads alignining, close to 100% exonic reads, and homogeneous coverage along the gene.
+<br/>
+
+**TASK**: Use featureCounts (in Galaxy or the command line) to generate tables of counts for the Trapnell dataset (now using the full annotation).
+<br/>
+
 **TASK**: In Galaxy, use DESeq2 to perform a pairwise comparison with the count results you obtained for the Trapnell dataset. Name the factor "Condition" and two factor variables "C1" and "C2", with 3 replicates each.
 
 **QUESTION:** How many genes were detected to be differentially expressed (P-adj < 0.05)? Hint: you can use the filter tool in Galaxy.
@@ -847,8 +855,6 @@ You can see the re-estimated log fold changes (M, in the y axis) along the range
 
 </details>
 <br/>
-
-**TASK**: In Galaxy, use DESeq2 with the salmon results you obtained previously for the guilgur data. Do the same as with the htseq-count results, but now choose as "Choice of Input Data" the option TPM values. You'll need to map transcripts to genes, and for this choose the "Gene Mapping Format" Transcript-ID and Gene-ID mapping, and select the file 'Drosophila_melanogaster.BDGP6.88.sample.cdna.tr_to_gene.tab'. Compare the results with what you obtained previously.
 
 
 ## <a id="LO8.3">LO 8.3 - More complex settings for differential expression: paired data, batch effects</a>
