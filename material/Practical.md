@@ -652,15 +652,6 @@ Finally, how to avoid PCR artifacts? To be as safe as possible, we would remove 
 As mentioned previously, Salmon directly matches the raw reads against a fasta with the known transcriptome, directly generating a table of "counts". Since it assigns reads to transcripts probabilistically, the result is sometimes not an integer, but a fractional number.
 <br/>
 
-**TASK**: Like for the other aligners, Salmon also needs to create an index. In the terminal, run the command 'salmon index --transcripts Drosophila_melanogaster.BGP6.88.sample.cdna.fa --index  Drosophila_melanogaster.BGP6.88.sample.cdna.salmon'. Next, run the alignment using the command 'salmon quant --index  Drosophila_melanogaster.BGP6.88.sample.cdna.salmon -l A -r mut_lib1_R1.fq.gz -o mut_lib1_R1.salmon.counts'.
-<br/>
-
-**QUESTION**:  What is the result you obtain? (there should be a folder called mut_lib1_R1.salmon.counts. Inside the folder, there should be a file "quant.sf". Open that file with a text editor or spreadsheet)
-<details><summary>Click Here to see the answer</summary><p>
-  You obtain a table of counts, but for each transcript. The counts are fractional numbers. You also have normalized counts (per million reads), and information on the "real" transcript length and an "effective" length that can be used for normalization, which takes into account several biases.
-</p></details>
-<br/>
-
 **TASK**: In Galaxy, run Salmon with the guilgur data against the sample transcriptome (Drosophila_melanogaster.BGP6.88.sample.cdna.fa). To obtain gene level counts, you also need to use a table converting transcripts to genes (Drosophila_melanogaster.BDGP6.88.sample.cdna.tr_to_gene.tab). Salmon will then obtain gene counts by merging transcript counts. Notice that no SAM/BAM is generated.
 <br/>
 
@@ -678,6 +669,15 @@ As mentioned previously, Salmon directly matches the raw reads against a fasta w
 </p></details>
 <br/>
 
+**TASK**: Like for the aligners we used, Salmon also needs to create an index to speed up the matching process. In the terminal, run the command ```salmon index --transcripts Drosophila_melanogaster.BGP6.88.sample.cdna.fa --index  Drosophila_melanogaster.BGP6.88.sample.cdna.salmon```. Next, run the alignment using the command ```salmon quant --index  Drosophila_melanogaster.BGP6.88.sample.cdna.salmon -l A -r mut_lib1_R1.fq.gz -o mut_lib1_R1.salmon.counts```.
+<br/>
+
+**QUESTION**:  What is the result you obtain? (there should be a folder called mut_lib1_R1.salmon.counts. Inside the folder, there should be a file "quant.sf". Open that file with a text editor or spreadsheet)
+<details><summary>Click Here to see the answer</summary><p>
+  You obtain a table of counts, but for each transcript. The counts are fractional numbers. You also have normalized counts (per million reads), and information on the "real" transcript length and an "effective" length that can be used for normalization, which takes into account several biases.
+</p></details>
+<br/>
+
 
 **NOTE**: Assess how well you achieved the learning outcome. For this, see how well you responded to the different questions during the activities and also make the following questions to yourself.
 
@@ -687,14 +687,14 @@ As mentioned previously, Salmon directly matches the raw reads against a fasta w
 
   * Could you use featureCounts to generate a table of counts?
 
-  * Could you use Salmon to produce a table of counts by using the raw fastq files against the transcripts?
+  * Could you use Salmon to produce a table of counts by using the fastq files against the transcripts?
 
 <br/>
 <br/>
 
 # <a id="LO8">Learning Outcome 8: Generate lists of differentially expressed genes, at least for a simple pairwise comparison</a>
 
-## <a id="LO8.1">LO 8.1 - Using the R packages edgeR and DESeq2 to produce a pairwise differential expression analysis</a>
+## <a id="LO8.1">LO 8.1 - Execute a pairwise differential expression analysis</a>
 
 We now have a table of "raw" reads counts per gene for each sample. Since there will be different number of reads for each sample, we first need to normalize the counts. For this, we can just divide each gene count by the total number of reads for that sample (transforming it into a relative number). Since numbers are usually on the order of millions, this would make for very small numbers, so the most common measure is to divide by the total number of millions of reads (eg. divide by 5, instead of 5 million). This way, we transform "raw" counts into a relative number of "counts per million reads", or CPM.
 
@@ -712,9 +712,11 @@ We now have a table of "raw" reads counts per gene for each sample. Since there 
 </p></details>
 <br/>
 
-It is also common to normalize counts according to gene length. One measure that is often used is RPKM (Reads per Kb per Million reads) in case of single-end data, or FPKM (Fragments per Kb per Million Reads) in case of paired-end data. This is simply obtained by dividing the CPM by the number of Kbs of a gene. For example, gene Rpn12R has 0.94kb (it is a single exon gene), so the RPKM in mut Lib 1 is 1185.29 (1114.17/0.94). Having a normalized RPKM value may lead us to think that we can now safely compare gene expression not only between samples, but also between genes of the same sample. We should always avoid comparing expression values of different genes, because read counts depend on gene length non-linearly, and also on factors such as GC content of the gene.
+It is also common to normalize counts according to gene length. One measure that is often used is RPKM (Reads per Kb per Million reads) in case of single-end data, or FPKM (Fragments per Kb per Million Reads) in case of paired-end data. This is simply obtained by dividing the CPM by the number of Kbs of a gene. For example, gene Rpn12R has 0.94kb (it is a single exon gene), so the RPKM in mut Lib 1 is 1185.29 (1114.17/0.94). Having a normalized RPKM value may lead us to think that we can now safely compare gene expression not only between samples, but also between genes of the same sample. Nonetheless, we should always avoid comparing expression values of different genes, because read counts depend on gene length non-linearly, and also on factors such as GC content of the gene.
 
-Nonetheless, even to compare the same gene between samples, this first normalization is usually not enough. You need to be constantly aware that sequencing is a sampling experiment. If in one sample there is a gene or set of genes very highly expressed, then the amount of reads available for the rest of the genes is lower than for other samples where the highly expressed gene is not so highly expressed. So, many genes that may not be differentially expressed will appear so just because of this sampling artifact.
+But even to compare the same gene between samples, this first normalization is usually not enough. You need to be constantly aware that sequencing is a sampling experiment. If in one sample there is a gene or set of genes very highly expressed, then the amount of reads available for the rest of the genes is lower than for other samples where the highly expressed gene is not so highly expressed. So, many genes that may not be differentially expressed will appear so just because of this sampling artifact.
+
+![Competition](images/competition.jpg)
 
 If we assume that most genes are not differentially expressed, then the ratio of counts between samples should be the same for most genes. This assumption is the basis for many types of normalization steps. One simple process consists of obtaining a reference sample where each gene counts is the mean of that gene counts in all samples. Then, for each sample, calculate the ratio of each gene count against the gene count in the reference. For most genes, this ratio should be 1 (under our initial assumption). Therefore, the median (to avoid the issue of outliers) can be used as a sample specific normalization factor.
 
