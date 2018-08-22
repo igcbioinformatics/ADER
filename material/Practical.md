@@ -186,7 +186,7 @@ The reverse read has poorer quality bases. This is usually the case, at least fo
 </p></details>
 <br/>
 
-**TASK**: Let's see now one simple example of the power of running tools using the command-line terminal. In a terminal window (it can be the same as you used to open fastqc, though you'll need to close the program), go to the folder fastq_examples using the 'cd' command. Type 'fastqc *.fastq.gz' and press enter. Inside the folder, you should now see a series of html files with FastQC reports of each of the fastq files. You can open them with the web browser by clicking on them with the mouse, or by running 'firefox *.html'.
+**TASK**: Let's see now one simple example of the power of running tools using the command-line terminal. In a terminal window (it can be the same as you used to open fastqc, though you'll need to close the program), go to the folder fastq_examples using the ```cd``` command. Type ```fastqc *.fastq.gz``` and press enter. Inside the folder, you should now see a series of html files with FastQC reports of each of the fastq files. You can open them with the web browser by clicking on them with the mouse, or by running ```firefox *.html```.
 
 
 **NOTE**: Assess how well you achieved the learning outcome. For this, see how well you responded to the different questions during the activities and also make the following questions to yourself.
@@ -265,12 +265,11 @@ You can perform the following operations with Trimmomatic (either isolated, or i
 
 **QUESTION**: What was the impact of running Trimmomatic?
 <details><summary>Click Here to see the answer</summary><p>
-The base quality improved significantly. Nonetheless, several sequences now became smaller due to the trimming. Some became very small, and it should even be impossible to use them afterwards in the remaining of the analysis. Therefore, it is common to remove sequences that fall below a certain length (eg. 36bp). This can be done in Trimmomatic using the extra trimming option of 'MINLEN:36'.
+The base quality improved significantly. Nonetheless, several sequences now became smaller due to the trimming. Some became very small, and it should even be impossible to use them afterwards in the remaining of the analysis. Therefore, it is common to remove sequences that fall below a certain length (eg. 36bp).
 </p></details>
 <br/>
 
-**TASK**: Although Galaxy is much simpler to use, it is just hiding some details from you (and sometimes, important details are left out), so if you can, you should invest in learning the detailed command line usage of the tool. In the commandline, use Trimmomatic to remove low quality bases from sample_quality_and_adaptors. Type the command "TrimmomaticSE -phred33 sample_quality_and_adaptors.fastq.gz sample_quality_and_adaptors.trimmed.fastq.gz SLIDINGWINDOW:4:20".  You should now have a new file with the trimmed reads. Confirm the effect of Trimmomatic by using FastQC on the file with the trimmed reads.
-
+**TASK**: Although Galaxy is much simpler to use, it is just hiding some details from you (and sometimes, important details are left out), so if you can, you should invest in learning the detailed command line usage of the tool. In the commandline, use Trimmomatic to remove low quality bases from sample_quality_and_adaptors. Type the command ```TrimmomaticSE -phred33 sample_quality_and_adaptors.fastq.gz sample_quality_and_adaptors.trimmed.fastq.gz SLIDINGWINDOW:4:20```.  You should now have a new file with the trimmed reads. Confirm the effect of Trimmomatic by using FastQC on the file with the trimmed reads.
 
 <br/>
 <br/>
@@ -365,6 +364,38 @@ Finally, another set of more recent approaches quickly gaining in popularity map
 
 ## <a id="LO5.3">LO 5.3 - Running an alignment. The SAM/BAM alignment format</a>
 
+**TASK**: In Galaxy, run Hisat2 on the 20150821.A-2_BGVR_P218 R1 fastq file (in single-end mode) against the Drosophila genome that should be available in your Galaxy instance (you only need to set the parameter for input fastq and the genome).
+<br/>
+
+**QUESTION**:: What's the result of running Hisat2
+<details><summary>Click Here to see the answer</summary><p>
+The result of Hisat is an alignment file in the BAM format.
+</p></details>
+<br/>
+
+The output of these aligners consist of SAM/BAM files. The [Sequence Alignment/Map (SAM) format](https://samtools.github.io/hts-specs/SAMv1.pdf) is a tabular text file format, where each line contains information for one alignment. SAM files are most often compressed as BAM (Binary SAM) files, to reduce space and allow direct access to alignments in any arbitrary region of the genome. Several tools (particularly the most recent ones) only work with BAM files. Some aligners still produce only SAM files, which may need to be converted to BAM.
+
+![SAM Structure](images/bam_structure.png)
+<br/>
+
+**TASK**: Visualize the BAM you generated in Galaxy.
+<br/>
+
+**QUESTION**:: What is the position of the start of the first alignment in your SAM file?
+<details><summary>Click Here to see the answer</summary><p>
+The first line in the SAM file (after the header section with the lines starting with '@') corresponds to the alignment of the first sequence in the fastq file (HWI-D00418:83:C7G9GANXX:2:2108:16128:97655). It aligns in cromosome 2L, position 18391979, in the reverse orientation (that's what the 16 in the second column means), with a mapping quality of 60. In this particular case, the first 9 bases where not aligned (they were soft clipped).
+</p></details>
+<br/>
+
+The reads that do not align are also in the SAM file, but with information mentioning that they did not align the reference.
+
+**QUESTION**:: In the description of the BAM file (result of Hisat2), you should see some text reporting a summary of the alignment. What's the overall alignment rate that is reported?
+<details><summary>Click Here to see the answer</summary><p>
+The overall alignment rate is 81.41%.
+</p></details>
+<br/>
+
+
 As we mentioned before, aligners for NGS data depend on large data structures for their efficiency. These structures (like the blast databases) are built from the fasta file containing the sequence of the reference genome. This process is relatively slow and computationally intensive, although it is only necessary to do it once for each reference genome. Therefore, before aligning your reads, it is necessary to do an indexing step on the genome sequence that will be used for alignment. If using the tools on the command line, one needs to explicitly perform this step.
 
 
@@ -379,30 +410,10 @@ You can see several files, all starting with 'Drosophila_melanogaster.BDGP6.dna.
 <br/>
 <br/>
 
-**TASK**: After the indexing step, you can now perform the alignment. Make sure the file 20150821.A-2_BGVR_P218_R1.sample.fastq.gz that is inside the fastq_examples folder is in the same folder as your genome index. Now, run the following command: 'hisat2 -x Drosophila_melanogaster.BDGP6.dna.toplevel.hisat2 -U 20150821.A-2_BGVR_P218_R1.sample.fastq.gz > 20150821.A-2_BGVR_P218_R1.sample.fastq.gz.sam'.
+**TASK**: After the indexing step, you can now perform the alignment. Make sure the file 20150821.A-2_BGVR_P218_R1.sample.fastq.gz that is inside the fastq_examples folder is in the same folder as your genome index. Now, run the following command: ```hisat2 -x Drosophila_melanogaster.BDGP6.dna.toplevel.hisat2 -U 20150821.A-2_BGVR_P218_R1.sample.fastq.gz > 20150821.A-2_BGVR_P218_R1.sample.fastq.gz.sam```.
 <br/>
 
-**QUESTION**:: When running the command, after it finishes, you should see some text reporting a summary of the alingment. What's the overall alignment rate?
-<details><summary>Click Here to see the answer</summary><p>
-The overall alignment rate is 81.41%.
-</p></details>
-<br/>
-
-The output of these aligners consist of SAM/BAM files. The [Sequence Alignment/Map (SAM) format](https://samtools.github.io/hts-specs/SAMv1.pdf) is a tabular text file format, where each line contains information for one alignment. SAM files are most often compressed as BAM (Binary SAM) files, to reduce space and allow direct access to alignments in any arbitrary region of the genome. Several tools (particularly the most recent ones) only work with BAM files. Some aligners still produce only SAM files, which may need to be converted to BAM.
-
-![SAM Structure](images/bam_structure.png)
-<br/>
-
-**TASK**: Open the sam file you generated before in a spreadsheet program.
-<br/>
-
-**QUESTION**:: What is the position of the start of the first alignment in your SAM file?
-<details><summary>Click Here to see the answer</summary><p>
-The first line in the SAM file (after the header section with the lines starting with '@') corresponds to the alignment of the first sequence in the fastq file (HWI-D00418:83:C7G9GANXX:2:2108:16128:97655). It aligns in cromosome 2L, position 18391979, in the reverse orientation (that's what the 16 in the second column means), with a mapping quality of 60. In this particular case, the first 9 bases where not aligned (they were soft clipped).
-</p></details>
-<br/>
-
-**TASK**: We will now transform the SAM file into an indexed BAM file. In the same terminal window where you indexed the genomeand performed the alignment using Hisat, run 'samtools view -Sb 20150821.A-2_BGVR_P218_R1.sample.fastq.gz.sam > 20150821.A-2_BGVR_P218_R1.sample.fastq.gz.bam'. To create the index, the alignments in the bam file need to be sorted by position. For this, run 'samtools sort 20150821.A-2_BGVR_P218_R1.sample.fastq.gz.bam -o 20150821.A-2_BGVR_P218_R1.sample.fastq.gz.sorted.bam'. Finally, we can create the index 'samtools index 20150821.A-2_BGVR_P218_R1.sample.fastq.gz.sorted.bam'. Notice now the appearance of a companion file 20150821.A-2_BGVR_P218_R1.sample.fastq.gz.sorted.bam.bai that contains the index. This file should always accompany its corresponding bam file.
+**TASK**: We will now transform the SAM file into an indexed BAM file. In the same terminal window where you indexed the genomeand performed the alignment using Hisat, run ```samtools view -Sb 20150821.A-2_BGVR_P218_R1.sample.fastq.gz.sam > 20150821.A-2_BGVR_P218_R1.sample.fastq.gz.bam```. To create the index, the alignments in the bam file need to be sorted by position. For this, run ```samtools sort 20150821.A-2_BGVR_P218_R1.sample.fastq.gz.bam -o 20150821.A-2_BGVR_P218_R1.sample.fastq.gz.sorted.bam```. Finally, we can create the index ```samtools index 20150821.A-2_BGVR_P218_R1.sample.fastq.gz.sorted.bam```. Notice now the appearance of a companion file 20150821.A-2_BGVR_P218_R1.sample.fastq.gz.sorted.bam.bai that contains the index. This file should always accompany its corresponding bam file.
 <br/>
 
 Using services such as Galaxy, the genome indexing step is hidden from the user. When performing the alignment in Galaxy, you usually have two options: either you provide a fasta with the reference genome, or you select an available pre-built genome. When using an available genome, the indexing step was already performed, while if you provide your own fasta of the genome, an indexing step will have to be performed before the alignment step. If your genome of interest is relatively large (roughly >100Mb), it is more efficient to have it pre-built, particularly if you're reusing it often. For this, you will need to ask the persons managing the service you're using. Moreover, the transformation from SAM to BAM and the BAM indexing steps are usually also transparent.
