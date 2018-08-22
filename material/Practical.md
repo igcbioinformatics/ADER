@@ -368,10 +368,8 @@ Finally, another set of more recent approaches quickly gaining in popularity map
 As we mentioned before, aligners for NGS data depend on large data structures for their efficiency. These structures (like the blast databases) are built from the fasta file containing the sequence of the reference genome. This process is relatively slow and computationally intensive, although it is only necessary to do it once for each reference genome. Therefore, before aligning your reads, it is necessary to do an indexing step on the genome sequence that will be used for alignment. If using the tools on the command line, one needs to explicitly perform this step.
 
 
-**TASK**: 
-```
-Unzip the fasta file with the Drosophila genome that you downloaded (in the terminal, move to the folder where you downloaded the file and execute 'gunzip Drosophila_melanogaster.BDGP6.dna.toplevel.fa.gz'. If you use the mouse to unzip, it may generate a strange name inside many folders, but it is the correct genome. If it is inside many folders, copy it to the folder where you downloaded the file. You may also want to rename it to the same name as the file you downloaded, but without the .gz. In the same folder where you have the unziped fasta file run the following command: 'hisat2-build Drosophila_melanogaster.BDGP6.dna.toplevel.fa Drosophila_melanogaster.BDGP6.dna.toplevel.hisat2'.
-```
+**TASK**: Unzip the fasta file with the Drosophila genome that you downloaded (in the terminal, move to the folder where you downloaded the file and execute ```gunzip Drosophila_melanogaster.BDGP6.dna.toplevel.fa.gz```. If you use the mouse to unzip, it may generate a strange name inside many folders, but it is the correct genome. If it is inside many folders, copy it to the folder where you downloaded the file. You may also want to rename it to the same name as the file you downloaded, but without the .gz. In the same folder where you have the unziped fasta file run the following command: ```hisat2-build Drosophila_melanogaster.BDGP6.dna.toplevel.fa Drosophila_melanogaster.BDGP6.dna.toplevel.hisat2```.
+
 <br/>
 
 **QUESTION**: After the command finished, can you see other files created in that same folder?
