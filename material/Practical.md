@@ -631,7 +631,7 @@ Finally, how to avoid PCR artifacts? To be as safe as possible, we would remove 
 
 ## <a id="LO7.2">LO 7.2 - Use tools such as featureCounts to generate tables of gene counts</a>
 
-[Featurecounts](http://bioinf.wehi.edu.au/featureCounts/) is a tool to generate gene counts from SAM/BAM alignments and GFF/GTF gene annotations. Its default behavior is to generate counts at the gene level. It assigns a read to a gene if it unambiguously overlaps at least one part of a cDNA produced by the gene (namely, exons). It ignores reads mapping equally well to multiple positions.  
+[Featurecounts](http://bioinf.wehi.edu.au/featureCounts/) is a tool to generate gene counts from SAM/BAM alignments and GFF/GTF gene annotations. Its default behavior is to generate counts at the gene level. It assigns a read to a gene if it unambiguously overlaps at least one part of a cDNA produced by the gene (namely, exons). By default, it ignores reads mapping equally well to multiple positions.  
 
 **TASK**: In galaxy, use featureCounts with all samples of the guilgur dataset (which are unstranded) and the sample gtf file (not the complete one you downloaded) as the annotation (leave all the other parameters as default, although take note of the options you have available).
 
@@ -650,10 +650,13 @@ Finally, how to avoid PCR artifacts? To be as safe as possible, we would remove 
 <br/>
 
 
-**TASK**: In the commandline, run the command: 'featureCounts -a Drosophila_melanogaster.BGP6.85.sample.gtf -o mut_lib1_R1.feature.counts mut_lib1_R1.bam'. Run 'featurecounts -h' to see all the options.
+**TASK**: In the commandline, run the command: ```featureCounts -a Drosophila_melanogaster.BGP6.85.sample.gtf -o mut_lib1_R1.feature.counts mut_lib1_R1.bam```. Run ```featurecounts -h``` to see all the options.
 <br/>
 
-**TASK**: Use featureCounts to generate tables of counts for the Trapnell dataset (now using the full annotation).
+**Hint**: featureCounts can take multiple BAM files simultaneously, generating a single table with the counts for all samples.
+<br/>
+
+**TASK**: Use featureCounts (in Galaxy or the command line) to generate tables of counts for the Trapnell dataset (now using the full annotation).
 <br/>
 
 ## <a id="LO7.3">LO 7.3 - Use Salmon to generate counts with only the transcriptome</a>
