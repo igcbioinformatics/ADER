@@ -475,31 +475,30 @@ To have a dataset with a more realistic size, we will also use data from Trapnel
 
 ## <a id="LO6.1">LO 6.1 - What is a reference gene annotation, versioning and where to obtain</a>
 
-To estimate gene expression, we need to define the genes by identifying their position and structure in the genome. This information is stored
-in a hierarchical fashion (the genes, their transcripts, each transcript's exons, and so on...) in formats such as the [Generic Feature Format (GFF) files](http://gmod.org/wiki/GFF3). These consist basically of tabular text files with positions of genes (and their components) in the genome (for a specific genome version), as well as other information about the gene such as its name. Another common format used for annotations is the [BED format](http://genome.ucsc.edu/FAQ/FAQformat.html#format1).
+To estimate gene expression, we need to define the genes by identifying their position and structure in the genome. This information is stored in a hierarchical fashion (the genes, their transcripts, each transcript's exons, and so on...) in formats such as the [Generic Feature Format (GFF) files](http://gmod.org/wiki/GFF3). These consist basically of tabular text files with positions of genes (and their components) in the genome (for a specific genome version), as well as other information about the gene such as its name. Another common format used for annotations is the [BED format](http://genome.ucsc.edu/FAQ/FAQformat.html#format1).
 
 Each gene annotation is deeply associated to one given version of the genome (because it contains positions in that genome), but the same genome version may (and usually has) several gene annotation versions. The same way one should keep in detail the version of the genome, we should also take note of the version of the gene annotation being used, and from where and when we obtained it. We also need to make sure we're using a gene version that is compatible with the genome version we used.
 
-Gene annotations are usually complex to create, particularly for large mammalian genomes, and are a permanent work in progress (even more than the genome). Annotation of the Human genes is the work of several large groups of researchers. Other model organisms (such as the mouse) also have dedicated teams to curate their genes.  Non-model organisms that are less intensively studied may suffer from having less well characterized annotations, and frequently derived from other better studied organisms.
+Gene annotations are usually complex to create, particularly for large mammalian genomes, and are a permanent work in progress (even more than the genome). Annotation of the Human genes is the work of several large groups of researchers. Other model organisms (such as the mouse) also have dedicated teams to curate their genes. Non-model organisms that are less intensively studied may suffer from having less well characterized annotations, frequently derived from other better studied organisms.
 
-The same way Ensembl is a good source for the genome sequence, it is also a good source to obtain gene annotations. Ensembl even defined a specific variant of the GFF format ([GTF](http://www.ensembl.org/info/website/upload/gff.html)) which is commonly accepted by most applications.
+The same way Ensembl is a good source for the genome sequence, it is also a good source to obtain gene annotations. Ensembl even defined a specific derivative of the GFF format (the [GTF](http://www.ensembl.org/info/website/upload/gff.html) format) which is commonly accepted by most applications.
 
 **TASK**: Obtain the latest Drosophila melanogaster GTF from [Ensembl](http://www.ensembl.org), similarly as you obtained the genome.
 
-**QUESTION**:: Upload the GTF into galaxy and inspect it (using the eye icon). What's the first gene described in the GTF?
+**QUESTION**:: Upload the GTF you obtained into galaxy and inspect it (using the eye icon). What's the first gene described in the GTF?
 <details><summary>Click Here to see the answer</summary><p>
-It's gene Myo81F, FBgn0267431, chromosom 3R, positions 567076 to 2532932, forward strand. You may notice a hierarchical structure, with genes having several transcripts, and each transcript having several exons.
+It's the gene Myo81F (common name), also known as FBgn0267431 (Flybase identifier), located in chromosome 3R, positions 567076 to 2532932, in the forward strand. You may notice a hierarchical structure, with genes having several transcripts, and each transcript having several exons.
 </p></details>
 <br/>
 
 ## <a id="LO6.2">LO 6.2 - Visualizing alignments in IGV for single genes</a>
 
-To visualize the alignments along the reference genome one can use software such as [IGV](http://software.broadinstitute.org/software/igv/) or [Tablet](https://ics.hutton.ac.uk/tablet/), which work with the most common operating systems. To avoid loading all alignments simultaneously in memory, and to be able to quickly search for region-specific alignments, this software uses the BAM format (with indexes).
+The SAM/BAM file contains all the information on the alignments, but it is not a practical way to visualize them for humans. To visualize the alignments along the reference genome one can use software such as [IGV](http://software.broadinstitute.org/software/igv/) or [Tablet](https://ics.hutton.ac.uk/tablet/), which work with the most common operating systems. To avoid loading all alignments simultaneously in memory, and to be able to quickly search for region-specific alignments, this software uses the BAM format (with indexes). With IGV we can have an overview of the alignments, which is particularly useful if we have specific genes of interest apriori. Usually, though, we use IGV after obtaining the final results, to confirm that certain genes (particularly important for our experiment) are really differentially expressed.
 
 ![IGV Visualization](images/IGV_visualization.jpg)
 <br/>
 
-**TASK**: Download the BAM files you generated for the guilgur dataset in Galaxy ![download](images/download.jpg). You also need to download the companion bai index files that accompany each of the BAM files. These bai index files are essential to quickly access alignments inside the BAM file. Run IGV and load the Drosophila genome fasta file as reference (in Genomes, load genome as file). Next load (in File, load file) the provided annotation file (Drosophila_melanogaster.BDGP6.85.sample.gtf) inside the guilgur folder which contains information just for a subset of genes. Finally, load the BAM alignment files.
+**TASK**: Download the BAM files you generated for the guilgur dataset in Galaxy ![download](images/download.jpg). You also need to download the companion bai index files that accompany each of the BAM files. These bai index files are essential to quickly access alignments inside the BAM file. Run IGV and load the Drosophila genome fasta file as reference (in Genomes, load genome as file). Next load (in File, load file) the provided annotation file (Drosophila_melanogaster.BDGP6.85.sample.gtf - **not** the one you downloaded from ENSEMBL) inside the guilgur folder which contains information just for a subset of genes. Finally, load the BAM alignment files.
 <br/>
 
 **Hint**: To run IGV, you can open a terminal, and type 'igv'. It will then take a little bit to start.
@@ -540,7 +539,7 @@ The accumulation of reads at the ends for one group of replicates suggests a bat
 
 **QUESTION**:  Would you be able to detect all of what you saw here using microarrays? If not, what and why?
 <details><summary>Click Here to see the answer</summary><p>
-You wouldn't be able to see unforeseen splicing defects or alternative transcript usage. You would also not be able to see mutations, which you can with sequencing data.
+You wouldn't be able to see unforeseen splicing defects or alternative transcript usage. You would also not be able to see mutations, which you can with sequencing data. It would also probably be hard to detect positional issues like we observed that suggest RNA degradation.
 </p></details>
 <br/>
 
