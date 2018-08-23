@@ -938,15 +938,11 @@ In the original case with all samples, there are 752 genes with adjusted p-value
 
 The tools available in Galaxy are limited in terms of the ability to express more complex experimental designs. Moreover, we are limited to the plots and outputs Galaxy gives us. To have full control on our analysis, we need to go to R and explore all the flexibility that it allows.
 
-The [edgeR manual](https://www.bioconductor.org/packages/devel/bioc/vignettes/edgeR/inst/doc/edgeRUsersGuide.pdf) contains several examples that explore these issues. In the pairwise case, the statistical methods are comparable to a t-test or a fisher exact test. Generalized Linear Models (GLM) allow to include information from several variables simultaneously. The simple pairwise case can also be considered as a GLM, although the statistical methods applied for the test are different than in the "classic" pairwise model.
-
-The following exercises are designed to illustrate the use of two of the most commonly used packages for differential expression analysis in R: DESeq2 and edgeR.
-
-In the first exercise we will analyse the Trapnell datasets, described previously, using DESeq2 and edgeR in its "classic" pairwise exact test mode.
+The following exercises are designed to illustrate the use of two of the most commonly used packages for differential expression analysis in R: DESeq2 and edgeR. In the first exercise we will analyse again the Trapnell datasets, as we did before, using DESeq2 (like we did before) and edgeR in its "classic" pairwise exact test mode. We will then compare the results from both approaches.
 
 **TASK**: Open RStudio on your computer. Using the R console, perform the steps described in this document: [Exercise 1](http://htmlpreview.github.io/?https://github.com/dsobral/ADER/blob/master/material/complex/tutorial1.html)
 
-In the second exercise, based on an example from the edgeR documentation, we will perform a differential expression analysis of the Tuch et al. dataset. This example aims to demonstrate the steps necessary to use edgeR's GLM functions, that are applicable both to a simple pairwise comparison, as well as more complex designs.
+In the second exercise we will perform a differential expression analysis of the Tuch et al. dataset. This example aims to demonstrate the steps necessary to use edgeR's GLM functions, that are applicable both to a simple pairwise comparison, as well as more complex designs.
 
 **TASK**: Open RStudio on your computer. Using the R console, perform the steps described in this document: [Exercise 2](http://htmlpreview.github.io/?https://github.com/dsobral/ADER/blob/master/material/complex/tutorial2.html)
 
@@ -955,6 +951,22 @@ In the second exercise, based on an example from the edgeR documentation, we wil
 The final example we will explore contains several factors, and one of the factors have 3 different possible values. This introduces many possibilities of experimental questions to test. We just need to decide which ones are relevant biological questions. To define which questions make sense, it is usually best to start with the use of unbiased exploratory tools such as PCoA and Hierarchical clustering.
 
 **TASK**: In Rstudio, run edgeR_example4_GSE60450.R.
+
+
+**Hint**: The [edgeR manual](https://www.bioconductor.org/packages/devel/bioc/vignettes/edgeR/inst/doc/edgeRUsersGuide.pdf) is a very good source of information. 
+<br/>
+<br/>
+
+**NOTE**: Assess how well you achieved the learning outcome. For this, see how well you responded to the different questions during the activities and also make the following questions to yourself.
+
+  * Could you use Rstudio to run a differential expression analysis in R?
+
+  * Could you ... ?
+
+  * Did you ...?
+
+<br/>
+<br/>
 
 
 # <a id="LO9">Learning Outcome 9 - Understand specificies of differential gene expression in the case of single-cell RNAseq</a>
