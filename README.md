@@ -127,7 +127,7 @@ For this, we are providing small example datasets and exercises that participant
 
 #### 	LO 8.2 - Interpretation and visualization of results
 		PCA plots comparing all samples: detection of outliers, and batch effects
-		Heatmaps and vulcano plots
+		Heatmaps and other plots
 
 #### 	LO 8.3 - Use more complex settings than simple pairwise comparisons
 		Account for batch effects and paired data 
