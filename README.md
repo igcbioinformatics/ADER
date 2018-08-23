@@ -133,7 +133,8 @@ For this, we are providing small example datasets and exercises that participant
 		Account for batch effects and paired data 
 				
 #### 	LO 8.4 - Gain control over your analysis using R and Rstudio
-
+		Use R in Rstudio to make a pairwise comparison using DESeq2 and edgeR
+		Use edgeR to perform more complex analysis such as ANOVA-like all versus all comparisons
 
 ### LO 9 - Understand specificies of differential gene expression in single-cell RNAseq
 
