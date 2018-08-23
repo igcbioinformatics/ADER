@@ -131,7 +131,9 @@ For this, we are providing small example datasets and exercises that participant
 
 #### 	LO 8.3 - Use more complex settings than simple pairwise comparisons
 		Account for batch effects and paired data 
-		Performing ANOVA-like comparisons
+				
+#### 	LO 8.4 - Gain control over your analysis using R and Rstudio
+
 
 ### LO 9 - Understand specificies of differential gene expression in single-cell RNAseq
 
@@ -195,7 +197,7 @@ For this, we are providing small example datasets and exercises that participant
 + 12:30 - 14:00 ***LUNCH BREAK***
 + 14:00 - 16:00 [More complex settings: batch effects and paired samples](material/Practical.md#LO8.3).
 + 16:00 - 16:30 ***Tea Break***
-+ 16:30 - 18:00 [More complex settings: batch effects and paired samples](material/Practical.md#LO8.3).
++ 16:30 - 18:00 [Gain control over your analysis using R and Rstudio](material/Practical.md#LO8.4).
 
 
 ### Thursday, October 11th
