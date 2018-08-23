@@ -792,7 +792,7 @@ Even before interpreting the results of the differential expression analysis, we
 
 **QUESTION:** How is the biological variation separated in the PCoA plot you obtained for the guilgur dataset?
 <details><summary>Click Here to see the answer</summary>
-The Genotype is separated clearly by the first axis in the PCoA, which explains XX% variation. Nonetheless, there is also
+The Genotype is separated clearly by the first axis in the PCoA, which explains most of the variation. Another axis seems to separate samples by the replicate. Nonetheless, this axis explains much less of the variation.
 
 ![PLOT PCoA](images/guilgur_PCA.jpg)
 
@@ -838,7 +838,7 @@ There are 267 genes with adjusted p-value less than 0.05.
 </details>
 <br/>
 
-DESeq2 and edgeR also show the estimates of the biological coefficient of variation (BCV), which depicts the sample variation of genes according to their expression, and illustrates the variation correction the software performed, as we discussed in the previous section.
+DESeq2 and edgeR also show the estimates of the biological coefficient of variation (BCV), which depicts the sample variation of genes according to their expression, and illustrates the variation correction the software performed, as we discussed.
 
 **QUESTION:** What can you see in the dispersion plot for the Trapnell dataset?
 <details><summary>Click Here to see the answer</summary>
@@ -934,7 +934,7 @@ In the original case with all samples, there are 752 genes with adjusted p-value
 
 
 
-## <a id="LO8.4">LO 8.4 - Using R and rstudio to have full control of your analysis </a>
+## <a id="LO8.4">LO 8.4 - Gain control over your analysis using R and Rstudio </a>
 
 The tools available in Galaxy are limited in terms of the ability to express more complex experimental designs. Moreover, we are limited to the plots and outputs Galaxy gives us. To have full control on our analysis, we need to go to R and explore all the flexibility that it allows.
 
