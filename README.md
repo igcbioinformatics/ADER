@@ -212,7 +212,7 @@ For this, we are providing small example datasets and exercises that participant
 + 16:00 - 16:30 ***Tea Break***
 + 16:30 - 18:00 [Obtain marker genes for the different groups of cells](material/Practical.md#LO9.3).
 
-### Friday, October 11th
+### Friday, October 12th
 
 + 09:30 - 10:00 Morning wrap-up (what have we done so far?)
 + 10:00 - 11:00 [How to extract meaning from a list of genes](material/Practical.md#LO10.1).
